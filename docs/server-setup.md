@@ -49,3 +49,30 @@ source /usr/local/Ascend/cann-9.0.0/set_env.sh
 - 与学长环境的 `uv pip freeze` 逐行对比：完全一致
 - `torch 2.9.0+cpu`、`torch_npu 2.9.0.post2`，`torch.npu.is_available() == True`，识别 8 个设备
 - torch 显示 `+cpu` 是正常的：NPU 支持来自 torch_npu
+
+# 推理机（hep@172.16.11.113）
+
+- 8 × RTX 4090 24 GB，与他人共用；驱动 595.112.07。用前看 `nvidia-smi`，选剩余显存 ≥ 15 GB 的卡（11-06 是 6、7 号）
+- 根目录只剩 37 GB；我们的东西都放 `/data/hep/panhe`（`/data` 下不能直接建目录，`/data/hep` 是 hep 账号自己的）
+- 系统 Python 3.8，没有 conda；用 `pip3 install --user uv` 装 uv，再 `uv python install 3.11`
+- 能访问 GitHub、阿里云和清华 PyPI 镜像；阿里云下载慢（约 250 kB/s），装 torch 用清华镜像
+- 能直接连 Atlas 跳板机：代码、处理器文件、模型权重都用 `ssh -J ... "tar czf - ..." | tar xzf -` 直接拉
+
+```bash
+cd /data/hep/panhe
+export UV_CACHE_DIR=/data/hep/panhe/.uv-cache UV_PYTHON_INSTALL_DIR=/data/hep/panhe/.uv-python UV_PYTHON_DOWNLOADS=never
+export UV_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple
+# 代码（不含 .venv 和缓存）和 Qwen3-VL 处理器文件（不含权重）
+ssh -J root@<跳板机>:2222 root@<Atlas> "cd /mnt/panhe && tar czf - --exclude=xr1/.venv --exclude=xr1/outputs --exclude=xr1/kernel_meta --exclude=xr1/robocasa20 --exclude='__pycache__' xr1" | tar xzf -
+ssh -J root@<跳板机>:2222 root@<Atlas> "cd /mnt/wzh/checkpoints && tar czf - --exclude='*.safetensors' --exclude='*.bin' --exclude='*.pt' Qwen3-VL-4B-Instruct" | tar xzf -
+cd xr1 && ~/.local/bin/uv venv --python 3.11 .venv
+~/.local/bin/uv pip install --python .venv/bin/python -r /data/hep/panhe/requirements-serve.txt   # 内容同本仓库 env/requirements-serve.txt
+```
+
+推理只需要模型目录下的 `config.py` 和 `<epoch>.ckpt/checkpoint/mp_rank_00_model_states.pt`（11 GB）；`config.py` 里的 `vlm_config_path` 要改成推理机上的处理器目录。
+
+# 采集机（panhe@192.168.1.102）
+
+- 客户端和测试台在家目录：`~/nero_vla_client.py`、`~/nero_vla_web.py`、`~/nero_steps.py`（与训练用的 `mibot/utils/nero_steps.py` 同一份）
+- 测试台：`/usr/bin/python3 ~/nero_vla_web.py`，本机 `ssh -L 8767:127.0.0.1:8767 panhe@192.168.1.102` 后打开 http://127.0.0.1:8767
+- 运行记录 `/data/panhe/vla_runs/<时间>/<模式>/`，评测记录 `/data/panhe/vla_eval/<任务>.jsonl`
