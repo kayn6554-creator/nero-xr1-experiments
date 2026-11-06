@@ -1,0 +1,15 @@
+# 不进仓库：代码副本、环境、数据、模型、日志
+xr1/
+.venv/
+.uv-cache/
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+*.mp4
+*.npz
+wandb/
+outputs/
+*.log
+__pycache__/
+step*.txt
