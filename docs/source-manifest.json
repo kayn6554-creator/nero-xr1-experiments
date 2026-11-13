@@ -1,0 +1,396 @@
+{
+  "snapshot_date": "2026-11-13",
+  "note": "Source paths refer to local unpacked user uploads. SHA256 covers copied source/config files, not authored documentation or generated diffs.",
+  "files": [
+    {
+      "path": "code/xr1-overlay/scripts/panhe/apply_m5sb.py",
+      "source": "atlas-review/xr1/scripts/panhe/apply_m5sb.py",
+      "sha256": "0a3cd203415a03e175b70c93266e06a7219330594c40657fe07ed3414baab6de"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/dwell_stats.py",
+      "source": "atlas-review/xr1/scripts/panhe/dwell_stats.py",
+      "sha256": "148293db22386e4e39f165f5432cc4eeaf274523fce0f4c338ed543c92a410cd"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/prepare_nero_new_1110.py",
+      "source": "atlas-review/xr1/scripts/panhe/prepare_nero_new_1110.py",
+      "sha256": "31f5a20cdee315f64e3d6083f5d7699b2d45e1923b00c5ebe8b5d440448e3487"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_1112.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_1112.sh",
+      "sha256": "4254756a2f8f8aa2d2a6e8e89a77973103cedb6493e191a7c66d3099f4b69193"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_m3.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_m3.sh",
+      "sha256": "bd39b6eb6f93f549de316e1b3cd3d3d2bfd46dacab7627ecb83b606f314f9381"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_1110.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_1110.sh",
+      "sha256": "d06c0d0bb99555d309f79bd76199c68ebb843710fdac89511226a74335065b7d"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/apply_ef.py",
+      "source": "atlas-review/xr1/scripts/panhe/apply_ef.py",
+      "sha256": "8f7f531939f5ec9a92549736f18f9c1cbeb1f05da783f88088a8c7ecdf1a8dc5"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/ef_ik_roundtrip.py",
+      "source": "atlas-review/xr1/scripts/panhe/ef_ik_roundtrip.py",
+      "sha256": "759f62a4ab6cc60f31fb94f6c341bc25d19852fb7c018ef6660e687d1d026e94"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_ef.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_ef.sh",
+      "sha256": "ab6f2c2e0b599997254e0b84252f4b30c84416aac5dab783d897632ac4025184"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/prepare_nero_fail_prefix.py",
+      "source": "atlas-review/xr1/scripts/panhe/prepare_nero_fail_prefix.py",
+      "sha256": "af5dbe9f8cf9c3bbd78a97f28b80b94004f972e4f3d469f5c144ef1cecf03bfc"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_weekend.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_weekend.sh",
+      "sha256": "782f2322c2bb12e4c08e9691688bc9f614d373b510d498c5f7c3ae4a600b5654"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/make_ef_config.py",
+      "source": "atlas-review/xr1/scripts/panhe/make_ef_config.py",
+      "sha256": "eb60c772105dba0daa57e4e127aa4c306ae886c14bc365fd3a97fe9ef41422ec"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/offline_eval.py",
+      "source": "atlas-review/xr1/scripts/panhe/offline_eval.py",
+      "sha256": "fd05b6a4175a5b4ad706d719ff704361b47a01bc618642d012cef63cf649b105"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/check_prompts.py",
+      "source": "atlas-review/xr1/scripts/panhe/check_prompts.py",
+      "sha256": "e8726c88fd8d365a6ab92dada4059c6f140f855b3bd9c5913c1c6dead7dd5b65"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/apply_m1.py",
+      "source": "atlas-review/xr1/scripts/panhe/apply_m1.py",
+      "sha256": "7cbcd5bedd72dc56cd8b8f7e2e9cdde9e5cd856fc6b2cbe808d3187e3ef9e3a2"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/check_steps.py",
+      "source": "atlas-review/xr1/scripts/panhe/check_steps.py",
+      "sha256": "b7ae9475968c7eae9d308241e2618ebe2c95532cd6c7016eb7dfda9e8c19598c"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/make_m2_config.py",
+      "source": "atlas-review/xr1/scripts/panhe/make_m2_config.py",
+      "sha256": "21f5f58421cc62246b3550d71d91c6184678e5f857dfa1db294b718ef794e74d"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/nero_kin.py",
+      "source": "atlas-review/xr1/scripts/panhe/nero_kin.py",
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/nero_steps_1112.py",
+      "source": "atlas-review/xr1/scripts/panhe/nero_steps_1112.py",
+      "sha256": "f881aa083ecd105a35fb2cffb16e88fee86f4512b0b2d6a3ab053dbfb17c0f6a"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/check_m2.py",
+      "source": "atlas-review/xr1/scripts/panhe/check_m2.py",
+      "sha256": "6710ba224ce36e3448cfb53a2a01f710b27685fcbb00fe5bcb7d261e8e67bf00"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/demo_pose.py",
+      "source": "atlas-review/xr1/scripts/panhe/demo_pose.py",
+      "sha256": "e1073387a55b99989620383f9366bf6dda5ee2b778859e19921218647e092d8c"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_m5sb.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_m5sb.sh",
+      "sha256": "15e575256c945f679116625331e5c989380116b6f2d23dbc8348380209061b61"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/make_m3_config.py",
+      "source": "atlas-review/xr1/scripts/panhe/make_m3_config.py",
+      "sha256": "9af391c5095e914a2830c0646c6cc7151eaab48e58f21faae546e66c73114dee"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/apply_m4.py",
+      "source": "atlas-review/xr1/scripts/panhe/apply_m4.py",
+      "sha256": "dc1520db05deaf41a0da51e5fa2bae84712aac15eb26ef13195e9f818d2b1b11"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/make_m5_config.py",
+      "source": "atlas-review/xr1/scripts/panhe/make_m5_config.py",
+      "sha256": "6e6536e7e343df49f56cc68065b430d5ee7f8f30d3ab44f56d60c5cfaf813436"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/train_nero.sh",
+      "source": "atlas-review/xr1/scripts/panhe/train_nero.sh",
+      "sha256": "7e509f4a6da063bf520be634de20e31edec693ac3acc95b5c0cb793619fa870d"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/demo_pose_std.py",
+      "source": "atlas-review/xr1/scripts/panhe/demo_pose_std.py",
+      "sha256": "7bd8deaab75e9bff4020b94756fad8f0a1f9454e802789aabc18cdaf052721de"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/queue_1111.sh",
+      "source": "atlas-review/xr1/scripts/panhe/queue_1111.sh",
+      "sha256": "555520217e32a5e64afc2e6921838aac3947838de1b7c1734163595629fd24eb"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/eval_after_queue.sh",
+      "source": "atlas-review/xr1/scripts/panhe/eval_after_queue.sh",
+      "sha256": "0fdadde1a1c20f25ae88523c46e55daf61592040408ea69728ae5e76df33ae6d"
+    },
+    {
+      "path": "code/xr1-overlay/scripts/panhe/apply_m2.py",
+      "source": "atlas-review/xr1/scripts/panhe/apply_m2.py",
+      "sha256": "2a091674c5979225543473c5052d4cc4747ba56000b55fd545b3d2d5c46d4bc4"
+    },
+    {
+      "path": "code/xr1-overlay/mibot/utils/nero_kin.py",
+      "source": "atlas-review/xr1/mibot/utils/nero_kin.py",
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "path": "code/xr1-overlay/mibot/utils/nero_steps.py",
+      "source": "atlas-review/xr1/mibot/utils/nero_steps.py",
+      "sha256": "f881aa083ecd105a35fb2cffb16e88fee86f4512b0b2d6a3ab053dbfb17c0f6a"
+    },
+    {
+      "path": "code/xr1-overlay/configs/data/nero3_ee_20261110.yaml",
+      "source": "atlas-review/xr1/configs/data/nero3_ee_20261110.yaml",
+      "sha256": "dcdac8120639195f85e1d881847992b29531ee510e4fe91a266063b97ca1a647"
+    },
+    {
+      "path": "code/xr1-overlay/configs/data/nero3_m5sb_20261112.yaml",
+      "source": "atlas-review/xr1/configs/data/nero3_m5sb_20261112.yaml",
+      "sha256": "2e53b08118df2611e54471e84ebe276ec110b65842d7b8848d61606fb8c4e58a"
+    },
+    {
+      "path": "code/xr1-overlay/configs/data/nero3_m3_20261110.yaml",
+      "source": "atlas-review/xr1/configs/data/nero3_m3_20261110.yaml",
+      "sha256": "6dfbaa60af39bf6d6be7953ea5728bea64ee280db625d47e59a8a4def8530fdf"
+    },
+    {
+      "path": "code/xr1-overlay/configs/data/nero3_m2_20261106.yaml",
+      "source": "atlas-review/xr1/configs/data/nero3_m2_20261106.yaml",
+      "sha256": "325e2a3d7a650a1518311db177f42a3d8b50fe28589cb97141ea1f99876159e9"
+    },
+    {
+      "path": "code/xr1-overlay/configs/data/nero3_single_20261031.yaml",
+      "source": "atlas-review/xr1/configs/data/nero3_single_20261031.yaml",
+      "sha256": "50ca00d70b4da3075e207f9c2bf4ce24a7b3f1c1d7f9c361138f1b50f3af0d0b"
+    },
+    {
+      "path": "code/xr1-overlay/configs/model/posttrain_nero_ee_full.yaml",
+      "source": "atlas-review/xr1/configs/model/posttrain_nero_ee_full.yaml",
+      "sha256": "bb49fc7bddabbd67411d8492bf8d1340416e776326666ef75358e031557b42b3"
+    },
+    {
+      "path": "code/inference-overlay/scripts/panhe/apply_ef_serve.py",
+      "source": "inference-review/scripts/panhe/apply_ef_serve.py",
+      "sha256": "20b1b16896edf190264151b0817bf3d4d1ff253e3844afb908d1820f2a3d39d1"
+    },
+    {
+      "path": "code/inference-overlay/scripts/panhe/apply_ef_log.py",
+      "source": "inference-review/scripts/panhe/apply_ef_log.py",
+      "sha256": "5f139be09759661779fc6cc4bd512c04181b47b059649fecd31b35920156cd74"
+    },
+    {
+      "path": "code/inference-overlay/scripts/panhe/apply_ef_fast.py",
+      "source": "inference-review/scripts/panhe/apply_ef_fast.py",
+      "sha256": "46932a7b1aef2c13b5267a8a32152b40b4094d6d3ed733398e155093a19aea9d"
+    },
+    {
+      "path": "code/inference-overlay/scripts/panhe/serve_fast.py",
+      "source": "inference-review/scripts/panhe/serve_fast.py",
+      "sha256": "76788e8f2212314766c16b0570b4c7f3fa64f6717af8783d55245858afb8a3c4"
+    },
+    {
+      "path": "code/collector/nero_tasks.json",
+      "source": "client-review/nero_tasks.json",
+      "sha256": "f324677bbe58c8792993fc5a02729e365b721f7f6396a045ba2c8dd08d7cf363"
+    },
+    {
+      "path": "code/collector/nero_vla_client.py",
+      "source": "client-review/nero_vla_client.py",
+      "sha256": "9630162aea4204d4ee34c8eafc3d6649291c659839b031ff3eb15816d23eec6c"
+    },
+    {
+      "path": "code/collector/nero_vla_ping.py",
+      "source": "client-review/nero_vla_ping.py",
+      "sha256": "3414626e6f44fcd503c3a7f98a3013eaca0ba238abdb5392b16c9ac4b3c784a6"
+    },
+    {
+      "path": "code/collector/nero_vla_presets.json",
+      "source": "client-review/nero_vla_presets.json",
+      "sha256": "b60e2a4976decb7cdd467ea828659bc13a2eae6e4abe387ee60a1d6047759115"
+    },
+    {
+      "path": "code/collector/nero_vla_web.py",
+      "source": "client-review/nero_vla_web.py",
+      "sha256": "791d6bcb55cc69dcaa5824efc9028dd0fa06044da34c5e53bead8069230b3b61"
+    },
+    {
+      "path": "code/collector/nero_steps.py",
+      "source": "client-review/nero_steps.py",
+      "sha256": "cab869058cb401b3ae9887c61ef8412672a3a4ad84eb4b5d4d0983bf4562e6cd"
+    },
+    {
+      "path": "code/collector/nero_init.py",
+      "source": "extras-review/nero_init.py",
+      "sha256": "22f5971e70195e9b2133e5a008bea1b8a821cfd4713df17ac73799c1e292f867"
+    },
+    {
+      "path": "code/collector/nero_report_server.py",
+      "source": "extras-review/nero_report_server.py",
+      "sha256": "a526d8591d8cbfb48e647b12c7c0f2f12fc7ece58a6dd422afbddb6ce6cd710e"
+    },
+    {
+      "path": "code/collector/nero_replay_chunk.py",
+      "source": "extras-review/nero_replay_chunk.py",
+      "sha256": "cc16291cf66f30f388d70426f1cda71c9daf804ee6b3f65a705398fee157ab8b"
+    },
+    {
+      "path": "code/collector/nero_goto_leader.py",
+      "source": "extras-review/nero_goto_leader.py",
+      "sha256": "793e0bd129beb049608b8038d8a16049fed2434015b76a137f241e8fef95441b"
+    },
+    {
+      "path": "code/collector/nero_scenes.json",
+      "source": "extras-review/nero_scenes.json",
+      "sha256": "db5a9b7ca3028edd068a79dad5869aece33a7798b3dd06fa039594f91d9c014c"
+    },
+    {
+      "path": "code/collector/check_limits.py",
+      "source": "extras-review/check_limits.py",
+      "sha256": "39067bca84fe8cd72fc4d6096b85a21529d2ee5f5eb65de7fc3df5a95f59f208"
+    },
+    {
+      "path": "code/collector/teleop_tune.py",
+      "source": "extras-review/teleop_tune.py",
+      "sha256": "0d739b3da2121f5231756136f54f753473fb0b673d091db68dba142a55cf442a"
+    },
+    {
+      "path": "code/collector/nero_verify.py",
+      "source": "collection-review/nero_verify.py",
+      "sha256": "ee7a1bbecab9bddc8675e60d088590d938852394d579cad642ab524175dc86c3"
+    },
+    {
+      "path": "code/collector/nero_report_lib.py",
+      "source": "collection-review/nero_report_lib.py",
+      "sha256": "5133b53e4aa3f3bfb53aa0236b6733098b0b199be24eb3f3b14018a973376363"
+    },
+    {
+      "path": "code/collector/pos_on.sh",
+      "source": "collection-review/pos_on.sh",
+      "sha256": "deb64ca32c970a8c0c022cca65bf4d4f21e262764eeebef0c8289f83211fb6ea"
+    },
+    {
+      "path": "code/collector/env_evo.sh",
+      "source": "collection-review/env_evo.sh",
+      "sha256": "68183fe05ab78741aa62ce8167af19bf82c2907aa60684d8beda26604ad7d8b4"
+    },
+    {
+      "path": "code/collector/nero_record.py",
+      "source": "collection-review/nero_record.py",
+      "sha256": "59005ef7742cd14a8fccd91d4f213381f5653e3191c88c785d9099fda0f745c9"
+    },
+    {
+      "path": "code/collector/nero_steps_apply.py",
+      "source": "collection-review/nero_steps_apply.py",
+      "sha256": "1a72990c798a558c3983de87b41f73a56498e18cfe6ad62b986bbb36772e58b9"
+    },
+    {
+      "path": "code/collector/nero_record.sh",
+      "source": "collection-review/nero_record.sh",
+      "sha256": "0ccf4db3306197c20c30cf018a02875dd11c03dee27b6608548d9aaf113d7618"
+    },
+    {
+      "path": "code/collector/pos_off.sh",
+      "source": "collection-review/pos_off.sh",
+      "sha256": "c96942926724f4d108a1c13105725be31dfff0fb6fc333d0c6df4f571477df8e"
+    },
+    {
+      "path": "code/plugins/lerobot_camera_ros/pyproject.toml",
+      "source": "plugins-review/lerobot_camera_ros/pyproject.toml",
+      "sha256": "ba278e9d726df4c602db469188eff91da8b38f474a5942ce23d862d6f4586c69"
+    },
+    {
+      "path": "code/plugins/lerobot_camera_ros/lerobot_camera_ros/__init__.py",
+      "source": "plugins-review/lerobot_camera_ros/lerobot_camera_ros/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "code/plugins/lerobot_camera_ros/lerobot_camera_ros/ros_image_camera.py",
+      "source": "plugins-review/lerobot_camera_ros/lerobot_camera_ros/ros_image_camera.py",
+      "sha256": "47a7bba48141b0382c734e0047051367e3cc128e724c6b8f97467e982fe5deb6"
+    },
+    {
+      "path": "code/plugins/lerobot_camera_ros/lerobot_camera_ros/config_ros_image.py",
+      "source": "plugins-review/lerobot_camera_ros/lerobot_camera_ros/config_ros_image.py",
+      "sha256": "05867586a06dbc3a626fa34e1ad839252673af4419b6c57a0f83e1bc92056108"
+    },
+    {
+      "path": "code/plugins/lerobot_robot_nero/pyproject.toml",
+      "source": "plugins-review/lerobot_robot_nero/pyproject.toml",
+      "sha256": "9db481beb294f49a9f31de03d5549ca2060228d84514e641e0ae07eb1ed61e29"
+    },
+    {
+      "path": "code/plugins/lerobot_robot_nero/lerobot_robot_nero/nero_follower.py",
+      "source": "plugins-review/lerobot_robot_nero/lerobot_robot_nero/nero_follower.py",
+      "sha256": "bc70c74a727952f85fd9e2e9bc869d4b248c4578c20db8e80104be11be2fdd84"
+    },
+    {
+      "path": "code/plugins/lerobot_robot_nero/lerobot_robot_nero/__init__.py",
+      "source": "plugins-review/lerobot_robot_nero/lerobot_robot_nero/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "code/plugins/lerobot_robot_nero/lerobot_robot_nero/config_nero_follower.py",
+      "source": "plugins-review/lerobot_robot_nero/lerobot_robot_nero/config_nero_follower.py",
+      "sha256": "11631d16a567de7dfe8ddd3a9f24013b03f8ee61397ff3c768edf849b2e4e5d9"
+    },
+    {
+      "path": "code/plugins/lerobot_teleoperator_nero/pyproject.toml",
+      "source": "plugins-review/lerobot_teleoperator_nero/pyproject.toml",
+      "sha256": "fa79bb8342f4ff9d3302cafc445721a5783a724c6ca6415e74fcb08bb093d187"
+    },
+    {
+      "path": "code/plugins/lerobot_teleoperator_nero/lerobot_teleoperator_nero/__init__.py",
+      "source": "plugins-review/lerobot_teleoperator_nero/lerobot_teleoperator_nero/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "code/plugins/lerobot_teleoperator_nero/lerobot_teleoperator_nero/nero_leader.py",
+      "source": "plugins-review/lerobot_teleoperator_nero/lerobot_teleoperator_nero/nero_leader.py",
+      "sha256": "0bccaefde21549e36fcb14c73a7d44dab9d328670cbc32b69a35529a6b8b8cd0"
+    },
+    {
+      "path": "code/plugins/lerobot_teleoperator_nero/lerobot_teleoperator_nero/config_nero_leader.py",
+      "source": "plugins-review/lerobot_teleoperator_nero/lerobot_teleoperator_nero/config_nero_leader.py",
+      "sha256": "c7dc7a48fbfc49eaf75091f31c273741d757a10b4c925d5446ad0cef496a4add"
+    },
+    {
+      "path": "code/collector/nero_depth.py",
+      "source": "plugins-review/nero_depth.py",
+      "sha256": "592a822aa2f0f5ab36921219eb2f1de4062bf26b43581566a2c2288ff43b3b01"
+    },
+    {
+      "path": "code/collector/nero_report.py",
+      "source": "plugins-review/nero_report.py",
+      "sha256": "69d05ccb7ba4f697b161fbeb24ccad99827f84eff14c39a6f4a1f4ed205dfcfc"
+    },
+    {
+      "path": "code/collector/nero_cam_check.py",
+      "source": "plugins-review/nero_cam_check.py",
+      "sha256": "72f7a80dd888514f18bf9777eb6f08321ba2f35226e4a98d0c5b869c875ae922"
+    }
+  ]
+}

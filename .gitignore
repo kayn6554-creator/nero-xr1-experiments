@@ -12,3 +12,16 @@ wandb/
 outputs/
 *.log
 __pycache__/
+
+# Local collection/export artifacts
+*.tar.gz
+*.zip
+*.egg-info/
+.pytest_cache/
+kernel_meta/
+extra-info/
+*.before_*
+*.bak*
+.env
+.env.*
+!.env.example

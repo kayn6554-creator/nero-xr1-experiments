@@ -1,40 +1,39 @@
-# 代码改动（叠加在上游 xr1 上）
+# 代码恢复与快照使用
 
-`xr1-overlay/` 里的文件按原路径复制到上游 xr1 目录（服务器上是 `/mnt/panhe/xr1`），然后按顺序运行两个修改脚本：
+本目录是自有改动集合，不是完整可独立运行的 XR-1 仓库。恢复前必须拥有匹配的实验室上游，并在独立副本中操作。不要将整理后的仓库直接覆盖三台正在工作的机器。
 
-```bash
-cp -r code/xr1-overlay/* /mnt/panhe/xr1/
-cd /mnt/panhe/xr1
-.venv/bin/python scripts/panhe/apply_m1.py   # 步骤文本 + 启动脚本路径 + 推理服务回传指令
-.venv/bin/python scripts/panhe/apply_m2.py   # 夹爪绝对目标 + 停留段采样 + 推理服务夹爪还原 + 固定步数
-.venv/bin/python scripts/panhe/make_m2_config.py
-```
+## 当前源码来源
 
-修改脚本对每处改动先确认原文恰好出现一次，不符合就整体停止、不写入。所有新功能都是开关，默认关闭，关闭时行为和上游一致。
+- `xr1-overlay/`：Atlas 上传包里的自有脚本和配置；其中 `train_nero.sh` 已含 M2 的固定步数修改。
+- `inference-overlay/`：113 的实际补丁/启动包装器，包含 EF 接入、逐块日志和 IK 提速。
+- `collector/`：采集机家目录当前脚本；初版仍使用家目录和机器路径，安装前按手册核对。
+- `plugins/`：三个可编辑安装插件。旧备份和 egg-info 不属于源代码安装材料。
 
-## 文件
+## 从原始 XR-1 基线恢复的顺序
 
-| 文件 | 作用 |
-|---|---|
-| `mibot/utils/nero_steps.py` | 步骤文本的唯一定义，训练和客户端共用 |
-| `scripts/panhe/apply_m1.py` | M1：`JsonDataset` 加 `step_prompt`；`train_910c_full_joint.sh` 的代码路径可覆盖；推理服务响应带 `prompt_used` |
-| `scripts/panhe/apply_m2.py` | M2：`gripper_absolute`、`dwell_keep/dwell_tail` 停留段采样；推理服务按配置还原夹爪；`train_nero.sh` 支持 `XR1_MAX_STEPS` |
-| `scripts/panhe/make_m2_config.py` | 生成 `configs/data/nero3_m2_20261106.yaml` |
-| `scripts/panhe/prepare_nero_fail_prefix.py` | 失败数据 → XR-1 JSON，只保留失败步之前的步骤 |
-| `scripts/panhe/train_nero.sh` | 训练启动：照抄基线超参数；支持 `XR1_CHECK_ONLY`、`XR1_SMOKE_STEPS`、`XR1_MAX_STEPS`、4 芯片 + 梯度累积 |
-| `scripts/panhe/queue_weekend.sh` | 周五夜间队列：冒烟 → M1 → M2 → M2b |
-| `scripts/panhe/check_steps.py` | 检查数据里的 `step_index` |
-| `scripts/panhe/check_prompts.py` | 打印每步切换处的训练指令 |
-| `scripts/panhe/dwell_stats.py` | 示范数据停留段统计（A3） |
-| `scripts/panhe/check_m2.py` | M2 数据检查：样本数、删除统计、步数、夹爪范围、读一个完整样本 |
+以下是基于脚本依赖分析的恢复方案，尚未在完整匹配上游和数据上重跑。先在新副本备份/记录 git diff，禁止在已打补丁目录盲目重复执行。
 
-## 训练命令
+1. 复制 `xr1-overlay/` 到独立的原始 XR-1 副本。
+2. 运行 `apply_m1.py`：它修改数据提示、训练路径和服务回包。
+3. **旧 apply_m2.py 与当前 train_nero.sh 有已知冲突**：后者已经包含 M2 的新文本，前者仍要求旧文本恰好出现一次，因此原样运行会停止且不写任何修改。历史脚本原样保留。本次不伪造“全部可一键恢复”：需要在新副本调整 apply_m2.py，使训练脚本已应用的两处被识别为已完成，再应用数据加载器/服务的修改；或使用经过核对的旧训练脚本作为补丁起点。不要对线上脚本回退。
+4. M2 后再应用 `apply_ef.py`。注意它要求目标 `configs/model/posttrain_nero_ee_full.yaml` 和 `mibot/utils/nero_kin.py` 不存在；若第 1 步复制了当前快照，两文件已存在，脚本会拒绝。恢复时应先将这两个目标移到副本外备份，运行补丁后与快照核对。
+5. 使用当前 `nero_steps.py`，应用 `apply_m4.py`，再应用 `apply_m5sb.py`。这些补丁在已应用时会停止，不是通用幂等安装器。
+6. 已生成的 NERO YAML 随仓库提供；不要无条件重跑 make 配置脚本。M3、EF、M5 生成器拒绝覆盖已有文件，且需要真实数据和训练依赖。需重算时应另建输出路径或备份已有配置。
+7. 模型配置中的绝对路径、数据目录、处理器和预训练文件必须在目标机器可用；不能只改启动脚本而忽略 YAML。
+
+## 从上传的 Atlas 服务恢复 113 服务
+
+`patches/113-serving-from-atlas-20261113.patch` 是用户提供的 Atlas `serve_openpi_policy.py` 到 113 实际文件的精确差异。只用于这个已含 M1/M2 的 Atlas 服务版本：
 
 ```bash
-# M1
-bash scripts/panhe/train_nero.sh m1-step-prompt +data.params.train_datasets.step_prompt=true
-# M2
-XR1_DATA_CONFIG=nero3_m2_20261106 XR1_MAX_STEPS=2793 bash scripts/panhe/train_nero.sh m2-full +data.params.train_datasets.step_prompt=true
-# M2b
-XR1_DATA_CONFIG=nero3_m2_20261106 XR1_MAX_STEPS=2793 bash scripts/panhe/train_nero.sh m2b-no-step
+# 在独立 XR-1 副本中，PATCH 指向本仓库补丁绝对路径
+PATCH=/path/to/nero-xr1-experiments/patches/113-serving-from-atlas-20261113.patch
+git apply --check "$PATCH"
+git apply "$PATCH"
 ```
+
+该补丁已包含 EF 接入、日志和提速效果。不要再重复运行 `apply_ef_serve.py`、`apply_ef_log.py`、`apply_ef_fast.py`。也可在匹配的旧服务副本按这三个脚本的顺序恢复，但不要混用两种方式。
+
+服务依赖 Atlas 的 EF 布局/运动学支持，仍需复制 `serve_fast.py`。该补丁不增加 M5，也不增加 M4/EF4 的文本转换。
+
+所有脚本都应先读说明，再在隔离目录检查；此仓库保留现场快照，明确记录旧脚本的恢复障碍，没有将未经测试的修复混入归档提交。

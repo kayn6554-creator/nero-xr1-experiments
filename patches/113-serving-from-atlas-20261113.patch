@@ -1,0 +1,144 @@
+--- a/scripts/serve_openpi_policy.py
++++ b/scripts/serve_openpi_policy.py
+@@ -148,6 +148,63 @@
+     return delta[:, :8] + state8[None, :]
+ 
+ 
++_ef_log = __import__("logging").getLogger("xr1.ef")
++
++
++def nero_ee_to_joint(delta: np.ndarray, state8: np.ndarray, gripper_absolute: bool):
++    """EF: [T,60] un-normalized nero_ee actions -> [T,8] absolute joints + gripper via IK."""
++    import os
++    import time
++
++    from mibot.utils import nero_kin as K
++
++    delta, state8 = np.asarray(delta, dtype=np.float64), np.asarray(state8, dtype=np.float64)
++    if delta.ndim != 2 or delta.shape[1] != 60 or state8.shape != (8,):
++        raise ValueError("Nero EF requires delta [T,60] and state [8]")
++    if not np.isfinite(delta).all() or not np.isfinite(state8).all():
++        raise ValueError("state/actions contain NaN or Inf")
++    max_jump = float(os.environ.get("NERO_EE_MAX_JUMP_DEG", "15"))
++    tol_pos = float(os.environ.get("NERO_EE_TOL_MM", "0.1")) / 1000
++    tol_rot = float(os.environ.get("NERO_EE_TOL_RAD", "0.001"))
++    t0 = time.perf_counter()
++    T0 = K.fk(state8[:7])
++    q_prev = state8[:7].copy()
++    out = np.zeros((len(delta), 8), dtype=np.float32)
++    worst = {"max_pos_err_mm": 0.0, "max_rot_err_deg": 0.0, "max_step_jump_deg": 0.0}
++    jump_at = ""
++    for k in range(len(delta)):
++        target = np.eye(4)
++        target[:3, :3] = T0[:3, :3] @ K.rot_exp(delta[k, 3:6])
++        target[:3, 3] = T0[:3, 3] + T0[:3, :3] @ delta[k, 0:3]
++        q, ok, ep, er = K.ik(target, q_prev, q3_target=state8[2] + delta[k, 7],
++                             tol_pos=tol_pos, tol_rot=tol_rot, tol_q3=tol_rot)
++        jump = float(np.degrees(np.abs(q - q_prev).max()))
++        if not ok:
++            _ef_log.warning(f"EF-IK REFUSED IK failed at step {k}: pos err {ep * 1000:.2f} mm, rot err {np.degrees(er):.2f} deg")
++            raise ValueError(f"EF IK failed at step {k}: pos err {ep * 1000:.2f} mm, rot err {np.degrees(er):.2f} deg")
++        if jump > max_jump:
++            _ef_log.warning(f"EF-IK REFUSED joint jump {jump:.1f} deg at step {k}")
++            raise ValueError(f"EF IK joint jump {jump:.1f} deg at step {k} > {max_jump} deg")
++        worst["max_pos_err_mm"] = max(worst["max_pos_err_mm"], float(ep) * 1000)
++        worst["max_rot_err_deg"] = max(worst["max_rot_err_deg"], float(np.degrees(er)))
++        if jump >= worst["max_step_jump_deg"]:
++            jump_at = f"k{k}j{int(np.argmax(np.abs(q - q_prev))) + 1}"
++        worst["max_step_jump_deg"] = max(worst["max_step_jump_deg"], jump)
++        out[k, :7] = q
++        q_prev = q
++    out[:, 7] = delta[:, 6] if gripper_absolute else delta[:, 6] + state8[7]
++    worst = {key: round(float(value), 4) for key, value in worst.items()}
++    worst["ms"] = round(1000 * (time.perf_counter() - t0), 1)
++    worst["jump_at"] = jump_at
++    _ef_log.info(
++        f"EF-IK t={time.strftime('%H:%M:%S')}.{int(time.time() * 1000) % 1000:03d} ms={worst['ms']} "
++        f"pos_err_mm={worst['max_pos_err_mm']} rot_err_deg={worst['max_rot_err_deg']} "
++        f"jump_deg={worst['max_step_jump_deg']} jump_at={worst['jump_at']} dj3_deg={np.degrees(out[-1, 2] - state8[2]):.2f} "
++        f"grip_mm={1000 * out[0, 7]:.0f}->{1000 * out[-1, 7]:.0f} "
++        f"dpos_mm={1000 * np.linalg.norm(delta[-1, 0:3]):.0f}")
++    return out, worst
++
++
+ class XR1OpenPIPolicy:
+     """XR-1 inference wrapper implementing OpenPI's ``infer`` contract."""
+ 
+@@ -174,11 +231,11 @@
+         )
+         data_cfg = self.cfg.data.params.train_datasets
+         action_layout = str(data_cfg.get("action_layout", "ee"))
+-        if action_layout not in {"piper_joint", "piper_left_joint", "nero_joint"}:
++        if action_layout not in {"piper_joint", "piper_left_joint", "nero_joint", "nero_ee"}:
+             raise ValueError(f"OpenPI serving does not support action_layout={action_layout!r}")
+         self.action_layout = action_layout
+-        self.action_dim = 8 if action_layout == "nero_joint" else 14
+-        self.CAMERA_KEYS = ("front", "wrist") if action_layout == "nero_joint" else type(self).CAMERA_KEYS
++        self.action_dim = 8 if action_layout in ("nero_joint", "nero_ee") else 14
++        self.CAMERA_KEYS = ("front", "wrist") if action_layout in ("nero_joint", "nero_ee") else type(self).CAMERA_KEYS
+         if action_layout == "piper_left_joint":
+             self.action_dim = 7
+             self.CAMERA_KEYS = type(self).CAMERA_KEYS[:2]
+@@ -201,10 +258,10 @@
+             "camera_keys": list(self.CAMERA_KEYS),
+             "action_semantics": "absolute_joint",
+             "rtc": {"mode": "native_future_action_prefix", "max_prefix_steps": 6},
+-            "state_layout": "joint7,gripper" if action_layout == "nero_joint" else "left_joint6,left_gripper,right_joint6,right_gripper",
++            "state_layout": "joint7,gripper" if action_layout in ("nero_joint", "nero_ee") else "left_joint6,left_gripper,right_joint6,right_gripper",
+         }
+ 
+-        if action_layout == "nero_joint":
++        if action_layout in ("nero_joint", "nero_ee"):
+             self.metadata["rtc"] = {"mode": "disabled", "max_prefix_steps": 0}
+             self.metadata["gripper_range"] = [0.0, 0.1]
+             self.metadata["gripper_mode"] = "absolute" if self.gripper_absolute else "delta"
+@@ -238,7 +295,7 @@
+ 
+     @staticmethod
+     def _messages(instruction: str, images: list[Image.Image], action_layout="piper_joint") -> list[dict[str, Any]]:
+-        if action_layout == "nero_joint":
++        if action_layout in ("nero_joint", "nero_ee"):
+             front, wrist = images
+             # Match the two-image training prompt; no invented third view.
+             return [
+@@ -280,10 +337,10 @@
+             raise TypeError(f"observation must be a dict, got {type(obs).__name__}")
+         state14 = np.asarray(obs.get("state"), dtype=np.float32)
+         layout = getattr(self, "action_layout", "piper_joint")
+-        dimension = {"nero_joint": 8, "piper_left_joint": 7, "piper_joint": 14}[layout]
++        dimension = {"nero_joint": 8, "nero_ee": 8, "piper_left_joint": 7, "piper_joint": 14}[layout]
+         if state14.shape != (dimension,):
+             raise ValueError(f"observation state must have shape [{dimension}], got {state14.shape}")
+-        if layout == "nero_joint" and "rtc_prefix" in obs:
++        if layout in ("nero_joint", "nero_ee") and "rtc_prefix" in obs:
+             raise ValueError("RTC prefix is disabled for this Nero service")
+         if layout == "piper_left_joint" and "rtc_prefix" in obs:
+             raise ValueError("RTC prefix is disabled for single-arm Piper")
+@@ -295,7 +352,7 @@
+             raise ValueError("observation must contain an images dict")
+         images = []
+         camera_keys = self.CAMERA_KEYS
+-        if layout == "nero_joint":
++        if layout in ("nero_joint", "nero_ee"):
+             camera_keys = ("front", "wrist")
+             if not all(k in image_dict for k in camera_keys):
+                 aliases = ("cam_high", "cam_left_wrist")
+@@ -321,7 +378,7 @@
+             padding=True,
+             images_kwargs={"do_resize": False},
+         )
+-        if layout == "nero_joint":
++        if layout in ("nero_joint", "nero_ee"):
+             packed_state = np.zeros((1, 60), dtype=np.float32)
+             packed_state[0, :8] = state14
+         elif layout == "piper_left_joint":
+@@ -378,6 +435,9 @@
+         delta = self.model.generate(batch)
+         delta = denormalize_action(delta * mask, self.mean, self.std) * mask
+         delta = delta[0].float().cpu().numpy()
++        if getattr(self, "action_layout", "") == "nero_ee":
++            actions, ik_report = nero_ee_to_joint(delta, state14, getattr(self, "gripper_absolute", False))
++            return {"actions": actions, "prompt_used": getattr(self, "last_prompt", None), "ik": ik_report}
+         recover = nero_delta_to_absolute if getattr(self, "action_layout", "piper_joint") == "nero_joint" else piper_delta_to_absolute
+         if getattr(self, "action_layout", "piper_joint") == "piper_left_joint":
+             actions = state14[None, :] + delta[:, :7]
