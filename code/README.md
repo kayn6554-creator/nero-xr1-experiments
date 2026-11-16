@@ -54,3 +54,11 @@ git apply "$PATCH"
 **不要再把 11-13 旧快照中的“M5 尚不支持 nero_joint_sb”当作当前线上状态。** 也不要在已经应用本补丁的服务器上重复运行 apply 脚本；脚本会因原始 SHA256 不匹配而拒绝覆盖。恢复/回滚应使用现场备份和记录的版本。
 
 M5 代码已部署不等于真实机械臂边界检测通过；首次 Live 前仍须 Check、Dry、受监督 Pilot。
+
+
+## 2026-11-16：模型机理与网页手册
+
+- [模型演进与工作机理](../docs/model-evolution-and-mechanisms.md)：M0/M1/M2/M2b/M2A/M3/EF/M4/EF4/M5 的训练改动和推理机制。
+- [VLA 采集与测试台使用手册](../docs/vla-web-usage-manual.md)：恢复现场、网页参数、Check/Dry/Live、M5 人工确认。
+
+当前 `code/collector/nero_vla_web.py` 与 `nero_vla_client.py` 仍是仓库 11-13 源码快照；11-16 clean patch 的完整最终文件没有在仓库内，因此手册已明确版本同步限制。不要将旧源码快照误当成线上最终版本。
