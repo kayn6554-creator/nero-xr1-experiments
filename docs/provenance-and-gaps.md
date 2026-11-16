@@ -32,3 +32,27 @@
 6. Atlas 队列含停启常驻 QwenKI 任务的环境特定逻辑。只能用于已约定的任务；不能把按名称停止进程的脚本直接推广到其他共享服务器。
 
 本次发布验证仅涵盖静态语法、配置解析、复制哈希和补丁适用性，不包括 NPU/CUDA 训练、权重加载或机械臂实测。
+
+
+## 2026-11-16 增量补丁与现场部署来源
+
+新增来源为用户在 2026-11-16 提供并在服务器应用的干净补丁包：
+
+- 文件名：`nero_m4_ef4_m5_inference_patch_20261116_clean.zip`
+- SHA256：`5fc4a4b2866e9f233f5b438c1998c994fa8b91a32e70c48a04a519b876d2eb67`
+- 113 原文件 SHA256 校验后应用；备份后缀为 `.before_m5_20261116_134821`。
+- 采集机原文件 SHA256 校验后应用；网页在确认后单独重启。
+- clean patch 中主要文件 SHA256：
+  - collector/nero_vla_client.py: `fbde6d04072013dcca24a2ba7bd2e2b8365e2ccc1d6236ec0f3eb21558323d67`
+  - collector/nero_vla_web.py: `0afd1eff6a72be939138c8225e497521548fde52812387c3b81f7d2034dfc117`
+  - collector/nero_vla_presets.json: `0f7a82e95b5f06a6d0dcd0cb45fe8949ac6a65c1bca2e9c46a51364f74ba6dc1`
+  - 113/scripts/serve_openpi_policy.py: `e5128dfcc22bc94651fd8993c9089be3c82c2ea67efef058943c6ee2e34e8d54`
+  - 113/mibot/utils/io.py: `b2a70d5b0eacf480fbaf035cfe365291cbc94738c6eadae93d7b5a3b424d8c94`
+
+本日现场部署结果、metadata、端口/GPU、EF 基线 OOM 和验证边界见 [deployment-20261116.md](deployment-20261116.md)。
+
+此前本文件第 5 项“当前客户端/服务不支持 M5”的旧缺口已经关闭：M5 Step Flag 服务、客户端记录、网页展示及人工步骤文件门控均已部署。剩余缺口是远端专项测试环境依赖、全模型图像 Dry、M5 Live 物理闭环和 EF 原始基线服务恢复。
+
+## 2026-11-16 实验材料
+
+用户确认第一轮任务为 temp、ph、ircup，temp 水位沿用训练采集条件；场景定义沿用采集机 nero_tasks.json / nero_scenes.json。详细任务、成功判据、控制变量、Pilot、正式对照和数据结构见 [experiment-protocol-20261116.md](experiment-protocol-20261116.md)。
