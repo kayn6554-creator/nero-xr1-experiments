@@ -334,3 +334,74 @@ ssh -L 8767:127.0.0.1:8767 panhe@<采集机地址>
 ## 12. 尚需补齐
 
 最终训练 config.py/日志/权重校验值、三机完整环境版本、驱动/定位服务启动配置、实际 GPU/端口启动命令、M5 推理与网页功能。后续补充须标日期和验证机器，避免把设计方案误记为已运行结果。
+
+
+---
+
+# 2026-11-16 现场部署补充（优先于本手册中 11-13 的旧状态描述）
+
+本节是后续真实部署结果，覆盖本手册早期写下的“M5 尚不支持”“M4/EF4 仍需核对服务转换”“M5 字段不会保存”等旧快照描述。旧段落保留作为历史快照，不再代表 11-16 的当前状态。
+
+详细逐项记录见 [2026-11-16 部署记录](deployment-20261116.md)，正式实验步骤见 [第一轮实验协议](experiment-protocol-20261116.md)。
+
+## A. 2026-11-16 已部署的模型服务
+
+| 模型 | 端口 | GPU | 目录 | 状态 |
+|---|---:|---:|---|---|
+| M3 | 6709 | 7 | `m3-all8-async` | 原服务保留 |
+| M4 | 6711 | 1 | `m4-merge23` | 已启动、metadata 验证 |
+| EF4 | 6712 | 2 | `ef4-merge23` | 已启动，用户确认 metadata 正常 |
+| M5 | 6713 | 6 | `m5-stepflag` | 已启动、metadata 验证 |
+
+113 根目录仍为 `/data/hep/panhe/xr1`；模型位于 `/data/hep/panhe/models`；处理器位于 `/data/hep/panhe/Qwen3-VL-4B-Instruct`。M4、EF4、M5 config.py 中的旧处理器路径已改为该实际路径，并保留修改前备份。
+
+M4 metadata 的关键值：`nero_joint`、action_dim 8、horizon 30、step_merge23 true、step_flag disabled、absolute gripper。
+
+M5 metadata 的关键值：`nero_joint_sb`、action_dim 8、horizon 30、step_flag enabled、channel 8、threshold 0.5、consecutive_frames 2、hold_after_boundary true、manual_step_confirmation true。
+
+EF4 服务启动并监听 6712；本次对话未保留完整 metadata JSON，因此只记录用户确认“元数据没有问题”，不推测未展示的具体字段。
+
+## B. 采集网页部署
+
+采集机 `panhe@192.168.1.102`：
+
+- 网页 `/home/panhe/nero_vla_web.py`，端口 8767，tmux `nero:10.0`。
+- 报告服务 PID 227912，端口 8766。
+- 仅重启了网页进程；报告服务和其他 tmux 窗口保持运行。
+- 用户确认 M5、M4、EF4 均能从网页连接。
+
+## C. 2026-11-16 补丁
+
+干净补丁包：`nero_m4_ef4_m5_inference_patch_20261116_clean.zip`，SHA256：
+
+`5fc4a4b2866e9f233f5b438c1998c994fa8b91a32e70c48a04a519b876d2eb67`
+
+113 的 apply_113.sh 和采集机 apply_collector.sh 均成功；应用脚本先校验原文件 SHA256、备份旧文件，不自动启动服务或重启网页。用户在 113 上对补丁包 SHA256SUMS 执行校验，所有文件均 OK。
+
+## D. M5 实际推理与客户端能力（已实现）
+
+- 服务端支持 `nero_joint_sb`，训练辅助通道 8 不进入机器人动作接口；机器人仍收到 `actions [30,8]`。
+- 服务端回传 `step_flag` 和 `step_boundary`。
+- 默认阈值 0.5、连续 2 帧；边界帧及之后保持在边界前最后有效动作；若首帧即触发则保持请求当前状态。
+- Live 模式只执行边界前动作，然后等待网页“本步完成”按钮更新 step 文件，再继续。
+- Dry 模式只记录 Flag，不等待、不驱动机械臂。
+- Flag 序列、边界索引、暂停/等待/确认信息进入 summary.json、chunks.npz、live_status.json。
+- 网页显示边界预测状态，并明确提示边界预测不等于任务成功。
+
+M5 的推理/客户端/网页实现已经部署。仍待验证的是模型真实 Flag 预测质量和机械臂上的暂停—人工确认—继续闭环，不是代码尚未开发。
+
+## E. EF 基线与共享 GPU 限制
+
+EF 原始服务 6710 当前未运行。旧 efsrv 尝试在 GPU 0 启动时发生 CUDA OOM。EF4 正常启动不代表 EF 基线可用。不得用 M3 代替 EF 做 EF/EF4 消融。
+
+GPU 是共享资源；部署前 GPU 0–5 均有其他进程。M4、EF4、M3、M5 分别使用 GPU 1、2、7、6。不得按旧快照 kill 其他用户进程；任何重启前重新检查 PID、端口和 GPU 显存。
+
+## F. 验证边界
+
+- 用户确认 113 补丁应用、模型服务启动、网页连接。
+- 用户报告编译检查完成。
+- 本次隔离环境对 clean patch 执行 Python 编译检查通过，Client Step Flag 专项测试 3 cases PASS，服务端 Merge23 / action mask / Step Flag 边界逻辑专项测试 PASS。
+- 113 虚拟环境中的专项测试曾因所用解释器缺少 numpy 而未成功运行；不要把这次环境依赖错误写成逻辑测试失败，也不要写成远端测试通过。
+- 尚未完成真实图像请求 Dry 全覆盖、M5 Live 边界闭环验收和本轮正式真机实验。
+
+**本手册早期第 8、9、11、12 节中关于 M5 不支持、M5 不记录边界字段、M4/EF4 服务转换尚未实现的表述，均由本补充覆盖。**
