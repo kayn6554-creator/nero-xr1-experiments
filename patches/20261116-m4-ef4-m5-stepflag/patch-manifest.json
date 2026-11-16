@@ -1,0 +1,17 @@
+{
+  "snapshot_date": "2026-11-16",
+  "archive": "nero_m4_ef4_m5_inference_patch_20261116_clean.zip",
+  "archive_sha256": "5fc4a4b2866e9f233f5b438c1998c994fa8b91a32e70c48a04a519b876d2eb67",
+  "files": {
+    "collector/nero_vla_client.py": "fbde6d04072013dcca24a2ba7bd2e2b8365e2ccc1d6236ec0f3eb21558323d67",
+    "collector/nero_vla_web.py": "0afd1eff6a72be939138c8225e497521548fde52812387c3b81f7d2034dfc117",
+    "collector/nero_vla_presets.json": "0f7a82e95b5f06a6d0dcd0cb45fe8949ac6a65c1bca2e9c46a51364f74ba6dc1",
+    "113/scripts/serve_openpi_policy.py": "e5128dfcc22bc94651fd8993c9089be3c82c2ea67efef058943c6ee2e34e8d54",
+    "113/mibot/utils/io.py": "b2a70d5b0eacf480fbaf035cfe365291cbc94738c6eadae93d7b5a3b424d8c94"
+  },
+  "tests": {
+    "server": "PASS in isolated environment",
+    "client": "PASS: 3 cases",
+    "remote_113": "not completed: selected interpreter lacked numpy"
+  }
+}
