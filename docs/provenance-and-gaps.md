@@ -56,3 +56,17 @@
 ## 2026-11-16 实验材料
 
 用户确认第一轮任务为 temp、ph、ircup，temp 水位沿用训练采集条件；场景定义沿用采集机 nero_tasks.json / nero_scenes.json。详细任务、成功判据、控制变量、Pilot、正式对照和数据结构见 [experiment-protocol-20261116.md](experiment-protocol-20261116.md)。
+
+
+## 2026-11-16 后续现场反馈
+
+- 主臂 CAN：can1 序列号映射正确，接口 UP，1 Mbps，ERROR-ACTIVE；10 秒 candump 无帧，RX packets 无增长。用户重新插拔 USB-CAN 后恢复。根因未确认。
+- M5：用户报告约 1–2 次初步测试中，每步结束后稳定暂停，按下一步按钮后继续。尚未取得对应 run_id、原始 Flag 序列、边界索引、视频或评测数据。
+- 文档：新增 `docs/model-evolution-and-mechanisms.md` 与 `docs/vla-web-usage-manual.md`。
+
+## 当前仍需补齐
+
+1. 从采集机重新收集 2026-11-16 最终部署版 `nero_vla_web.py`、`nero_vla_client.py`，替换或并列归档 11-13 历史源码快照；核对文件哈希。
+2. 取回 M5 Pilot 的 run_id、summary.json、chunks.npz、live_status.json 和外接视频，标注真实步骤边界。
+3. 对四模型完成完整图像请求 Dry；M5 Live 多次验证早触发、迟触发、漏检和人工确认恢复。
+4. EF 原始基线 6710 仍未恢复，EF/EF4 严格对照仍被阻塞。
