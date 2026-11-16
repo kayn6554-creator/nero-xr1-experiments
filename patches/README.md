@@ -48,3 +48,11 @@ SHA256：`5fc4a4b2866e9f233f5b438c1998c994fa8b91a32e70c48a04a519b876d2eb67`
 - `tests/test_client_stepflag.py`：Flag 响应解析、无 Flag 兼容、step file 人工确认。
 
 本次隔离环境执行 Python 编译检查通过；Client Step Flag 3 cases PASS；服务端逻辑专项测试 PASS。113 虚拟环境中的测试曾因所选解释器缺少 numpy 未完成，不将其记录为远端 PASS。详细现场状态见 [deployment-20261116.md](../docs/deployment-20261116.md)。
+
+
+## 模型机理与操作文档
+
+- [M0–M5 / EF–EF4 模型演进与工作机理](../docs/model-evolution-and-mechanisms.md)
+- [NERO VLA 采集与测试台使用手册](../docs/vla-web-usage-manual.md)
+
+2026-11-16 用户初步报告 M5 每步边界后暂停、按下一步后继续（约 1–2 次观察）；完整证据等级和待采集材料见 [部署记录](../docs/deployment-20261116.md)。
