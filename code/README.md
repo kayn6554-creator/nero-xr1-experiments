@@ -37,3 +37,20 @@ git apply "$PATCH"
 服务依赖 Atlas 的 EF 布局/运动学支持，仍需复制 `serve_fast.py`。该补丁不增加 M5，也不增加 M4/EF4 的文本转换。
 
 所有脚本都应先读说明，再在隔离目录检查；此仓库保留现场快照，明确记录旧脚本的恢复障碍，没有将未经测试的修复混入归档提交。
+
+
+## 2026-11-16：113 服务与采集端增量补丁
+
+本节更新 11-13 代码说明中的历史限制。11-16 clean patch 已在真实 113 与采集机应用，不是仅停留在补丁草案：
+
+- 113 `mibot/utils/io.py`：增加 `nero_joint_sb` action layout mask。
+- 113 `scripts/serve_openpi_policy.py`：支持 M4/EF4 Merge23 prompt 转换；支持 M5 第 9 个训练通道反归一化、连续帧边界判断、边界动作保持、step_flag / step_boundary 回包。
+- 采集机 `nero_vla_client.py`：解析 Flag；M5 Live 在边界处截断本次执行并等待 step 文件变化；保存 Flag 与边界诊断。
+- 采集机 `nero_vla_web.py`：保留原网页，新增 M4/EF4/M5 预设及 M5 状态展示。
+- `nero_vla_presets.json`：包含 M4 6711、EF4 6712、M5 6713，均 exec_steps=30、slow=2.0、step_prompt=true、gripper_mode=absolute。
+
+补丁包 SHA256、各源码 SHA256、apply 顺序和验证结果见 [2026-11-16 部署记录](../docs/deployment-20261116.md) 及 [补丁说明](../patches/README.md)。
+
+**不要再把 11-13 旧快照中的“M5 尚不支持 nero_joint_sb”当作当前线上状态。** 也不要在已经应用本补丁的服务器上重复运行 apply 脚本；脚本会因原始 SHA256 不匹配而拒绝覆盖。恢复/回滚应使用现场备份和记录的版本。
+
+M5 代码已部署不等于真实机械臂边界检测通过；首次 Live 前仍须 Check、Dry、受监督 Pilot。
