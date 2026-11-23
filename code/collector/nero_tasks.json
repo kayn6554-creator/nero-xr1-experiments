@@ -464,5 +464,89 @@
   "custom_fail": true,
   "base_key": "weigh",
   "created": "2026-11-11 18:58:37"
+ },
+ "button": {
+  "id": 20,
+  "name": "按按钮",
+  "dataset": "nero_button_v1",
+  "task": "Press the target button with the robot arm.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "按钮",
+  "note": "按压指定按钮，完成按压后撤离。",
+  "collect_only": true
+ },
+ "irgun": {
+  "id": 21,
+  "name": "测温枪",
+  "dataset": "nero_irgun_v1",
+  "task": "Pick up the infrared thermometer, aim it at the target, pull the trigger to measure the temperature, and return it to its original position.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "测温目标",
+  "note": "抓取测温枪，对准目标并扣动扳机完成测温，随后放回原位。与不扣扳机的红外测物温任务独立采集。",
+  "collect_only": true
+ },
+ "ball_box": {
+  "id": 22,
+  "name": "将球放入盒子",
+  "dataset": "nero_ball_box_v1",
+  "task": "Pick up the ball and place it inside the box.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "球体",
+  "note": "抓取球体并将其放入盒子内部。",
+  "collect_only": true
+ },
+ "ruler": {
+  "id": 23,
+  "name": "直尺测量",
+  "dataset": "nero_ruler_v1",
+  "task": "Pick up the ruler, measure the length of the target object, and return the ruler to its original position.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "测量对象",
+  "note": "拿起直尺，与目标物体对齐完成长度测量，随后放回原位。",
+  "collect_only": true
+ },
+ "stack_blocks": {
+  "id": 24,
+  "name": "堆叠方块",
+  "dataset": "nero_stack_blocks_v1",
+  "task": "Pick up the blocks one by one and stack them into a tower.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "方块",
+  "note": "逐个抓取方块并堆叠成塔，完成后撤离。",
+  "collect_only": true
+ },
+ "line_blocks": {
+  "id": 25,
+  "name": "沿线放置方块",
+  "dataset": "nero_line_blocks_v1",
+  "task": "Place the blocks one by one along the marked line.",
+  "steps": {
+   "1": "完整任务"
+  },
+  "item_slots": 1,
+  "per_item": 10,
+  "item_label": "方块",
+  "note": "将方块沿标记线依次摆放，保持沿线排列。",
+  "collect_only": true
  }
 }
