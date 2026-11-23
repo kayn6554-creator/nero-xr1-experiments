@@ -147,7 +147,7 @@ def create_fail_dataset(body):
 
 def load_task_names():
     """测试用的任务：nero_tasks.json 里不是失败数据集的预设。启动时读一次，改了 json 要重启网页。"""
-    out = {k: t.get("name", k) for k, t in load_all_tasks().items() if t.get("task") and not t.get("failure")}
+    out = {k: t.get("name", k) for k, t in load_all_tasks().items() if t.get("task") and not t.get("failure") and not t.get("collect_only")}
     return out or {"weigh": "称重", "task2": "水温测量", "task3": "风速测量"}
 
 
