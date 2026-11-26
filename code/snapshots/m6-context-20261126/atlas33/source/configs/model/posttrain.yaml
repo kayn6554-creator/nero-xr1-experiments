@@ -1,0 +1,27 @@
+# @package _global_
+
+model:
+  type: "BaseRunner"
+  params:
+    # Relative to the launch directory (xr1/). The XPolicyLab train.sh always
+    # overrides this with an absolute path; see PRETRAINED_PATH in its header.
+    pretrained: pretrained_ckpt/model_states.pt
+    model:
+      type: "xr1"
+      freq_coefficient: 1.0
+      freq_excluded_dims: [17, 18, 19]
+      ffn_gradient_checkpointing: true
+      async_train: true
+      action_layout: ee
+      training_repeat: 4
+      model_dtype: bfloat16
+      attn_implementation: flash_attention_2
+      vlm_config_path: Qwen/Qwen3-VL-4B-Instruct
+      skip_vlm_init: false
+      reset_action_boundaries: false
+      vlm_lora:
+        enabled: false
+        r: 16
+        alpha: 32
+        dropout: 0.05
+        target_modules: [q_proj, k_proj, v_proj, o_proj]

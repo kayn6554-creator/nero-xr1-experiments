@@ -1,0 +1,39 @@
+# @package _global_
+
+model:
+  type: "BaseRunner"
+  params:
+    # Override from train_stage2.sh. This is a model-only initialization, not
+    # a Lightning/DeepSpeed resume, so optimizer/scheduler/global-step state is
+    # never read from Stage 1.
+    pretrained: null
+    model:
+      type: "xr1"
+      stage2: true
+      action_layout: piper_joint
+      freq_coefficient: 1.0
+      freq_excluded_dims: []
+      ffn_gradient_checkpointing: true
+      async_train: true
+      training_repeat: 4
+      model_dtype: float16
+      attn_implementation: sdpa
+      vlm_config_path: null
+      skip_vlm_init: true
+      reset_action_boundaries: false
+      vlm_lora:
+        enabled: true
+        load_before_checkpoint: true
+        r: 16
+        alpha: 32
+        dropout: 0.05
+        target_modules: [q_proj, k_proj, v_proj, o_proj]
+      ae_lora:
+        enabled: true
+        r: 16
+        alpha: 32
+        dropout: 0.05
+        target_modules: [qkv_proj, o_proj, gate_proj, up_proj, down_proj]
+      # Empty by default: Stage 1 projector, output, state/action choice and
+      # score-head weights are preserved but frozen for small-data Stage 2.
+      stage2_full_trainable_modules: []
