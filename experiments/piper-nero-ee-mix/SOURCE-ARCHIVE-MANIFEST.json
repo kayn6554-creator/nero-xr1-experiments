@@ -1,0 +1,767 @@
+{
+  "created_on": "2026-11-26",
+  "source_archives": [
+    {
+      "name": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "file_count": 77,
+      "role": "Complete companion project v0.2.0-preview as uploaded"
+    },
+    {
+      "name": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "file_count": 30,
+      "role": "Atlas source/config/launcher export as uploaded"
+    }
+  ],
+  "file_count": 107,
+  "files": [
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/.gitignore",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/.gitignore",
+      "bytes": 100,
+      "sha256": "9379321fe0c3a62361d2ac0ad77a7802d8e794b6f13708d2878ce988b8f84a41"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/CHANGELOG.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/CHANGELOG.md",
+      "bytes": 1075,
+      "sha256": "b8e0e8227dda320a1ad908203736708baf908ce13d493babf77e71ff4b1b98cb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/PROJECT_STATUS.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/PROJECT_STATUS.md",
+      "bytes": 4547,
+      "sha256": "314648129a31c11aa750f082e909faf18ceea0eb27ce514e28882d304a8ac0cb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/README.md",
+      "bytes": 4394,
+      "sha256": "6467142298d5d87191eaea26f78251ec040d17ed8f37675c2399d6947dc8b38f"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/config.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/config.yaml",
+      "bytes": 108,
+      "sha256": "8952b16c35c5d1d88a7bbffa09d949784fe394413d4eaeaedaf9919d63d701f0"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/data/nero3_ee_20261110_reference.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/data/nero3_ee_20261110_reference.yaml",
+      "bytes": 60846,
+      "sha256": "dcdac8120639195f85e1d881847992b29531ee510e4fe91a266063b97ca1a647"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "bytes": 17806,
+      "sha256": "87013c178b1353c771bfe45be0142fc07daf9e0f42ef16d2f89c9145b2fea0a2"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/deployment/nero_ee_sb_metadata.example.json",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/deployment/nero_ee_sb_metadata.example.json",
+      "bytes": 752,
+      "sha256": "d71c96238d3bbcfd87cbd4708ef1763bcd5215a02350ea6e2353112372503e77"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/model/posttrain_nero_ee_full_reference.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/model/posttrain_nero_ee_full_reference.yaml",
+      "bytes": 712,
+      "sha256": "bb49fc7bddabbd67411d8492bf8d1340416e776326666ef75358e031557b42b3"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "bytes": 715,
+      "sha256": "617f445b9d8ef3f2e25f65b2be2a8417c8b0d600e1108ab11c05cc7b2bba3fa7"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "bytes": 927,
+      "sha256": "6ebdf2a42f17ee01f61da0936701f1d38be2eff4db1c0810ee77687fd106c21a"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/00-project-overview.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/00-project-overview.md",
+      "bytes": 1505,
+      "sha256": "af8ac2e7ca96f7ae3d207a6ba5135f943f2f0fec3b728f854c174206127832e0"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/01-system-architecture.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/01-system-architecture.md",
+      "bytes": 3011,
+      "sha256": "8b6eb13527084997ec3c411d87d6e9bcc4cf283e9fd9e5c2b7e8c21ad3ce4aa8"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/02-data-and-action-contract.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/02-data-and-action-contract.md",
+      "bytes": 2504,
+      "sha256": "dbb9be8846cab967ac468ddc2cc3f7c2bad938b5fb1c77b342370ef7d10e9bb3"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/03-atlas-environment.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/03-atlas-environment.md",
+      "bytes": 1613,
+      "sha256": "792df9c8840623d00ce1ac5c36672a1df86aed03d6b6d1c6b30a17392084b1ec"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/04-training-guide.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/04-training-guide.md",
+      "bytes": 3362,
+      "sha256": "a5d1067dd673f1c64482f0615d130c4a32b0d65ad3f4d2b9c19688cf65208a60"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/05-checkpoint-and-resume.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/05-checkpoint-and-resume.md",
+      "bytes": 3215,
+      "sha256": "02eecdbdbe2e26fa457a61d3e2bd52b1ebb91b116d90f0c85660b2f61210ad1a"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/06-nero-deployment.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/06-nero-deployment.md",
+      "bytes": 2912,
+      "sha256": "205227427238a549f763bc4b071c82bcc3156fea82afaf2f7af5c9dac489477f"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/07-experiment-and-evaluation.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/07-experiment-and-evaluation.md",
+      "bytes": 1213,
+      "sha256": "3815abcd83daac7f0023df1fd60bc65f2a35485f87ad5ca410cb8e7e72c919c9"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/08-troubleshooting.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/08-troubleshooting.md",
+      "bytes": 1554,
+      "sha256": "2fdb1b8d138c8e78813905cb87353d0ce14c7d6be577c8ee5a9cb3e702777bd5"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/09-nero-xr1-integration.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/09-nero-xr1-integration.md",
+      "bytes": 8159,
+      "sha256": "5d20570786578c5984563afe66bf6fa494b365680501985c998e7bda2a695135"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/10-epoch3-checkpoint-lineage.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/10-epoch3-checkpoint-lineage.md",
+      "bytes": 3839,
+      "sha256": "2adcdc84121d2ebf62aea871d3b3a97cbfc099d648609d10d376ed329778bf9c"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/docs/11-real-robot-safety.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/docs/11-real-robot-safety.md",
+      "bytes": 2267,
+      "sha256": "25ba840d7ba86607330c87448463b13bcf11da044bec2bd4b24ae77dd4edb657"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/atlas-server-source-snapshot.json",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/atlas-server-source-snapshot.json",
+      "bytes": 1089,
+      "sha256": "04d656fb51e06bcfaa4926a1bd02b71d249f5cba575626b768e7081f2bc919e2"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/dataset_manifest.json",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/dataset_manifest.json",
+      "bytes": 1547,
+      "sha256": "0fb069aade94c17a37ab9b0da8b0f236c527d746838e66463f1fb0eea809bde5"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/dependencies/requirements_locked.txt",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/dependencies/requirements_locked.txt",
+      "bytes": 8207,
+      "sha256": "c7aaf76d5b28504fd9f18f22617ab7b4d84d4bfe892fc4610b340538586b8e33"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/dependencies/wheel_urls_aarch64_cp311.txt",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/dependencies/wheel_urls_aarch64_cp311.txt",
+      "bytes": 14741,
+      "sha256": "40066d5c58bad1ec103b9b3b8a598cc90c909adb8a2834bc889c09630283da50"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/deployment-contract.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/deployment-contract.md",
+      "bytes": 1100,
+      "sha256": "7f6100a880f9e3b16c3a18e52d508908d6d039b846e992845db4df83b967e7c3"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/nero-xr1-experiments.json",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/nero-xr1-experiments.json",
+      "bytes": 992,
+      "sha256": "19c6503de94aeaed0b8f7354573db44346d29dd041bf0afaf5da0ba777400629"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/project-layout.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/project-layout.md",
+      "bytes": 812,
+      "sha256": "a655cc8831c0bec01d941d5a38a2333e1aa0d90887d74f66c8e2f48db7bae37c"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/manifests/upstream-file-map.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/manifests/upstream-file-map.md",
+      "bytes": 3397,
+      "sha256": "54d0ab957fdc33292602ab12906136a397aeafd260fb319c11863e4f7deebb35"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/collector/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/collector/README.md",
+      "bytes": 956,
+      "sha256": "151e09718b4c03ab5913e9e31f62e8fc30f8ff670e1eafa501544e4c31d969a9"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/inference/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/inference/README.md",
+      "bytes": 930,
+      "sha256": "5a4792237878b7ffd376667a1120cb454cdcf01374c1449a5f44ac503bf7e260"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/README.md",
+      "bytes": 923,
+      "sha256": "f72102eea42f276a034cf5d75fe3f5b5993101f4a3091d220cfb1ead8602e871"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/apply_ee_sb.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/apply_ee_sb.py",
+      "bytes": 9382,
+      "sha256": "d7c4f4b46ad5ad2c7606ef2924da6a89939f7917618e2293f7dbc376b751731d"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/nero_ee_sb.patch",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/nero_ee_sb.patch",
+      "bytes": 8150,
+      "sha256": "5c8dc06d6ec9ffb9d8320ed9e4d3201db9524832df1c71f9497d8d48d4880525"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/overlay/mibot/utils/ef_align.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/overlay/mibot/utils/ef_align.py",
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/overlay/mibot/utils/piper_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/overlay/mibot/utils/piper_kin.py",
+      "bytes": 3044,
+      "sha256": "114240a599a787bf4c0b3597ed6b3516906fc989c5d867f3f520eefa331b1097"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/patches/xr1/patch-application.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/patches/xr1/patch-application.md",
+      "bytes": 842,
+      "sha256": "f4db20beee83eae263b858a6181f6325dcdae4727849d36439ef5c5adbbbf512"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/pyproject.toml",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/pyproject.toml",
+      "bytes": 465,
+      "sha256": "ab3fef803f8fccd7ba69f7490051215302c48c6ed7d0165bc1b06fe3a5c39f7d"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/HANDOFF_SUMMARY_20261125.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/HANDOFF_SUMMARY_20261125.md",
+      "bytes": 3575,
+      "sha256": "5b450469cbb6e2b57d0dcd19f49fd8d39957a2889cdb4438920ec41d12dbe3eb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/baseline-xr1/mibot/data/datasets/json_dataset.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/baseline-xr1/mibot/data/datasets/json_dataset.py",
+      "bytes": 23321,
+      "sha256": "804cabcfa65a4778f3462b3273f06269ee562f27c46d4471c1c7db925acd6c86"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/baseline-xr1/mibot/utils/io.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/baseline-xr1/mibot/utils/io.py",
+      "bytes": 12546,
+      "sha256": "3f3ff928ca71c746fd9f0d53f7d972ff7ee9d7f1defcf74af150343c8085f600"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/README.md",
+      "bytes": 1960,
+      "sha256": "ec9e2115428228f3352a2df859cba6f458482a3ac5c3cb9898f0265bd76af435"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/ef_align.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/ef_align.py",
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/nero_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/nero_kin.py",
+      "bytes": 5077,
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/nero_steps.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/nero_steps.py",
+      "bytes": 5459,
+      "sha256": "f881aa083ecd105a35fb2cffb16e88fee86f4512b0b2d6a3ab053dbfb17c0f6a"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/piper_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/code/xr1-overlay/mibot/utils/piper_kin.py",
+      "bytes": 3044,
+      "sha256": "114240a599a787bf4c0b3597ed6b3516906fc989c5d867f3f520eefa331b1097"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/nero-xr1-experiments/source-map.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/nero-xr1-experiments/source-map.md",
+      "bytes": 3544,
+      "sha256": "0f62c140961ba780bfdc6a65d89baade6b71f627f3391853414c5f628a1fd0d0"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/patched-xr1/mibot/data/datasets/json_dataset.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/patched-xr1/mibot/data/datasets/json_dataset.py",
+      "bytes": 27191,
+      "sha256": "c2621be74f3344bbdb8faec5f204665575ff3e21485470eaf619346cfe7e3a48"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/patched-xr1/mibot/utils/io.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/patched-xr1/mibot/utils/io.py",
+      "bytes": 12668,
+      "sha256": "b55f9b4f2b84f79e528bb662d2068b56dfeff32e2de804f45c2c9a36e46e05cb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/source-archive-inventory.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/source-archive-inventory.md",
+      "bytes": 806,
+      "sha256": "ccd6084d6a6f145eb15c330e9192e0a03e904580b47c26273624a89aba0472f8"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/mibot/server/deploy.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/mibot/server/deploy.py",
+      "bytes": 3262,
+      "sha256": "b92534ac7de0d86320c8f39bcafa506027e55aa2f784d40937fa0b379b53f5cb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/mibot/server/runtime/server.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/mibot/server/runtime/server.py",
+      "bytes": 4683,
+      "sha256": "ea8f32c5ab2d07846c21bc71fa0dc3bf000874af34f4e89bf1a97a8989b40b6a"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/mibot/utils/ef_align.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/mibot/utils/ef_align.py",
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/mibot/utils/io.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/mibot/utils/io.py",
+      "bytes": 12668,
+      "sha256": "b55f9b4f2b84f79e528bb662d2068b56dfeff32e2de804f45c2c9a36e46e05cb"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/mibot/utils/nero_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/mibot/utils/nero_kin.py",
+      "bytes": 5077,
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/references/upstream/scripts/serve_openpi_policy.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/references/upstream/scripts/serve_openpi_policy.py",
+      "bytes": 21105,
+      "sha256": "b6206fa3e4dabebcd475b780956e3b764e079ae6fa05e49004a0c98ac2902ca5"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/README.md",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/README.md",
+      "bytes": 987,
+      "sha256": "644175cad0694a1b7a6b40b5317d264602480c29e6dd7f7f7eb8e9f4db63e8f2"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/atlas/check_environment.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/atlas/check_environment.sh",
+      "bytes": 1792,
+      "sha256": "cf9f2bbf0343bdd9ade4ca84f77b098d9cc5ee7e460dbc538a866dc9622eca4b"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/atlas/train_nero_piper_ee_sb.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/atlas/train_nero_piper_ee_sb.sh",
+      "bytes": 6369,
+      "sha256": "02e8c0d85493f60c2deae2ac9e45a36724c231d78c7bc939fa3a181b2b96e720"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/data/make_ee_sb_config_reference.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/data/make_ee_sb_config_reference.py",
+      "bytes": 11097,
+      "sha256": "0eed83963d2b733540ba01bec0eb1b2efe6d6c921677bfd3a92c3fb1f3fab957"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/deployment/inspect_deployment_artifact.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/deployment/inspect_deployment_artifact.py",
+      "bytes": 2605,
+      "sha256": "0546866eeb5f37898b76d340c29f15ee825730ef01210a06a88afee29089d748"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/training/inspect_checkpoint.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/training/inspect_checkpoint.py",
+      "bytes": 1350,
+      "sha256": "1dbd1385ccc4ac1c4b5c4c639c4acd27c9b3d68d01ade7e8c2b1564f9e5f00a6"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/training/resume_training.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/training/resume_training.sh",
+      "bytes": 537,
+      "sha256": "7255d3298b8e423d41be4726e1a1f3c42df09e41993186ede89024a20751f24d"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/validation/mix_dataset_utils.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/validation/mix_dataset_utils.py",
+      "bytes": 6787,
+      "sha256": "130104f2cc702a3d7f8ac5b4bbd538068fea1b21ed85e6ad785ac76647d5b9cf"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/validation/plan_training_steps.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/validation/plan_training_steps.py",
+      "bytes": 1208,
+      "sha256": "3050a1583b898886e4b299bad024a146f517304086c42fe2bb582013153edc12"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/validation/validate_batch.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/validation/validate_batch.py",
+      "bytes": 3156,
+      "sha256": "ec2e6207d6ee280e3c02d0db45ba18ada8712470d8b7f60bfe88ee55588ca481"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/scripts/validation/validate_mix_dataset.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/scripts/validation/validate_mix_dataset.py",
+      "bytes": 814,
+      "sha256": "28c7b1c58577daca27c277fc9b1638fab673e5a7bb633d6f8559d0cf0e1cb747"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/src/nero_piper_ee/__init__.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/src/nero_piper_ee/__init__.py",
+      "bytes": 57,
+      "sha256": "89535d568b9863df4e063d01c73297eb4419d93ee79aeab0e64eccbb10b97932"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/src/nero_piper_ee/deployment/__init__.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/src/nero_piper_ee/deployment/__init__.py",
+      "bytes": 32,
+      "sha256": "aa0d2f366aa697c53b5de5756e48f976f7aa3134817788958098c6e4dde1a45d"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/src/nero_piper_ee/deployment/ee_to_nero.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/src/nero_piper_ee/deployment/ee_to_nero.py",
+      "bytes": 11274,
+      "sha256": "001be54585bc185bd4afa650e3e8431d137d361ca31fe25aa59bb23267817088"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/src/nero_piper_ee/deployment/nero_ee_sb_server_adapter.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/src/nero_piper_ee/deployment/nero_ee_sb_server_adapter.py",
+      "bytes": 2520,
+      "sha256": "11612adbb056a97d5a3c4e95d9ba200d1349cc9bee99b8aa7801ee3b729688a4"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/tests/conftest.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/tests/conftest.py",
+      "bytes": 277,
+      "sha256": "a66f034e4781fda0fb069aa86394418e7dc96a173c10256752a25c0cec0fe39a"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/tests/test_dwell_filter.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/tests/test_dwell_filter.py",
+      "bytes": 646,
+      "sha256": "6facc7abb2908ace4beb28323d1555157140a5a362c34bfc797ab84071bbe892"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/tests/test_ee_to_nero.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/tests/test_ee_to_nero.py",
+      "bytes": 1678,
+      "sha256": "79b851b9a4f3dc444465d7ac473ce7728ea0d0eae0edde43c9f268610a652a48"
+    },
+    {
+      "archive": "nero-piper-ee-mix-v0.2.0-preview(1).zip",
+      "archive_path": "nero-piper-ee-mix-v0.2.0-preview/tests/test_nero_ee_sb_adapter.py",
+      "repository_path": "experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/tests/test_nero_ee_sb_adapter.py",
+      "bytes": 3852,
+      "sha256": "81e6afe68e8bc34fc56da9e1b692aaf8d83a958491213560702db98c94865afc"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/atlas_new/train_nero_piper_ee_sb.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/atlas_new/train_nero_piper_ee_sb.sh",
+      "bytes": 4160,
+      "sha256": "265da9feb4f9204952a0076ba5d14b33d66933cb89bf01bcdc8195fdcc104d81"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/atlas_new/venv_piper_ef_freeze.txt",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/atlas_new/venv_piper_ef_freeze.txt",
+      "bytes": 1795,
+      "sha256": "6772ffeacae07a5e58727eb632075f7adfa7295a3c357910eff1aecd554a0a03"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/pyproject.toml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/pyproject.toml",
+      "bytes": 888,
+      "sha256": "b4262d98d186b548db25f4134967aa78b2066b4324baaa44c446dce863ab818a"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/uv.lock",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/uv.lock",
+      "bytes": 704440,
+      "sha256": "91216bdc1c575542cca282f8ac5e9626752d24ef2f86126e731cb1b65c3afd78"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/tools/train.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/tools/train.py",
+      "bytes": 10937,
+      "sha256": "e93b4d8e17d281aafd5df517c7748d982b18d3e610c4fd695ae7bede0a61e9c2"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/train.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/train.sh",
+      "bytes": 645,
+      "sha256": "604e8c5fc692ba4dbd3f6efe8f1e5df20cd54d347c5e1b222136875f2ab30650"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/train_910c_full_joint.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/train_910c_full_joint.sh",
+      "bytes": 4412,
+      "sha256": "076bf7d6f9fc4952ae2b65e6b7e2e64bae731de7af820ce5442beb95778ab430"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/serve_openpi_policy.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/serve_openpi_policy.py",
+      "bytes": 21105,
+      "sha256": "b6206fa3e4dabebcd475b780956e3b764e079ae6fa05e49004a0c98ac2902ca5"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/plan_json_epochs.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/plan_json_epochs.py",
+      "bytes": 2262,
+      "sha256": "4be12735b4da64f8e254df8fe6f55f459fc29bda827b36315d69f8dace5d3c4b"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/apply_ee_sb.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/apply_ee_sb.py",
+      "bytes": 9382,
+      "sha256": "d7c4f4b46ad5ad2c7606ef2924da6a89939f7917618e2293f7dbc376b751731d"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/make_ee_sb_config.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/make_ee_sb_config.py",
+      "bytes": 11097,
+      "sha256": "0eed83963d2b733540ba01bec0eb1b2efe6d6c921677bfd3a92c3fb1f3fab957"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/train_nero.sh",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/train_nero.sh",
+      "bytes": 2648,
+      "sha256": "7e509f4a6da063bf520be634de20e31edec693ac3acc95b5c0cb793619fa870d"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/HANDOFF_SUMMARY_20261125.md",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/HANDOFF_SUMMARY_20261125.md",
+      "bytes": 3575,
+      "sha256": "5b450469cbb6e2b57d0dcd19f49fd8d39957a2889cdb4438920ec41d12dbe3eb"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/requirements_locked.txt",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/requirements_locked.txt",
+      "bytes": 8207,
+      "sha256": "c7aaf76d5b28504fd9f18f22617ab7b4d84d4bfe892fc4610b340538586b8e33"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/scripts/panhe/wheel_urls_aarch64_cp311.txt",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/scripts/panhe/wheel_urls_aarch64_cp311.txt",
+      "bytes": 14741,
+      "sha256": "40066d5c58bad1ec103b9b3b8a598cc90c909adb8a2834bc889c09630283da50"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/io.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/io.py",
+      "bytes": 12668,
+      "sha256": "b55f9b4f2b84f79e528bb662d2068b56dfeff32e2de804f45c2c9a36e46e05cb"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/ef_align.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/ef_align.py",
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/piper_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/piper_kin.py",
+      "bytes": 3044,
+      "sha256": "114240a599a787bf4c0b3597ed6b3516906fc989c5d867f3f520eefa331b1097"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/nero_kin.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/nero_kin.py",
+      "bytes": 5077,
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/nero_steps.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/nero_steps.py",
+      "bytes": 5459,
+      "sha256": "f881aa083ecd105a35fb2cffb16e88fee86f4512b0b2d6a3ab053dbfb17c0f6a"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/utils/epoch_checkpoint.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/utils/epoch_checkpoint.py",
+      "bytes": 1152,
+      "sha256": "522b86cbf7b3d98e240c9586038330ec0eaafa07fbd6ed379d8ce240f273c31d"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/data/datasets/json_dataset.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/data/datasets/json_dataset.py",
+      "bytes": 27191,
+      "sha256": "c2621be74f3344bbdb8faec5f204665575ff3e21485470eaf619346cfe7e3a48"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/server/deploy.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/server/deploy.py",
+      "bytes": 3262,
+      "sha256": "b92534ac7de0d86320c8f39bcafa506027e55aa2f784d40937fa0b379b53f5cb"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/mibot/server/runtime/server.py",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/mibot/server/runtime/server.py",
+      "bytes": 4683,
+      "sha256": "ea8f32c5ab2d07846c21bc71fa0dc3bf000874af34f4e89bf1a97a8989b40b6a"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/config.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/config.yaml",
+      "bytes": 108,
+      "sha256": "8952b16c35c5d1d88a7bbffa09d949784fe394413d4eaeaedaf9919d63d701f0"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "bytes": 17781,
+      "sha256": "0485cc5b4a25b28f26cd05838be0878b4b2d6944f03e13c7a9fd2cfcafddf211"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/data/nero3_ee_20261110.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/data/nero3_ee_20261110.yaml",
+      "bytes": 60846,
+      "sha256": "dcdac8120639195f85e1d881847992b29531ee510e4fe91a266063b97ca1a647"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "bytes": 715,
+      "sha256": "617f445b9d8ef3f2e25f65b2be2a8417c8b0d600e1108ab11c05cc7b2bba3fa7"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/model/posttrain_nero_ee_full.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/model/posttrain_nero_ee_full.yaml",
+      "bytes": 712,
+      "sha256": "bb49fc7bddabbd67411d8492bf8d1340416e776326666ef75358e031557b42b3"
+    },
+    {
+      "archive": "nero_piper_ee_atlas_export_20261126.tar.gz",
+      "archive_path": "export_nero_piper_ee_20261126/xr1_overlay/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "repository_path": "experiments/piper-nero-ee-mix/atlas-export-20261126/xr1_overlay/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "bytes": 927,
+      "sha256": "6ebdf2a42f17ee01f61da0936701f1d38be2eff4db1c0810ee77687fd106c21a"
+    }
+  ]
+}

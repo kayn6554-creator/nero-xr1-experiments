@@ -1,75 +1,63 @@
 # NERO × XR-1 实验仓库
 
-在 NERO 单臂（7 关节 + 夹爪）上微调 Xiaomi-Robotics-1。仓库保存项目自有改动、配置、采集/测试工具、补丁和操作记录；不包含实验室完整上游代码本体、训练数据集或模型权重。
+NERO 七关节单臂上的 Xiaomi-Robotics-1（XR-1）下游适配、训练、部署与真实机器人实验档案。仓库保存项目自有改动、配置、补丁、代码快照、实验协议和 AI 交接材料；不包含完整实验室上游仓库、数据集、模型权重或运行环境。
 
-**当前快照：2026-11-16。** M3、M4、EF4、M5 已在 113 推理机启动；采集网页已更新并能连接四个服务。M5 Step Flag 推理、客户端暂停和人工步骤确认逻辑已完成部署。当前状态是服务/网页集成完成，尚未完成本轮真机 Live Pilot。
+> **新 AI / 新同学请先读：** [`AGENTS.md`](AGENTS.md) → [`docs/AI-START-HERE.md`](docs/AI-START-HERE.md) → [`docs/AI-HANDOFF-2026-11-26.md`](docs/AI-HANDOFF-2026-11-26.md)。不要只根据旧 README 或历史实验记录判断当前状态。
 
-## 最新阅读入口
+## 当前项目状态（2026-11-26）
 
-- [2026-11-16 部署与集成记录](docs/deployment-20261116.md)：补丁应用、模型路径、GPU/端口、metadata、M5 逻辑、网页重启和验证边界。
-- [第一轮实验协议](docs/experiment-protocol-20261116.md)：temp / ph / ircup 任务、控制变量、成功判据、Pilot、正式对照和数据记录。
-- [完整操作与交接手册](docs/operations-handbook.md)：三机分工、代码收集、环境、数据、训练、权重传输、推理与网页。
-- [模型与实验矩阵](docs/model-matrix.md)：模型差异、训练布局、部署状态和对照关系。
-- [代码恢复说明](code/README.md)：overlay、补丁适用前提及不能重复执行的步骤。
-- [补丁目录](patches/README.md)：历史 EF 服务补丁与 2026-11-16 M4/EF4/M5 增量补丁。
-- [来源与待补材料](docs/provenance-and-gaps.md)：依赖版本、证据边界、未收集配置。
-- [源文件清单与校验值](docs/source-manifest.json)。
+既有主线已经迭代到 M5 Step Flag。现在有两条彼此独立的后续实验线：
 
-## 2026-11-16 当前状态
+| 实验线 | 研究问题 | 当前状态 | 核心约束 |
+|---|---|---|---|
+| **M6 RGB-D** | 深度信息是否改善 NERO 的空间理解、接近和接触动作 | 设计与数据接入准备 | 以 M5 为基线，保持 `nero_joint_sb` / 30-step / Step Flag；只扩展 RGB-D |
+| **Piper + NERO EE-SB 混训** | Piper V2 数据能否增强 NERO 策略 | Atlas 环境、样本和步数预检完成；Smoke 因共享 NPU 占用受阻，尚未正式训练 | 独立 `nero_ee_sb` 动作/状态空间，NERO 是最终部署目标 |
 
-| 模型 | 推理端口 | GPU | 状态 |
-|---|---:|---:|---|
-| M3 | 6709 | 7 | 原有服务运行 |
-| M4 | 6711 | 1 | Merge23 服务运行、metadata 已验证 |
-| EF4 | 6712 | 2 | Merge23 + IK 服务运行、用户确认 metadata 正常 |
-| M5 | 6713 | 6 | Step Flag 服务运行、metadata 已验证 |
+**不要把两条线合并。** M6 第一阶段不混入 Piper；Piper 混训不等于 M6，也不从 M5 checkpoint 初始化。
 
-采集机网页 8767 已重启，报告服务 8766 保持运行；用户确认 M3/M4/EF4/M5 均可连接。EF 原始基线 6710 尚未恢复，旧启动尝试发生 CUDA OOM，因此 EF/EF4 严格对照暂缓。
+## 最新交接与研究文档
 
-第一轮任务已确认：temp 测水温、ph pH 检测、ircup 红外测容器温度；水位严格沿用训练采集时条件。详细协议见上方链接。
+- [新 AI 接手指南](docs/AI-START-HERE.md)
+- [当前状态 / 已完成 / 阻塞 / 下一步](docs/AI-HANDOFF-2026-11-26.md)
+- [M6：NERO RGB-D 研究与工程路线](docs/research-lines/M6-RGBD.md)
+- [Piper + NERO EE-SB 混训方案与训练前清单](docs/research-lines/PIPER-NERO-EE-MIX.md)
+- [三机 / Atlas 登录与资源安全](docs/infrastructure-access-20261126.md)
+- [三端源码与 RGB-D 工程状态](docs/m6-context-20261126.md)
+- [Piper 混训原始工程归档](experiments/piper-nero-ee-mix/README.md)
 
-## 目录
+## 仓库结构
 
 | 路径 | 内容 |
 |---|---|
-| `code/xr1-overlay/` | Atlas 自有训练脚本、步骤/运动学工具和 NERO 配置 |
-| `code/inference-overlay/` | 113 推理端 EF wrapper、提速工具及历史补丁脚本 |
-| `code/collector/` | 采集与 VLA 测试网页、客户端、报告与辅助脚本 |
-| `code/plugins/` | NERO follower、leader 和 ROS 相机插件 |
-| `patches/` | 针对明确版本的差异补丁 |
-| `docs/`、`notes/`、`analysis/` | 操作说明、实验记录和分析代码 |
-| `env/` | 早期环境快照，非三台机器最新依赖锁定保证 |
+| `code/xr1-overlay/` | Atlas XR-1 训练配置、脚本与项目改动；不是完整上游 |
+| `code/inference-overlay/` | 113 推理服务补丁、包装器和辅助工具 |
+| `code/collector/` | 102 Client/Web/采集辅助代码 |
+| `code/plugins/` | NERO follower/teleoperator 与 ROS 相机插件 |
+| `code/snapshots/` | 按机器/来源保留的历史源码快照，不覆盖 |
+| `experiments/piper-nero-ee-mix/` | Piper 混训伴随工程和 2026-11-26 Atlas 导出 |
+| `docs/` | 操作、实验、研究路线、证据边界和 AI 交接 |
+| `patches/` | 对明确上游版本的增量补丁 |
+| `env/` | 历史环境文件；不能视为当前三台机器的完整锁定环境 |
 
-## 实验边界
+## 机器角色
 
-- M4 / EF4 的 Merge23 是服务端按训练文本做 Step 1/3、Step 2/3、Step 3/3 映射；网页仍按四步流程工作。
-- M5 训练布局为 `nero_joint_sb`，服务端内部使用第 9 个辅助通道，机器人动作回包仍为 30×8；边界触发后保持并等待网页人工确认。
-- M5 Flag 预测不代表任务成功；尚需通过 Dry / Live Pilot 检验真实模型输出和物理闭环。
-- 不把 EF4 与 M3 直接作为动作空间消融对照；EF/EF4 需要同动作空间的 EF 基线。
-- 不把历史跨天、不同水位或不同场景的结果作为严格消融。
+- **102：** 真机、ROS、RGB/RGB-D 采集、Client/Web。
+- **113：** RTX 4090 推理服务；历史 M5 服务端口 6713。
+- **Atlas `.15` / `.33`：** 不同主机；训练和数据工作目录主要记录在 `/mnt/panhe/xr1`。资源状态必须实时检查。
 
-仓库保持原先的上游约定：XPolicyLab 内部基线 `76613fe`，Atlas 原始副本基线 `54915a9`。获取上游需使用实验室授权渠道。历史记录保留原日期；当前部署状态以 2026-11-16 部署记录为准。
+登录路径和端口隧道见 [基础设施访问手册](docs/infrastructure-access-20261126.md)。仓库不保存密码、私钥或 Token。
 
+## 重要安全边界
 
-## 2026-11-16 文档增补
+- 不要将本仓库直接覆盖到正在运行的 Atlas、113 或 102。
+- 不要擅自终止其他人的进程、容器、训练、推理或 tmux 会话。
+- 不要在未确认资源归属时启动训练。
+- 不要替换 M5 6713 或其他已部署服务来测试 M6/Piper 模型。
+- 不要绕过 NERO IK、Client、Follower 的关节限位、动作限幅、控制锁或急停保护。
+- 不要把 Step Flag 当成任务成功信号。
+- 不要上传数据集、模型权重、视频、凭据或完整 Python 环境。
+- 公开仓库只保留无凭据的操作命令；实验室若要求隐藏内网拓扑，应将访问文档迁移到私有资料库。
 
-- [模型演进与工作机理](docs/model-evolution-and-mechanisms.md)：逐项说明 M0、M1、M2、M2b、M2A、M3、EF、M4、EF4、M5 的改动、训练目标、推理链路与比较关系。
-- [VLA 采集与测试台使用手册](docs/vla-web-usage-manual.md)：现场恢复、网页连接、Check/Dry/Live、参数输入、M5 步骤确认和故障排查。
+## 历史记录
 
-2026-11-16 新增现场反馈：主臂 CAN 数据在重新插拔 USB-CAN 适配器后恢复；M5 进行了约 1–2 次初步测试，用户观察到每步结束后机械臂稳定暂停，直到人工按下下一步才继续。该现象仅记为初步 Pilot 观察，不代表边界检测精度或正式成功率已验证。
-
-
-## 2026-11-26：三端代码快照与 RGB-D / M6 工程档案
-
-本轮新增 102 采集机、113 推理机、Atlas 33 核心与补充代码快照的盘点文档：
-
-- [实验室主机拓扑与 Atlas 登录手册](docs/infrastructure-access-20261126.md)
-- [M6 三端代码、M5 Checkpoint 与 RGB-D 接入状态](docs/m6-context-20261126.md)
-- [本轮四个源码包的 SHA256 与来源清单](docs/m6-source-manifest-20261126.json)
-- [第三方源码版权与来源说明](docs/third-party-source-notes-20261126.md)
-- [M6 快照目录说明](code/m6-snapshot-20261126/README.md)
-
-本次确认：102 已具备 RGB-D 读取/保存基础，但 Client → 推理请求 → Dataset → 模型输入尚未端到端接通；113 的 M5 服务仍按两路 RGB 工作。M5 Checkpoint 路径已记录，但权重、数据集、日志和环境均不提交。
-
-
-本轮新增 **98 个去重源码/配置文件**，已按来源保存在 [code/snapshots/m6-context-20261126/](code/snapshots/m6-context-20261126/)，并同步更新采集、推理与训练规范目录。详细入口见 [三机与 Atlas 登录手册](docs/infrastructure-access-20261126.md) 和 [M6 / RGB-D 工程状态](docs/m6-context-20261126.md)。
+M0–M5 的模型差异、训练布局、部署细节和实验协议保留在 `docs/model-evolution-and-mechanisms.md`、`docs/model-matrix.md`、`docs/deployment-20261116.md`、`docs/experiment-protocol-20261116.md` 等历史文件中。旧文件中的日期和状态不要自动更新成“当前”。
