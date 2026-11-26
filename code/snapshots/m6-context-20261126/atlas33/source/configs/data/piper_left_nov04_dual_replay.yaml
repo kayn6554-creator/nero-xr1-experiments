@@ -1,0 +1,9 @@
+# @package _global_
+defaults:
+  - single_piper_left_all382
+  - /data@dual_replay_config: real4_evo_v0_master_20261021
+  - _self_
+
+data:
+  params:
+    replay_dataset: ${dual_replay_config.data.params.train_datasets}

@@ -1,0 +1,82 @@
+[
+ {
+  "name": "M0",
+  "host": "172.16.11.115",
+  "port": 6699,
+  "step_prompt": false,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "delta",
+  "note": "学长基线 epoch3（= 周六的 E0）"
+ },
+ {
+  "name": "M2A",
+  "host": "172.16.11.113",
+  "port": 6708,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M2 + 异步训练"
+ },
+ {
+  "name": "M3",
+  "host": "172.16.11.113",
+  "port": 6709,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M2A + 5 个新任务"
+ },
+ {
+  "name": "EF",
+  "host": "172.16.11.113",
+  "port": 6710,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M3 改末端动作 + IK"
+ },
+ {
+  "name": "M2+E1",
+  "host": "172.16.11.113",
+  "port": 6706,
+  "step_prompt": true,
+  "exec_steps": 10,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M2，每块只执行 10 步"
+ },
+ {
+  "name": "M4",
+  "host": "172.16.11.113",
+  "port": 6711,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M3 + 合并 Step 2/3 文本"
+ },
+ {
+  "name": "EF4",
+  "host": "172.16.11.113",
+  "port": 6712,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "EF + 合并 Step 2/3 文本 + IK"
+ },
+ {
+  "name": "M5",
+  "host": "172.16.11.113",
+  "port": 6713,
+  "step_prompt": true,
+  "exec_steps": 30,
+  "slow": 2.0,
+  "gripper_mode": "absolute",
+  "note": "M3 + Step Flag，边界处等待人工确认"
+ }
+]

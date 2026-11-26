@@ -148,6 +148,28 @@ def parse_actions(resp: dict, dim: int) -> np.ndarray:
     return a
 
 
+def parse_step_flag(resp: dict, horizon: int):
+    """Return denormalized M5 step-flag regression outputs and boundary metadata."""
+    values = resp.get("step_flag")
+    boundary = resp.get("step_boundary")
+    if values is None and boundary is None:
+        return None, None
+    if values is None or not isinstance(boundary, dict):
+        raise ValueError("M5 响应必须同时包含 step_flag 和 step_boundary")
+    values = np.asarray(values, dtype=np.float32)
+    if values.shape != (horizon,) or not np.isfinite(values).all():
+        raise ValueError(f"M5 step_flag 应为有限的 [{horizon}]，实际 {values.shape}")
+    detected = bool(boundary.get("detected", False))
+    index = boundary.get("boundary_index")
+    if detected:
+        if isinstance(index, bool) or not isinstance(index, (int, np.integer)) or not 0 <= int(index) < horizon:
+            raise ValueError(f"M5 boundary_index 非法：{index!r}")
+        index = int(index)
+    elif index is not None:
+        raise ValueError("M5 未触发边界，但 boundary_index 不为空")
+    return values, boundary
+
+
 def check_chunk(actions: np.ndarray, state: np.ndarray, args) -> list[str]:
     """返回问题列表；空列表 = 可以执行。"""
     problems = []
@@ -344,7 +366,7 @@ class NeroIO:
 
 # ---------------------------------------------------------------- 执行
 def execute_chunk(io: NeroIO, actions: np.ndarray, start: np.ndarray, args, fb: list | None = None,
-                  chunk: int = -1, stats: dict | None = None) -> str:
+                  chunk: int = -1, stats: dict | None = None, steps: int | None = None) -> str:
     """按 --control-hz 插值执行前 --exec-steps 步；返回结束原因。
     每一步按“放慢倍数”分配时间；如果某一步关节变化太大、按这个时间走会超过 --max-joint-vel-deg，
     就自动把这一步拉长（多插几帧），保证实际关节速度不超过上限。"""
@@ -354,7 +376,8 @@ def execute_chunk(io: NeroIO, actions: np.ndarray, start: np.ndarray, args, fb: 
     prev = start.astype(np.float64)
     t_next = time.monotonic()
     stretched = []
-    for k in range(min(args.exec_steps, len(actions))):
+    step_count = args.exec_steps if steps is None else int(steps)
+    for k in range(min(step_count, len(actions))):
         goal = actions[k]
         need = math.ceil(np.abs(goal[:7] - prev[:7]).max() / (vmax * dt))
         sub = max(base, need)
@@ -402,6 +425,7 @@ def run(args):
             return 1
 
     policy = None
+    md = {}
     if mode != "check":
         policy = PolicyClient(args.server_host, args.server_port)
         md = policy.metadata
@@ -418,11 +442,19 @@ def run(args):
                              "服务端还不是 NERO 模型；只想测协议可以用 --mode dry --piper-compat")
         if md.get("action_semantics", "absolute_joint") != "absolute_joint" and not args.piper_compat:
             raise SystemExit(f"只支持绝对关节动作，服务报告 {md.get('action_semantics')}")
+        step_flag_meta = md.get("step_flag") or {}
+        if step_flag_meta.get("enabled") and (not args.step_prompt or not args.step_file):
+            policy.close()
+            raise SystemExit("M5 必须启用 --step-prompt，并提供测试台 --step-file")
+        if md.get("step_merge23") and not args.step_prompt:
+            policy.close()
+            raise SystemExit("M4/EF4 必须启用 --step-prompt，服务端才能执行 merge23 转换")
 
     run_dir = Path(args.log_dir) / time.strftime("%Y%m%d_%H%M%S") / mode
     run_dir.mkdir(parents=True, exist_ok=True)
     io = NeroIO(args, read_only=(mode != "live"))
     records, feedback, stats = [], [], {}
+    model_metadata = dict(md) if isinstance(md, dict) else {}
     executed, end_reason, t_start, timeouts = 0, "", time.time(), 0
     if args.save_images:
         (run_dir / "images").mkdir(exist_ok=True)
@@ -495,11 +527,26 @@ def run(args):
                 a = np.zeros((len(actions), 8))
                 a[:, :6], a[:, 6], a[:, 7] = actions[:, :6], state[6], actions[:, 6] * GRIPPER_MAX_M
                 actions = a
+            step_flag, step_boundary = parse_step_flag(resp, len(actions))
+            boundary_index = None
+            if step_boundary and step_boundary.get("detected"):
+                boundary_index = int(step_boundary["boundary_index"])
+            planned_steps = min(args.exec_steps, len(actions))
+            boundary_reached = (mode == "live" and boundary_index is not None and boundary_index <= planned_steps)
+            if boundary_reached:
+                planned_steps = boundary_index  # boundary frame itself belongs to the next step; do not execute it
             problems = check_chunk(actions, state, args)
             log.info("第 %d 块  步骤 %s  推理 %.2f s  %s", chunk, step, latency, describe_chunk(actions, state))
+            if step_boundary and step_boundary.get("detected"):
+                log.warning("M5 Step Flag: boundary frame=%d (1-based %d), trigger frame=%s, max=%.3f",
+                            boundary_index, boundary_index + 1, step_boundary.get("trigger_index"),
+                            float(step_boundary.get("max_value", float("nan"))))
             records.append(dict(chunk=chunk, t=time.time(), latency=latency, sync_ms=sync_ms,
                                 state=state, actions=actions, problems=problems, step=step,
-                                age_h=age_h, age_w=age_w, prompt_used=resp.get("prompt_used") or prompt_k))
+                                age_h=age_h, age_w=age_w, prompt_used=resp.get("prompt_used") or prompt_k,
+                                step_flag=step_flag, step_boundary=step_boundary,
+                                step_flag_waiting=False, step_flag_pause=boundary_reached,
+                                step_flag_confirmed_step=None, action_layout=md.get("action_layout", "")))
             write_status(run_dir, records[-1], stats, args)
             if mode == "dry" or chunk == 0:
                 log.info("  指令：%s", records[-1]["prompt_used"])
@@ -514,13 +561,30 @@ def run(args):
                 end_reason = "拒绝执行：" + "；".join(problems)
                 log.error(end_reason)
                 break
-            log.info("执行前 %d 步（放慢 %.1f 倍，约 %.1f s）", min(args.exec_steps, len(actions)), args.slow,
-                     min(args.exec_steps, len(actions)) / args.action_hz * args.slow)
-            reason = execute_chunk(io, actions, state, args, fb=feedback, chunk=chunk, stats=stats)
+            log.info("执行前 %d 步（放慢 %.1f 倍，约 %.1f s）", planned_steps, args.slow,
+                     planned_steps / args.action_hz * args.slow)
+            if planned_steps > 0:
+                reason = execute_chunk(io, actions, state, args, fb=feedback, chunk=chunk,
+                                       stats=stats, steps=planned_steps)
+                if reason == "ok":
+                    executed += 1
+            else:
+                reason = "ok"
+                log.warning("M5 边界位于首帧：不下发动作，保持当前状态")
             t_stop = time.monotonic()
-            executed += 1
             if reason != "ok":
                 log.warning(reason)
+            if boundary_reached and reason == "ok":
+                records[-1]["step_flag_waiting"] = True
+                write_status(run_dir, records[-1], stats, args)
+                next_step = wait_for_step_change(args.step_file, step, t_end)
+                if not next_step:
+                    end_reason = "M5 已到步骤边界，但等待人工确认超时，停止"
+                    log.error(end_reason)
+                    break
+                records[-1]["step_flag_waiting"] = False
+                records[-1]["step_flag_confirmed_step"] = int(next_step)
+                write_status(run_dir, records[-1], stats, args)
         else:
             end_reason = f"到达最多 {args.max_chunks} 块"
         return 0
@@ -539,11 +603,15 @@ def run(args):
             (run_dir / "summary.json").write_text(json.dumps(
                 dict(args=vars(args), prompt=prompt, mode=mode, started=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(t_start)),
                      duration_s=round(time.time() - t_start, 1), executed_chunks=executed, end_reason=end_reason,
-                     variant=args.variant, step_prompt=args.step_prompt, gripper_clipped_ticks=stats.get("grip_clip", 0),
-                     feedback_error=stats.get("fb_err"),
+                     variant=args.variant, step_prompt=args.step_prompt, model_metadata=model_metadata,
+                     gripper_clipped_ticks=stats.get("grip_clip", 0), feedback_error=stats.get("fb_err"),
                      chunks=[dict(chunk=r["chunk"], latency=round(r["latency"], 3), step=r["step"],
                                   sync_ms=round(r["sync_ms"], 1), age_ms=[round(r["age_h"]), round(r["age_w"])],
-                                  prompt_used=r["prompt_used"], problems=r["problems"]) for r in records]),
+                                  prompt_used=r["prompt_used"], problems=r["problems"],
+                                  step_boundary=r.get("step_boundary"),
+                                  step_flag_waiting=bool(r.get("step_flag_waiting")),
+                                  step_flag_pause=bool(r.get("step_flag_pause")),
+                                  step_flag_confirmed_step=r.get("step_flag_confirmed_step")) for r in records]),
                 ensure_ascii=False, indent=1))
         if records:
             np.savez_compressed(
@@ -555,6 +623,14 @@ def run(args):
                 sync_ms=np.array([r["sync_ms"] for r in records]),
                 t=np.array([r["t"] for r in records]),
                 step=np.array([r["step"] for r in records]),
+                step_flag=np.stack([r["step_flag"] if r.get("step_flag") is not None
+                                    else np.full(len(r["actions"]), np.nan, dtype=np.float32) for r in records]),
+                step_boundary_index=np.array([
+                    int(r["step_boundary"]["boundary_index"])
+                    if r.get("step_boundary") and r["step_boundary"].get("detected") else -1
+                    for r in records], dtype=np.int32),
+                step_flag_waiting=np.array([bool(r.get("step_flag_waiting")) for r in records], dtype=np.bool_),
+                step_flag_pause=np.array([bool(r.get("step_flag_pause")) for r in records], dtype=np.bool_),
             )
         if feedback:
             # 每行：time, chunk, 步序号 k, 下发目标 j1..j7 + 夹爪(裁剪后), 实测 j1..j7 + 夹爪
@@ -575,6 +651,20 @@ def read_step(path) -> int:
         return 0
 
 
+def wait_for_step_change(path, previous_step: int, deadline: float) -> int:
+    """M5 only: wait until the existing test page advances the step file."""
+    if not path:
+        raise RuntimeError("M5 边界已触发，但没有 --step-file，无法等待人工确认")
+    log.warning("M5 检测到步骤边界：机械臂保持在本步末尾，等待网页「本步完成」按钮")
+    while time.monotonic() < deadline:
+        current = read_step(path)
+        if current and current != int(previous_step):
+            log.info("收到人工步骤确认：%d → %d，继续下一次推理", previous_step, current)
+            return current
+        time.sleep(0.1)
+    return 0
+
+
 def save_images(folder: Path, chunk: int, head: np.ndarray, wrist: np.ndarray):
     try:
         from PIL import Image
@@ -593,7 +683,18 @@ def write_status(run_dir: Path, r: dict, stats: dict, args):
             latency=round(r["latency"], 3), sync_ms=round(r["sync_ms"], 1), age_ms=[round(r["age_h"]), round(r["age_w"])],
             move_deg=round(float(np.degrees(np.abs(a[min(args.exec_steps, len(a)) - 1, :7] - s[:7]).max())), 2),
             grip_now_mm=round(float(s[7]) * 1000, 1), grip_pred_mm=[round(float(a[:, 7].min()) * 1000, 1), round(float(a[:, 7].max()) * 1000, 1)],
-            grip_clipped_ticks=stats.get("grip_clip", 0), problems=r["problems"]), ensure_ascii=False))
+            grip_clipped_ticks=stats.get("grip_clip", 0), problems=r["problems"],
+            action_layout=r.get("action_layout", ""),
+            step_flag_enabled=r.get("step_flag") is not None,
+            step_flag_detected=bool((r.get("step_boundary") or {}).get("detected", False)),
+            step_flag_boundary_index=(r.get("step_boundary") or {}).get("boundary_index"),
+            step_flag_trigger_index=(r.get("step_boundary") or {}).get("trigger_index"),
+            step_flag_threshold=(r.get("step_boundary") or {}).get("threshold"),
+            step_flag_consecutive_frames=(r.get("step_boundary") or {}).get("consecutive_frames"),
+            step_flag_max=(r.get("step_boundary") or {}).get("max_value"),
+            step_flag_waiting=bool(r.get("step_flag_waiting")),
+            step_flag_pause=bool(r.get("step_flag_pause")),
+            step_flag_confirmed_step=r.get("step_flag_confirmed_step")), ensure_ascii=False))
     except Exception as e:
         log.warning("写 live_status 失败：%s", e)
 

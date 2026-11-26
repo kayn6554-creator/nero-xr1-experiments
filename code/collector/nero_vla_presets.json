@@ -37,7 +37,7 @@
   "exec_steps": 30,
   "slow": 2.0,
   "gripper_mode": "absolute",
-  "note": "M3 改末端动作 + IK；2026-11-16 当前服务未运行，旧启动尝试发生 CUDA OOM"
+  "note": "M3 改末端动作 + IK"
  },
  {
   "name": "M2+E1",
