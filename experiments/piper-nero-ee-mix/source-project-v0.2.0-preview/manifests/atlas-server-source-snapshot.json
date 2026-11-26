@@ -1,0 +1,27 @@
+{
+  "source_archive": "nero_piper_train_deploy_chain_20261125.tar.gz",
+  "snapshot_date": "2026-11-25",
+  "files": {
+    "references/upstream/scripts/serve_openpi_policy.py": {
+      "bytes": 21105,
+      "sha256": "b6206fa3e4dabebcd475b780956e3b764e079ae6fa05e49004a0c98ac2902ca5"
+    },
+    "references/upstream/mibot/server/deploy.py": {
+      "bytes": 3262,
+      "sha256": "b92534ac7de0d86320c8f39bcafa506027e55aa2f784d40937fa0b379b53f5cb"
+    },
+    "references/upstream/mibot/server/runtime/server.py": {
+      "bytes": 4683,
+      "sha256": "ea8f32c5ab2d07846c21bc71fa0dc3bf000874af34f4e89bf1a97a8989b40b6a"
+    },
+    "references/upstream/mibot/utils/ef_align.py": {
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    "references/upstream/mibot/utils/io.py": {
+      "bytes": 12668,
+      "sha256": "b55f9b4f2b84f79e528bb662d2068b56dfeff32e2de804f45c2c9a36e46e05cb"
+    }
+  },
+  "note": "This is the supplied Atlas source snapshot, not a byte-for-byte capture of the live 113 server after 2026-11-16 M5 patching."
+}

@@ -1,0 +1,74 @@
+{
+  "manifest_version": 1,
+  "created": "2026-11-25",
+  "goal": "Piper left-arm V2 data augments a NERO-target policy; final deployment target is real NERO",
+  "action_layout": "nero_ee_sb",
+  "action_horizon": 30,
+  "state_container_dim": 60,
+  "state_valid_slots": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "action_container_dim": 60,
+  "action_valid_slots": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "sources": [
+    {
+      "robot": "NERO",
+      "episodes": 504,
+      "raw_frames": 141330,
+      "index_repeats": 2,
+      "path_aliases": [
+        "nero_r1",
+        "nero_r2"
+      ]
+    },
+    {
+      "robot": "Piper V2 left arm",
+      "episodes": 2603,
+      "raw_frames": 293693,
+      "index_repeats": 1,
+      "path_aliases": [
+        "piper_v2"
+      ]
+    }
+  ],
+  "raw_frames_after_repeat": 576353,
+  "raw_frame_mix_ratio": {
+    "nero": 0.4904,
+    "piper": 0.5096
+  },
+  "dwell_filter": {
+    "default_keep_head": 10,
+    "step_3_keep_head": 20,
+    "keep_tail": 10,
+    "speed_threshold_deg_s": 2.0,
+    "gripper_delta_threshold_m": 0.001
+  },
+  "gripper_absolute": true,
+  "step_prompt": false,
+  "step_flag_source": "NERO source.step_index; Piper samples are masked on slot 8",
+  "known_coordinate_assumptions": {
+    "piper_to_nero_flange_rotation": "identity (must be physically verified)",
+    "piper_base_alignment": "identity (current data assumption; base workspaces differ)",
+    "nero_base_alignment": "identity"
+  },
+  "step_flag_supervision": true
+}

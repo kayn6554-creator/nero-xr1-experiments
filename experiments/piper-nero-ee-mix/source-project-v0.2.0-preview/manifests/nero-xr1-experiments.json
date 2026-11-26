@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/kayn6554-creator/nero-xr1-experiments",
+  "branch": "main",
+  "commit": "d4826f4f119a292d0ca061f637194000016360de",
+  "commit_date_utc": "2026-11-23T08:54:29Z",
+  "commit_message": "将新增任务限制为采集模式使用",
+  "tree": "99b0af4e9148c66f6c4b97c44fdabcd5160d1c86",
+  "reference_files": {
+    "code/xr1-overlay/mibot/utils/nero_kin.py": "ada3bee3b954c2f22e02c5d47487057de8c24a2f",
+    "code/xr1-overlay/mibot/utils/nero_steps.py": "4c4d0ab4f7d8b78f71d024dd6e6a869bdb3eb44c"
+  },
+  "deployment_patch": {
+    "archive": "nero_m4_ef4_m5_inference_patch_20261116_clean.zip",
+    "sha256": "5fc4a4b2866e9f233f5b438c1998c994fa8b91a32e70c48a04a519b876d2eb67",
+    "client_sha256": "fbde6d04072013dcca24a2ba7bd2e2b8365e2ccc1d6236ec0f3eb21558323d67",
+    "server_sha256": "e5128dfcc22bc94651fd8993c9089be3c82c2ea67efef058943c6ee2e34e8d54",
+    "note": "The full clean ZIP is not present in the GitHub source tree; the manifest and tests are."
+  }
+}
