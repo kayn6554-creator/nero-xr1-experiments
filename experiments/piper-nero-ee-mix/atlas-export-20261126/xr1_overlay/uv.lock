@@ -1997,8 +1997,8 @@ wheels = [
 name = "nvidia-cufft-cu12"
 version = "11.3.3.83"
 source = { registry = "https://mirrors.aliyun.com/pypi/simple/" }
-dependencies = [ 
-   { name = "nvidia-nvjitlink-cu12" },
+dependencies = [
+    { name = "nvidia-nvjitlink-cu12" },
 ]
 wheels = [
     { url = "https://mirrors.aliyun.com/pypi/packages/1f/13/ee4e00f30e676b66ae65b4f08cb5bcbb8392c03f54f2d5413ea99a5d1c80/nvidia_cufft_cu12-11.3.3.83-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:4d2dd21ec0b88cf61b62e6b43564355e5222e4a3fb394cac0db101f2dd0d4f74" },
@@ -2997,8 +2997,8 @@ version = "1.17.1"
 source = { registry = "https://mirrors.aliyun.com/pypi/simple/" }
 resolution-markers = [
     "python_full_version == '3.11.*' and sys_platform == 'linux'",
-    "python_full_version == '3.11.*' and sys_platform != 'linux'",]
-
+    "python_full_version == '3.11.*' and sys_platform != 'linux'",
+]
 dependencies = [
     { name = "numpy" },
 ]
