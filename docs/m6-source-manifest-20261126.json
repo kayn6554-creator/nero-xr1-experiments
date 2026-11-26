@@ -32,11 +32,9 @@
     }
   ],
   "normalized_source_snapshot": {
-    "filename": "m6-context-20261126-source.zip",
-    "bytes": 330258,
-    "sha256": "0c9ff3e4e2548e597da0ca847d45b2c058a430642b4b83b33c50f3bbd0c3921b",
-    "unique_files": 98,
-    "note": "Curated transfer artifact generated from the four inputs; excludes metadata, PIDs, logs, pyc, backups, weights, datasets, environments, and credentials. It is attached to the conversation but is not itself a GitHub repository file."
+    "repository_path": "code/snapshots/m6-context-20261126/",
+    "unique_files_committed": 98,
+    "note": "All 98 deduplicated source/configuration files from the four input bundles are committed individually in the repository. The generated ZIP is only a convenience transfer artifact; the repository snapshot is the canonical archived copy."
   },
   "exclusions": [
     "VPN/Linux passwords, SSH keys, tokens, .env files",
@@ -49,5 +47,18 @@
     "Atlas 33 core and supplement share 8 identical source paths; duplicates are stored once in the curated snapshot.",
     "113 discovered/entrypoint copies duplicate project source files; only one copy of each unique project source is stored."
   ],
-  "note": "The manifest records source provenance. It does not claim that every upstream reference file has been merged into the canonical overlays or that the collected source is a complete standalone XR-1 checkout."
+  "note": "The manifest records source provenance. It does not claim that every upstream reference file has been merged into the canonical overlays or that the collected source is a complete standalone XR-1 checkout.",
+  "canonical_overlay_sync": {
+    "collector": [
+      "code/collector",
+      "code/plugins/lerobot_camera_ros"
+    ],
+    "inference": [
+      "code/inference-overlay"
+    ],
+    "training": [
+      "code/xr1-overlay"
+    ],
+    "note": "Selected current runtime/training files are also synchronized into these working directories; the complete source capture remains under code/snapshots."
+  }
 }
