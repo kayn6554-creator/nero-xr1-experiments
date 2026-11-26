@@ -1,0 +1,53 @@
+{
+  "snapshot_date": "2026-11-26",
+  "purpose": "Provenance for the four M6 context packages collected from the 102 collector, 113 inference host, and Atlas 33 training node.",
+  "inputs": [
+    {
+      "name": "m6-context-102-20261126-102201.tar.gz",
+      "bytes": 62111,
+      "sha256": "fbea73b505f4e31dd9e6cb59db23cd69c9ae4941b92eb3667311940050226f23",
+      "source": "collector host 102",
+      "unique_source_files": 8
+    },
+    {
+      "name": "m6-context-113-20261126-103002.tar.gz",
+      "bytes": 34338,
+      "sha256": "414cc6fc681fc43df8dfbcb3cf0c6711b560b1d25f092247bd51dd1f21e7ec32",
+      "source": "inference host 113",
+      "unique_source_files": 6
+    },
+    {
+      "name": "m6-context-atlas33-20261126-104911.tar.gz",
+      "bytes": 72688,
+      "sha256": "f1758ea7156ee6eb3b8cbe9370c8433b0320431f1de299a3aa6c796e25d4fb9d",
+      "source": "Atlas 33 core source",
+      "unique_source_files": 36
+    },
+    {
+      "name": "m6-context-atlas33-supplement-20261126-110111.tar.gz",
+      "bytes": 194766,
+      "sha256": "f98eac702e208d2fd3aed2d55779749095c40cad261354a71a93a99f89464f83",
+      "source": "Atlas 33 supplementary source/configuration/metadata",
+      "unique_source_files": 56
+    }
+  ],
+  "normalized_source_snapshot": {
+    "filename": "m6-context-20261126-source.zip",
+    "bytes": 330258,
+    "sha256": "0c9ff3e4e2548e597da0ca847d45b2c058a430642b4b83b33c50f3bbd0c3921b",
+    "unique_files": 98,
+    "note": "Curated transfer artifact generated from the four inputs; excludes metadata, PIDs, logs, pyc, backups, weights, datasets, environments, and credentials. It is attached to the conversation but is not itself a GitHub repository file."
+  },
+  "exclusions": [
+    "VPN/Linux passwords, SSH keys, tokens, .env files",
+    "model checkpoints and model weights",
+    "datasets, episode videos, recordings",
+    "virtual environments, package caches, Python bytecode",
+    "runtime logs, PID snapshots, temporary files, old backups"
+  ],
+  "deduplication": [
+    "Atlas 33 core and supplement share 8 identical source paths; duplicates are stored once in the curated snapshot.",
+    "113 discovered/entrypoint copies duplicate project source files; only one copy of each unique project source is stored."
+  ],
+  "note": "The manifest records source provenance. It does not claim that every upstream reference file has been merged into the canonical overlays or that the collected source is a complete standalone XR-1 checkout."
+}
