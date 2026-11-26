@@ -148,3 +148,49 @@ Atlas 33 在 2026-11-26 11:01 的快照中未发现训练进程或 tmux 会话�
 ## 8. Client 默认服务地址的注意事项
 
 2026-11-26 的 102 Client 源码中，命令行默认值仍是 --server-host 172.16.11.115 --server-port 6699，这是历史默认配置；它不代表当前 M5 服务地址。当前 M5 预设是 172.16.11.113:6713。实际运行前以 nero_vla_presets.json 和推理机当前端口监听为准，必要时显式传入 --server-host / --server-port。不要因为脚本默认值就误连旧服务。
+
+
+## 9. 2026-11-26：Tunnel 1 完整建立方式与 Atlas 双节点资源说明
+
+### 9.1 先建立 10022 隧道
+
+此前记录只写了隧道建立后的登录命令，没有把隧道本身写出来。用户提供并实际使用过的 Tunnel 1 命令为：
+
+    ssh -N -o ExitOnForwardFailure=yes -L 0.0.0.0:10022:127.0.0.1:22 root@10.42.206.98
+
+保持该终端运行。该命令把本地 10022 转发到跳板机 10.42.206.98 的 SSH 端口。它是隧道，不是 Atlas shell。
+
+此前使用的 LAN 入口流程：
+
+    ssh -p 10022 root@172.16.36.16
+
+进入入口机后，再登录 Atlas .15：
+
+    ssh root@10.20.10.15
+
+用户另有直接从跳板机登录 Atlas 节点的记录：
+
+    ssh root@10.20.10.15
+    ssh root@10.20.10.33
+
+具体哪台机器执行哪条命令，取决于当前 VPN/LAN 路由和实验室入口配置；不要把本地端口转发、LAN 入口机和 Atlas 节点混为同一主机。若连接失败，先核对当前网络拓扑，不要通过关闭 SSH 安全检查绕过。
+
+注意：原命令使用 -L 0.0.0.0:10022，会监听所有本机网络接口。只在实验室可信网络和已授权设备上使用；若只需本机访问，应优先考虑绑定 loopback，并确认实际网络路径允许。
+
+### 9.2 Atlas .15 / .33 资源关系更新
+
+本文件第 1、5、6 节保留了 2026-11-26 上午的单机快照。之后用户在两次混训 Smoke OOM 排查中报告：Atlas .15 与 .33 两个节点合计 16 张 NPU 卡被同事的双机 minimax-m3.1-flash vLLM 容器占用，容器 ID cb0d5733d75f，TP=8、PP=2，端口 11223；排查入口包括 /run/docker-minimax.sock。
+
+这条记录是用户提供的当时排查结果，不是当前实时状态。它意味着：
+- .33 不只是一个代码快照来源，也参与过双节点服务资源分配；
+- 之前“没有训练进程”不能推出 NPU 空闲；
+- 不得擅自停止该容器、相关进程或其他人的服务；
+- 新训练开始前必须重新核对两个节点的 NPU 占用、进程父子关系和任务所有者，确认资源已释放并获授权。
+
+## 10. 新实验的 Atlas 训练入口
+
+Piper + NERO EE-SB 的实际 Atlas launcher 导出在：
+
+    experiments/piper-nero-ee-mix/atlas-export-20261126/atlas_new/train_nero_piper_ee_sb.sh
+
+其原始机器路径为 /mnt/panhe/train_nero_piper_ee_sb.sh。它不是旧 train_nero.sh，也不是 companion project 内的动态规划版 launcher。默认 check-only；训练需要显式同时设置 XR1_CHECK_ONLY=0 和 XR1_ALLOW_TRAINING=1。完整说明见 research-lines/PIPER-NERO-EE-MIX.md。

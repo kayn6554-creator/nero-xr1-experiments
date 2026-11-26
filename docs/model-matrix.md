@@ -131,3 +131,8 @@ EF 原始基线 6710 未运行：此前旧 `efsrv` 启动尝试发生 CUDA OOM�
 - M5 的 Step Flag 是额外训练辅助通道；推理端检测边界、截断后续动作并等待人工确认。
 
 M5 用户于 2026-11-16 初步测试约 1–2 次，观察到逐步暂停和人工确认后继续。该观察不是正式统计结论。
+
+
+## 2026-11-26 后续实验线
+
+M6 是 NERO-only RGB-D 感知扩展，保持 M5 的 joint-space nero_joint_sb 与 Step Flag；Piper + NERO 是独立 EE-SB 混训，最终在 NERO 上评估。两条线的差异和当前状态见 research-lines/M6-RGBD.md、research-lines/PIPER-NERO-EE-MIX.md。不得将其当成同一个模型版本或共用训练 checkpoint。

@@ -62,3 +62,17 @@ M5 代码已部署不等于真实机械臂边界检测通过；首次 Live 前�
 - [VLA 采集与测试台使用手册](../docs/vla-web-usage-manual.md)：恢复现场、网页参数、Check/Dry/Live、M5 人工确认。
 
 当前 `code/collector/nero_vla_web.py` 与 `nero_vla_client.py` 仍是仓库 11-13 源码快照；11-16 clean patch 的完整最终文件没有在仓库内，因此手册已明确版本同步限制。不要将旧源码快照误当成线上最终版本。
+
+
+## 2026-11-26 Piper EE-SB working overlay
+
+为使新 AI 不必在原始归档中手动寻找缺失依赖，以下 Atlas 导出文件已补入 code/xr1-overlay/：
+- mibot/utils/io.py
+- mibot/utils/ef_align.py
+- mibot/utils/piper_kin.py
+- mibot/server/runtime/server.py
+- scripts/panhe/apply_ee_sb.py
+- scripts/panhe/make_ee_sb_config.py
+- scripts/panhe/train_nero_piper_ee_sb_atlas_export_20261126.sh
+
+该 launcher 是 /mnt/panhe/train_nero_piper_ee_sb.sh 的 2026-11-26 导出版本。它与 companion project 的动态规划版 launcher 不同。完整原始目录、hash 和版本差异见 experiments/piper-nero-ee-mix/。

@@ -275,3 +275,6 @@ M5 Client 补丁已把 Flag 序列和边界状态写入 summary.json、chunks.np
 - [ ] Pilot 完成后锁定正式样本量和 schedule。
 
 **可先开始 M3/M4/M5 的 Check 与 Dry Pilot；不要把网页连接成功直接当成 Live Pilot 通过。EF4 可做集成 Pilot，但 EF/EF4 正式对照要等 EF 基线恢复。**
+
+
+> **历史协议说明（2026-11-26）：** 本协议面向 2026-11-16 的 M3/M4/EF4/M5 对照实验。它不是 M6 RGB-D 或 Piper-NERO EE-SB 的实验协议。后两条线分别见 research-lines/M6-RGBD.md 和 research-lines/PIPER-NERO-EE-MIX.md。不要把旧协议中的模型矩阵、任务列表和样本量直接套用到新实验。

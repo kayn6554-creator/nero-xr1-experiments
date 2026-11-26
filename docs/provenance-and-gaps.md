@@ -83,3 +83,20 @@
 - M5 `epoch3-step4026` 的权重路径、文件大小已从补充包清单确认；权重本身未收集、未提交，也未执行本轮 M6 权重继承测试。
 - Atlas 33 11:01 资源快照虽未发现训练进程，但 NPU 仍被 VLLMWorker 占用；不能据此认定资源空闲或停止相关进程。
 - `nero_ee_sb` 是 Piper→NERO EE + Step Flag 的独立实验布局，不等同于当前 M5 `nero_joint_sb`。
+
+
+## 2026-11-26 新增来源：Piper + NERO EE-SB
+
+本轮新增两份用户提供的原始工程包：
+- nero-piper-ee-mix-v0.2.0-preview(1).zip：77 个文件；
+- nero_piper_ee_atlas_export_20261126.tar.gz：30 个文件。
+
+解压后的完整文件分别保存在：
+- experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/
+- experiments/piper-nero-ee-mix/atlas-export-20261126/
+
+逐文件大小与 SHA256 见 experiments/piper-nero-ee-mix/SOURCE-ARCHIVE-MANIFEST.json。两份包合计 107 个文件。伴随工程与 Atlas 导出版本保留为不同目录，尤其不能混用两个 train_nero_piper_ee_sb.sh 或将 raw-frame planner 当作 Dwell-aware planner。
+
+本轮另将缺失的 EE-SB helper 和实际 Atlas launcher 导出副本补入 code/xr1-overlay/。这些是工作 overlay，不是完整上游 XR-1；原始包仍是版本追溯依据。
+
+当前状态：环境和样本验证已完成，正式训练尚未开始。两次 Smoke OOM 的用户报告原因是 .15 与 .33 的共享 NPU 被双机 vLLM 容器占用，不得把该容器当作可自行清理的训练进程。详情见 docs/research-lines/PIPER-NERO-EE-MIX.md。
