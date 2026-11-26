@@ -1,54 +1,622 @@
 {
   "snapshot_date": "2026-11-26",
-  "purpose": "Provenance for the four M6 context packages collected from the 102 collector, 113 inference host, and Atlas 33 training node.",
-  "inputs": [
+  "purpose": "Exact source provenance for the 102 collector, 113 inference host, and Atlas 33 training snapshot.",
+  "input_archives": [
     {
       "name": "m6-context-102-20261126-102201.tar.gz",
       "bytes": 62111,
-      "sha256": "fbea73b505f4e31dd9e6cb59db23cd69c9ae4941b92eb3667311940050226f23",
-      "source": "collector host 102",
-      "unique_source_files": 8
+      "sha256": "fbea73b505f4e31dd9e6cb59db23cd69c9ae4941b92eb3667311940050226f23"
     },
     {
       "name": "m6-context-113-20261126-103002.tar.gz",
       "bytes": 34338,
-      "sha256": "414cc6fc681fc43df8dfbcb3cf0c6711b560b1d25f092247bd51dd1f21e7ec32",
-      "source": "inference host 113",
-      "unique_source_files": 6
+      "sha256": "414cc6fc681fc43df8dfbcb3cf0c6711b560b1d25f092247bd51dd1f21e7ec32"
     },
     {
       "name": "m6-context-atlas33-20261126-104911.tar.gz",
       "bytes": 72688,
-      "sha256": "f1758ea7156ee6eb3b8cbe9370c8433b0320431f1de299a3aa6c796e25d4fb9d",
-      "source": "Atlas 33 core source",
-      "unique_source_files": 36
+      "sha256": "f1758ea7156ee6eb3b8cbe9370c8433b0320431f1de299a3aa6c796e25d4fb9d"
     },
     {
       "name": "m6-context-atlas33-supplement-20261126-110111.tar.gz",
       "bytes": 194766,
-      "sha256": "f98eac702e208d2fd3aed2d55779749095c40cad261354a71a93a99f89464f83",
-      "source": "Atlas 33 supplementary source/configuration/metadata",
-      "unique_source_files": 56
+      "sha256": "f98eac702e208d2fd3aed2d55779749095c40cad261354a71a93a99f89464f83"
     }
   ],
-  "normalized_source_snapshot": {
-    "repository_path": "code/snapshots/m6-context-20261126/",
-    "unique_files_committed": 98,
-    "note": "All 98 deduplicated source/configuration files from the four input bundles are committed individually in the repository. The generated ZIP is only a convenience transfer artifact; the repository snapshot is the canonical archived copy."
-  },
-  "exclusions": [
-    "VPN/Linux passwords, SSH keys, tokens, .env files",
-    "model checkpoints and model weights",
-    "datasets, episode videos, recordings",
-    "virtual environments, package caches, Python bytecode",
-    "runtime logs, PID snapshots, temporary files, old backups"
+  "repository_snapshot_path": "code/snapshots/m6-context-20261126/",
+  "source_file_count": 98,
+  "source_bytes_total": 2076251,
+  "files": [
+    {
+      "source": "102/home/nero_depth.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/home/nero_depth.py",
+      "bytes": 4429,
+      "sha256": "592a822aa2f0f5ab36921219eb2f1de4062bf26b43581566a2c2288ff43b3b01"
+    },
+    {
+      "source": "102/home/nero_vla_client.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/home/nero_vla_client.py",
+      "bytes": 43811,
+      "sha256": "fbde6d04072013dcca24a2ba7bd2e2b8365e2ccc1d6236ec0f3eb21558323d67"
+    },
+    {
+      "source": "102/home/nero_vla_presets.json",
+      "repository_path": "code/snapshots/m6-context-20261126/102/home/nero_vla_presets.json",
+      "bytes": 1571,
+      "sha256": "0f7a82e95b5f06a6d0dcd0cb45fe8949ac6a65c1bca2e9c46a51364f74ba6dc1"
+    },
+    {
+      "source": "102/home/nero_vla_web.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/home/nero_vla_web.py",
+      "bytes": 103153,
+      "sha256": "8c8cd5e9a02cb135f527dfac492d41c8cfe4eb94253decde934787cb6e648c0f"
+    },
+    {
+      "source": "102/active_plugin/lerobot_camera_ros/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/active_plugin/lerobot_camera_ros/__init__.py",
+      "bytes": 226,
+      "sha256": "33357da4461a5269f10074d8ae818a5a29dcd0eb64948eb506e7d1d80fd5dc42"
+    },
+    {
+      "source": "102/active_plugin/lerobot_camera_ros/config_ros_image.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/active_plugin/lerobot_camera_ros/config_ros_image.py",
+      "bytes": 1184,
+      "sha256": "05867586a06dbc3a626fa34e1ad839252673af4419b6c57a0f83e1bc92056108"
+    },
+    {
+      "source": "102/active_plugin/lerobot_camera_ros/ros_image_camera.py",
+      "repository_path": "code/snapshots/m6-context-20261126/102/active_plugin/lerobot_camera_ros/ros_image_camera.py",
+      "bytes": 9504,
+      "sha256": "47a7bba48141b0382c734e0047051367e3cc128e724c6b8f97467e982fe5deb6"
+    },
+    {
+      "source": "102/active_plugin/pyproject.toml",
+      "repository_path": "code/snapshots/m6-context-20261126/102/active_plugin/pyproject.toml",
+      "bytes": 312,
+      "sha256": "ba278e9d726df4c602db469188eff91da8b38f474a5942ce23d862d6f4586c69"
+    },
+    {
+      "source": "113/mibot/data/datasets/json_dataset.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/mibot/data/datasets/json_dataset.py",
+      "bytes": 22594,
+      "sha256": "9b90f0f877c4e3abcd84f0e4391edc803ea49a881ad68365595a5f37c71bc2dd"
+    },
+    {
+      "source": "113/mibot/utils/io.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/mibot/utils/io.py",
+      "bytes": 12524,
+      "sha256": "b2a70d5b0eacf480fbaf035cfe365291cbc94738c6eadae93d7b5a3b424d8c94"
+    },
+    {
+      "source": "113/mibot/utils/nero_kin.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/mibot/utils/nero_kin.py",
+      "bytes": 5077,
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "source": "113/scripts/panhe/apply_ef_serve.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/scripts/panhe/apply_ef_serve.py",
+      "bytes": 6370,
+      "sha256": "20b1b16896edf190264151b0817bf3d4d1ff253e3844afb908d1820f2a3d39d1"
+    },
+    {
+      "source": "113/scripts/panhe/serve_fast.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/scripts/panhe/serve_fast.py",
+      "bytes": 2254,
+      "sha256": "76788e8f2212314766c16b0570b4c7f3fa64f6717af8783d55245858afb8a3c4"
+    },
+    {
+      "source": "113/scripts/serve_openpi_policy.py",
+      "repository_path": "code/snapshots/m6-context-20261126/113/scripts/serve_openpi_policy.py",
+      "bytes": 30053,
+      "sha256": "e5128dfcc22bc94651fd8993c9089be3c82c2ea67efef058943c6ee2e34e8d54"
+    },
+    {
+      "source": "atlas33/configs/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/configs/config.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/config.yaml",
+      "bytes": 108,
+      "sha256": "8952b16c35c5d1d88a7bbffa09d949784fe394413d4eaeaedaf9919d63d701f0"
+    },
+    {
+      "source": "atlas33/configs/data/load_washer.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/load_washer.yaml",
+      "bytes": 22904,
+      "sha256": "22d26395e158d5036819d178b05034d8497f161b012e4fee1fb53fff58e9f8d4"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_ee_20261110.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_ee_20261110.yaml",
+      "bytes": 60846,
+      "sha256": "dcdac8120639195f85e1d881847992b29531ee510e4fe91a266063b97ca1a647"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_m2_20261106.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_m2_20261106.yaml",
+      "bytes": 60498,
+      "sha256": "325e2a3d7a650a1518311db177f42a3d8b50fe28589cb97141ea1f99876159e9"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_m3_20261110.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_m3_20261110.yaml",
+      "bytes": 60851,
+      "sha256": "6dfbaa60af39bf6d6be7953ea5728bea64ee280db625d47e59a8a4def8530fdf"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_m5sb_20261112.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_m5sb_20261112.yaml",
+      "bytes": 60814,
+      "sha256": "2e53b08118df2611e54471e84ebe276ec110b65842d7b8848d61606fb8c4e58a"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_piper_ee_sb_20261125.yaml",
+      "bytes": 17781,
+      "sha256": "0485cc5b4a25b28f26cd05838be0878b4b2d6944f03e13c7a9fd2cfcafddf211"
+    },
+    {
+      "source": "atlas33/configs/data/nero3_single_20261031.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/nero3_single_20261031.yaml",
+      "bytes": 60011,
+      "sha256": "50ca00d70b4da3075e207f9c2bf4ce24a7b3f1c1d7f9c361138f1b50f3af0d0b"
+    },
+    {
+      "source": "atlas33/configs/data/piper_left_nov04_dual_replay.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/piper_left_nov04_dual_replay.yaml",
+      "bytes": 215,
+      "sha256": "18b9d8cbed26cab490507d620fa1157d14e68a719d3666abf883deaae0454ee3"
+    },
+    {
+      "source": "atlas33/configs/data/real3_dual_evo_single4_all98_20261027.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/real3_dual_evo_single4_all98_20261027.yaml",
+      "bytes": 94601,
+      "sha256": "4b3a203aa672065658fcf8fdb285ec491e1b17f111d9c85ac256abf439e20fbe"
+    },
+    {
+      "source": "atlas33/configs/data/real4_evo_v0_master_20261021.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/real4_evo_v0_master_20261021.yaml",
+      "bytes": 94530,
+      "sha256": "12c2c25130f918bb3c22eab8b4e411affffd5745fd6f3fb96bd9662468505c42"
+    },
+    {
+      "source": "atlas33/configs/data/robodojo_all_arx_x5.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/robodojo_all_arx_x5.yaml",
+      "bytes": 94416,
+      "sha256": "e74f560043a154799c5e272614a89af07c475ea0dd41d248e3e8bb268589cb32"
+    },
+    {
+      "source": "atlas33/configs/data/robodojo_real4_piper_joint.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/robodojo_real4_piper_joint.yaml",
+      "bytes": 94532,
+      "sha256": "9ebaf5ac8d57146aa2d1525abaded6e6c75d7d1983d95192e8d3c88fa88f2f00"
+    },
+    {
+      "source": "atlas33/configs/data/robodojo_real4_piper_joint_subtasks_2epochs.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/robodojo_real4_piper_joint_subtasks_2epochs.yaml",
+      "bytes": 94540,
+      "sha256": "b852c0d0000d32a6594153f5cc45ea0ac9e50b0fd69ff30053ebc45916d2c1cc"
+    },
+    {
+      "source": "atlas33/configs/data/robodojo_real_piper_ee.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/robodojo_real_piper_ee.yaml",
+      "bytes": 94448,
+      "sha256": "708ab9dce50169eae718c904cdf3881cefbc3d793fc5bec932107bfa30d4c6b4"
+    },
+    {
+      "source": "atlas33/configs/data/robodojo_real_piper_joint.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/robodojo_real_piper_joint.yaml",
+      "bytes": 94457,
+      "sha256": "51fdacf339ac236ffd9268de48bc8fcef0bd1b023f10adcd02f8624be7ae2884"
+    },
+    {
+      "source": "atlas33/configs/data/single8_piper_ft_20261102.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/single8_piper_ft_20261102.yaml",
+      "bytes": 58392,
+      "sha256": "776ea5f35e7f4def15c9636cbb426ba237b345a82484abe68c98c1f7cd6fe97c"
+    },
+    {
+      "source": "atlas33/configs/data/single_piper_incremental.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/single_piper_incremental.yaml",
+      "bytes": 94549,
+      "sha256": "0d289d068fce7e70a972f65ae1398172bdf8423abf7fa4c080abb5dacbf6bbd1"
+    },
+    {
+      "source": "atlas33/configs/data/single_piper_left_all382.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/single_piper_left_all382.yaml",
+      "bytes": 94554,
+      "sha256": "7cea017436fd7c095e17fa5fcce01cda13df0f2a6c98839bc062418f321f2477"
+    },
+    {
+      "source": "atlas33/configs/data/single_piper_left_mug_microwave_incremental.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/single_piper_left_mug_microwave_incremental.yaml",
+      "bytes": 94554,
+      "sha256": "fc09278c60480caaeb9ae879ee916ba12aed6149ed6da3c1c109151011183e48"
+    },
+    {
+      "source": "atlas33/configs/data/stage2_piper_dual4tasks_0905_subtasks_20261012.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/stage2_piper_dual4tasks_0905_subtasks_20261012.yaml",
+      "bytes": 94491,
+      "sha256": "fdb86042be72d873e28307a781811454209fda9f17b6297d91e3ed47d0706e8c"
+    },
+    {
+      "source": "atlas33/configs/data/stage2_piper_real_selected.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/data/stage2_piper_real_selected.yaml",
+      "bytes": 94469,
+      "sha256": "d5d4a188e58f8aaa61421f9ee14ac8fbcd0b3bedaa46af5a201918b48abd1aa3"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain.yaml",
+      "bytes": 808,
+      "sha256": "f671c136e13b4126385560c471a02a4e19e114515976cb5faf6d04b936b71900"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain_nero_ee_full.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain_nero_ee_full.yaml",
+      "bytes": 712,
+      "sha256": "bb49fc7bddabbd67411d8492bf8d1340416e776326666ef75358e031557b42b3"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain_nero_ee_sb_full.yaml",
+      "bytes": 715,
+      "sha256": "617f445b9d8ef3f2e25f65b2be2a8417c8b0d600e1108ab11c05cc7b2bba3fa7"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain_nero_joint_full.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain_nero_joint_full.yaml",
+      "bytes": 715,
+      "sha256": "ec47523a70c521acf9743bfcce2324b6304fea68b1ed9d9634d624f343998372"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain_piper_joint_full.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain_piper_joint_full.yaml",
+      "bytes": 715,
+      "sha256": "ac9c1365a3bb53d87b9dd49e24d2e8ec2a748cd62302dc59cf557f44621122b6"
+    },
+    {
+      "source": "atlas33/configs/model/posttrain_piper_joint_full_rtc6.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/posttrain_piper_joint_full_rtc6.yaml",
+      "bytes": 741,
+      "sha256": "7d8f1c34ed9f12bc2f5d546dad6da673e1809f5a277dea9c4e952cadfd4e8029"
+    },
+    {
+      "source": "atlas33/configs/model/stage2_piper_joint_lora.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/model/stage2_piper_joint_lora.yaml",
+      "bytes": 1189,
+      "sha256": "595e50e782b23f914593334e88a6b0187e78f681e6deece6b8a8ed00a500e69d"
+    },
+    {
+      "source": "atlas33/configs/trainer/deepspeed.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/trainer/deepspeed.yaml",
+      "bytes": 879,
+      "sha256": "2afbebb7e7fa4ee74797df5c63029779477cb303e79b6d09c2943858dce3276e"
+    },
+    {
+      "source": "atlas33/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/trainer/deepspeed_npu_bf16_zero2.yaml",
+      "bytes": 927,
+      "sha256": "6ebdf2a42f17ee01f61da0936701f1d38be2eff4db1c0810ee77687fd106c21a"
+    },
+    {
+      "source": "atlas33/configs/trainer/deepspeed_stage2.yaml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/configs/trainer/deepspeed_stage2.yaml",
+      "bytes": 1053,
+      "sha256": "789a01db16f5dd4d0d4f61f7e110d32752f805d26aa0930d0d37c4f98068e453"
+    },
+    {
+      "source": "atlas33/mibot/data/collate/custom_collate.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/data/collate/custom_collate.py",
+      "bytes": 5446,
+      "sha256": "2242aca2d1350c81c96a130ade70e7a6be06fc69b0e6a200e46903d9dd3bc57d"
+    },
+    {
+      "source": "atlas33/mibot/data/datamodule/base_datamodule.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/data/datamodule/base_datamodule.py",
+      "bytes": 2003,
+      "sha256": "49ae44282be65490e9cdbfcec9b03978692bedf55531d46f8a7521a5d63bce78"
+    },
+    {
+      "source": "atlas33/mibot/data/datasets/json_dataset.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/data/datasets/json_dataset.py",
+      "bytes": 27191,
+      "sha256": "c2621be74f3344bbdb8faec5f204665575ff3e21485470eaf619346cfe7e3a48"
+    },
+    {
+      "source": "atlas33/mibot/models/VLA/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/VLA/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/models/VLA/xr1.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/VLA/xr1.py",
+      "bytes": 32462,
+      "sha256": "1b33c6eeff7e3f83828fe857c7b1223def41b1f6a5c9fb317cfcf0d82d8ec05d"
+    },
+    {
+      "source": "atlas33/mibot/models/VLM/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/VLM/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/models/VLM/qwen3vl.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/VLM/qwen3vl.py",
+      "bytes": 71322,
+      "sha256": "4c2edf31020a6d1b2cc8452af2bd71b4d2d57883182ba7093705901fef0a4c63"
+    },
+    {
+      "source": "atlas33/mibot/models/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/__init__.py",
+      "bytes": 301,
+      "sha256": "af665d03a89df7c5f580aed94fb690e39a65b12c23e92cc973e75f8ddf9d2c1b"
+    },
+    {
+      "source": "atlas33/mibot/models/runner/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/runner/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/models/runner/base_runner.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/models/runner/base_runner.py",
+      "bytes": 8182,
+      "sha256": "9e211e4201e15284c51c629610d770f58bb233f5086d02042a9bd6d354c91c1f"
+    },
+    {
+      "source": "atlas33/mibot/server/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/server/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/server/deploy.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/server/deploy.py",
+      "bytes": 3262,
+      "sha256": "b92534ac7de0d86320c8f39bcafa506027e55aa2f784d40937fa0b379b53f5cb"
+    },
+    {
+      "source": "atlas33/mibot/server/runtime/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/server/runtime/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/server/runtime/client.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/server/runtime/client.py",
+      "bytes": 5148,
+      "sha256": "5cc24c6b4ebee738dfc91ab4439735decec4debe92ce6c27a518fe304f15c921"
+    },
+    {
+      "source": "atlas33/mibot/server/runtime/server.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/server/runtime/server.py",
+      "bytes": 4683,
+      "sha256": "ea8f32c5ab2d07846c21bc71fa0dc3bf000874af34f4e89bf1a97a8989b40b6a"
+    },
+    {
+      "source": "atlas33/mibot/utils/__init__.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/__init__.py",
+      "bytes": 41,
+      "sha256": "06842f92f268d5552854377e69b9694968c576197addb8a43d6949c9cc176faf"
+    },
+    {
+      "source": "atlas33/mibot/utils/cfg_utils.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/cfg_utils.py",
+      "bytes": 2125,
+      "sha256": "06eda682d73580637328ab6b74f400abb3057de78a3567845eaef4593cd48302"
+    },
+    {
+      "source": "atlas33/mibot/utils/compat.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/compat.py",
+      "bytes": 1039,
+      "sha256": "432267485f3ab315c51d2b7aa13c1b4b828bba48d8cc2c44e40c21a267901c12"
+    },
+    {
+      "source": "atlas33/mibot/utils/cosine_warmup.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/cosine_warmup.py",
+      "bytes": 1055,
+      "sha256": "4be0287f8c6ea25397952799581d3600a375cbb04d4a66034b2ae868c3a37d75"
+    },
+    {
+      "source": "atlas33/mibot/utils/ef_align.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/ef_align.py",
+      "bytes": 2581,
+      "sha256": "4ac1a0518b8ab469890e1612ed6da79d9a0ffba4fe62baa0e6b6e1c827dca39b"
+    },
+    {
+      "source": "atlas33/mibot/utils/epoch_checkpoint.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/epoch_checkpoint.py",
+      "bytes": 1152,
+      "sha256": "522b86cbf7b3d98e240c9586038330ec0eaafa07fbd6ed379d8ce240f273c31d"
+    },
+    {
+      "source": "atlas33/mibot/utils/io.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/io.py",
+      "bytes": 12668,
+      "sha256": "b55f9b4f2b84f79e528bb662d2068b56dfeff32e2de804f45c2c9a36e46e05cb"
+    },
+    {
+      "source": "atlas33/mibot/utils/model_utils.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/model_utils.py",
+      "bytes": 596,
+      "sha256": "ba092930728385eba314c10ceaabb29313090f46ef2cdd5e9cbbed43c3c6a8ea"
+    },
+    {
+      "source": "atlas33/mibot/utils/nero_kin.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/nero_kin.py",
+      "bytes": 5077,
+      "sha256": "1d85050e76b42915b1935cea043783433429e6fb352dc5665d0d68c105c922d7"
+    },
+    {
+      "source": "atlas33/mibot/utils/nero_steps.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/nero_steps.py",
+      "bytes": 5459,
+      "sha256": "f881aa083ecd105a35fb2cffb16e88fee86f4512b0b2d6a3ab053dbfb17c0f6a"
+    },
+    {
+      "source": "atlas33/mibot/utils/piper_kin.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/mibot/utils/piper_kin.py",
+      "bytes": 3044,
+      "sha256": "114240a599a787bf4c0b3597ed6b3516906fc989c5d867f3f520eefa331b1097"
+    },
+    {
+      "source": "atlas33/pyproject.toml",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/pyproject.toml",
+      "bytes": 888,
+      "sha256": "b4262d98d186b548db25f4134967aa78b2066b4324baaa44c446dce863ab818a"
+    },
+    {
+      "source": "atlas33/scripts/deploy.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/deploy.sh",
+      "bytes": 1201,
+      "sha256": "57bb902d1ea572880a320928af466bd3b663f22041eff18c2e1eeb502bb68605"
+    },
+    {
+      "source": "atlas33/scripts/panhe/apply_m5sb.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/apply_m5sb.py",
+      "bytes": 2873,
+      "sha256": "0a3cd203415a03e175b70c93266e06a7219330594c40657fe07ed3414baab6de"
+    },
+    {
+      "source": "atlas33/scripts/panhe/eval_after_queue.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/eval_after_queue.sh",
+      "bytes": 1629,
+      "sha256": "0fdadde1a1c20f25ae88523c46e55daf61592040408ea69728ae5e76df33ae6d"
+    },
+    {
+      "source": "atlas33/scripts/panhe/make_m3_config.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/make_m3_config.py",
+      "bytes": 2150,
+      "sha256": "9af391c5095e914a2830c0646c6cc7151eaab48e58f21faae546e66c73114dee"
+    },
+    {
+      "source": "atlas33/scripts/panhe/make_m5_config.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/make_m5_config.py",
+      "bytes": 2407,
+      "sha256": "6e6536e7e343df49f56cc68065b430d5ee7f8f30d3ab44f56d60c5cfaf813436"
+    },
+    {
+      "source": "atlas33/scripts/panhe/offline_eval.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/offline_eval.py",
+      "bytes": 6236,
+      "sha256": "fd05b6a4175a5b4ad706d719ff704361b47a01bc618642d012cef63cf649b105"
+    },
+    {
+      "source": "atlas33/scripts/panhe/prepare_nero_fail_prefix.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/prepare_nero_fail_prefix.py",
+      "bytes": 9011,
+      "sha256": "af5dbe9f8cf9c3bbd78a97f28b80b94004f972e4f3d469f5c144ef1cecf03bfc"
+    },
+    {
+      "source": "atlas33/scripts/panhe/prepare_nero_new_1110.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/prepare_nero_new_1110.py",
+      "bytes": 10320,
+      "sha256": "31f5a20cdee315f64e3d6083f5d7699b2d45e1923b00c5ebe8b5d440448e3487"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_1110.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_1110.sh",
+      "bytes": 3516,
+      "sha256": "d06c0d0bb99555d309f79bd76199c68ebb843710fdac89511226a74335065b7d"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_1111.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_1111.sh",
+      "bytes": 4151,
+      "sha256": "555520217e32a5e64afc2e6921838aac3947838de1b7c1734163595629fd24eb"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_1112.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_1112.sh",
+      "bytes": 4271,
+      "sha256": "4254756a2f8f8aa2d2a6e8e89a77973103cedb6493e191a7c66d3099f4b69193"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_ef.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_ef.sh",
+      "bytes": 4249,
+      "sha256": "ab6f2c2e0b599997254e0b84252f4b30c84416aac5dab783d897632ac4025184"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_m3.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_m3.sh",
+      "bytes": 4176,
+      "sha256": "bd39b6eb6f93f549de316e1b3cd3d3d2bfd46dacab7627ecb83b606f314f9381"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_m5sb.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_m5sb.sh",
+      "bytes": 4842,
+      "sha256": "15e575256c945f679116625331e5c989380116b6f2d23dbc8348380209061b61"
+    },
+    {
+      "source": "atlas33/scripts/panhe/queue_weekend.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/queue_weekend.sh",
+      "bytes": 1705,
+      "sha256": "782f2322c2bb12e4c08e9691688bc9f614d373b510d498c5f7c3ae4a600b5654"
+    },
+    {
+      "source": "atlas33/scripts/panhe/train_nero.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/panhe/train_nero.sh",
+      "bytes": 2648,
+      "sha256": "7e509f4a6da063bf520be634de20e31edec693ac3acc95b5c0cb793619fa870d"
+    },
+    {
+      "source": "atlas33/scripts/plan_json_epochs.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/plan_json_epochs.py",
+      "bytes": 2262,
+      "sha256": "4be12735b4da64f8e254df8fe6f55f459fc29bda827b36315d69f8dace5d3c4b"
+    },
+    {
+      "source": "atlas33/scripts/train.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/train.sh",
+      "bytes": 645,
+      "sha256": "604e8c5fc692ba4dbd3f6efe8f1e5df20cd54d347c5e1b222136875f2ab30650"
+    },
+    {
+      "source": "atlas33/scripts/train_910c_full_joint.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/train_910c_full_joint.sh",
+      "bytes": 4412,
+      "sha256": "076bf7d6f9fc4952ae2b65e6b7e2e64bae731de7af820ce5442beb95778ab430"
+    },
+    {
+      "source": "atlas33/scripts/train_910c_full_joint_subtasks_2epochs.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/train_910c_full_joint_subtasks_2epochs.sh",
+      "bytes": 2417,
+      "sha256": "a7beb70d55dd48e9df24851f61b0780c393f8651f19d78e3ad59b36a92d3f7da"
+    },
+    {
+      "source": "atlas33/scripts/train_910c_nero3_3epochs.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/train_910c_nero3_3epochs.sh",
+      "bytes": 1544,
+      "sha256": "9bdea7d1611f8406674f77e6a3f143bcde8295b07aab7a7dcd00c2ff54748aa5"
+    },
+    {
+      "source": "atlas33/scripts/train_piper_left_3epochs.sh",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/scripts/train_piper_left_3epochs.sh",
+      "bytes": 3051,
+      "sha256": "d8e38bae9b8cd5d5f18d7d4e845661ef9bb09b512d1a84ee10d00133ae363518"
+    },
+    {
+      "source": "atlas33/setup.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/setup.py",
+      "bytes": 1550,
+      "sha256": "e9766b3149e32cdc5db03177515b0641baece84eb8f372e10e84fb2cfa5aa65d"
+    },
+    {
+      "source": "atlas33/tools/train.py",
+      "repository_path": "code/snapshots/m6-context-20261126/atlas33/tools/train.py",
+      "bytes": 10937,
+      "sha256": "e93b4d8e17d281aafd5df517c7748d982b18d3e610c4fd695ae7bede0a61e9c2"
+    }
   ],
-  "deduplication": [
-    "Atlas 33 core and supplement share 8 identical source paths; duplicates are stored once in the curated snapshot.",
-    "113 discovered/entrypoint copies duplicate project source files; only one copy of each unique project source is stored."
-  ],
-  "note": "The manifest records source provenance. It does not claim that every upstream reference file has been merged into the canonical overlays or that the collected source is a complete standalone XR-1 checkout.",
-  "canonical_overlay_sync": {
+  "canonical_sync": {
     "collector": [
       "code/collector",
       "code/plugins/lerobot_camera_ros"
@@ -59,6 +627,27 @@
     "training": [
       "code/xr1-overlay"
     ],
-    "note": "Selected current runtime/training files are also synchronized into these working directories; the complete source capture remains under code/snapshots."
-  }
+    "note": "Selected source files are also mirrored into the working directories for continued development. The full provenance-preserving snapshot remains under code/snapshots."
+  },
+  "validation": {
+    "python_compile": "57 Python files compiled successfully with py_compile.",
+    "yaml_parse": "32 YAML/YML files parsed successfully with PyYAML safe_load.",
+    "secret_scan": "No password/token/private-key patterns were found in collected source/config files. Credentials were excluded."
+  },
+  "deduplication": [
+    "Atlas 33 core and supplement shared 8 identical source paths; stored once.",
+    "113 discovered/entrypoint copies duplicated project files; stored once."
+  ],
+  "excluded": [
+    "VPN/Linux passwords",
+    "SSH keys and tokens",
+    ".env files",
+    "model checkpoints and weights",
+    "datasets and episode videos",
+    "virtual environments and caches",
+    "Python bytecode",
+    "runtime logs and PID snapshots",
+    "temporary files and old backups"
+  ],
+  "security_note": "Internal IPs and access route are documented separately for operational use. Passwords and private keys are never stored in this public repository."
 }
