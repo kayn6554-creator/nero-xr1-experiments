@@ -70,3 +70,16 @@
 2. 取回 M5 Pilot 的 run_id、summary.json、chunks.npz、live_status.json 和外接视频，标注真实步骤边界。
 3. 对四模型完成完整图像请求 Dry；M5 Live 多次验证早触发、迟触发、漏检和人工确认恢复。
 4. EF 原始基线 6710 仍未恢复，EF/EF4 严格对照仍被阻塞。
+
+
+## 2026-11-26 三端代码快照
+
+新增四个来源包：102 采集端、113 推理端、Atlas 33 核心源码、Atlas 33 补充配置/训练入口。文件清单与输入包 SHA256 见 [m6-source-manifest-20261126.json](m6-source-manifest-20261126.json)。详细机器角色、登录顺序、RGB-D 格式、M5 Checkpoint 路径和资源快照见 [m6-context-20261126.md](m6-context-20261126.md) 与 [infrastructure-access-20261126.md](infrastructure-access-20261126.md)。
+
+重要更正与边界：
+
+- `10.20.10.15` 是用户后来明确确认的 Atlas 主训练主机；`10.20.10.33` 是本轮 Atlas 33 源码包的独立来源节点，不能混为一台机器。
+- 102 的 ROS RGB-D 读取与 FFV1/gray16le 深度保存代码已存在；但深度尚未进入 Client 推理请求、Atlas Dataset、Collate 或 113 服务输入。
+- M5 `epoch3-step4026` 的权重路径、文件大小已从补充包清单确认；权重本身未收集、未提交，也未执行本轮 M6 权重继承测试。
+- Atlas 33 11:01 资源快照虽未发现训练进程，但 NPU 仍被 VLLMWorker 占用；不能据此认定资源空闲或停止相关进程。
+- `nero_ee_sb` 是 Piper→NERO EE + Step Flag 的独立实验布局，不等同于当前 M5 `nero_joint_sb`。
