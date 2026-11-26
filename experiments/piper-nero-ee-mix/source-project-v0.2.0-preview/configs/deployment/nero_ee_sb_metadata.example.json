@@ -1,0 +1,36 @@
+{
+  "model": "Xiaomi-Robotics-1",
+  "protocol": "openpi-websocket-v1",
+  "action_horizon": 30,
+  "action_dim": 8,
+  "model_action_dim": 9,
+  "action_layout": "nero_ee_sb",
+  "camera_keys": [
+    "front",
+    "wrist"
+  ],
+  "action_semantics": "absolute_joint",
+  "state_layout": "joint7,gripper",
+  "model_state_layout": "ee_flange_pos3_rot6d6_gripper1",
+  "model_state_valid_dim": 10,
+  "gripper_range": [
+    0.0,
+    0.1
+  ],
+  "gripper_mode": "absolute",
+  "rtc": {
+    "mode": "disabled",
+    "max_prefix_steps": 0
+  },
+  "step_prompt": {
+    "enabled": false
+  },
+  "step_flag": {
+    "enabled": true,
+    "channel": 8,
+    "threshold": 0.5,
+    "consecutive_frames": 2,
+    "hold_after_boundary": true,
+    "manual_step_confirmation": true
+  }
+}
