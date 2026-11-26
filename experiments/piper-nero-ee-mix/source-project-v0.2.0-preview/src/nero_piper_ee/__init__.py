@@ -1,0 +1,1 @@
+"""NERO × Piper EE mixed-training companion project."""
