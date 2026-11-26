@@ -70,3 +70,6 @@
 - [M6 快照目录说明](code/m6-snapshot-20261126/README.md)
 
 本次确认：102 已具备 RGB-D 读取/保存基础，但 Client → 推理请求 → Dataset → 模型输入尚未端到端接通；113 的 M5 服务仍按两路 RGB 工作。M5 Checkpoint 路径已记录，但权重、数据集、日志和环境均不提交。
+
+
+本轮新增 **98 个去重源码/配置文件**，已按来源保存在 [code/snapshots/m6-context-20261126/](code/snapshots/m6-context-20261126/)，并同步更新采集、推理与训练规范目录。详细入口见 [三机与 Atlas 登录手册](docs/infrastructure-access-20261126.md) 和 [M6 / RGB-D 工程状态](docs/m6-context-20261126.md)。
