@@ -99,7 +99,7 @@
 
 本轮另将缺失的 EE-SB helper 和实际 Atlas launcher 导出副本补入 code/xr1-overlay/。这些是工作 overlay，不是完整上游 XR-1；原始包仍是版本追溯依据。
 
-当前状态：环境和样本验证已完成，正式训练尚未开始。两次 Smoke OOM 的用户报告原因是 .15 与 .33 的共享 NPU 被双机 vLLM 容器占用，不得把该容器当作可自行清理的训练进程。详情见 docs/research-lines/PIPER-NERO-EE-MIX.md。
+当前状态：环境和样本验证已完成，正式训练尚未开始。用户最新补充为两次 Smoke 尝试 OOM，其中有单卡 Smoke 尝试；当时 .15 与 .33 的共享 NPU 被双机 vLLM 容器占用。原始 OOM 日志未归档，不应声称两次尝试的卡数/步数/参数完全相同，也不得把该容器当作可自行清理的训练进程。详情见 docs/research-lines/PIPER-NERO-EE-MIX.md。
 
 ### 2026-11-26 审阅增量：M6 深度录制帧对齐修复
 

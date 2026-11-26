@@ -11,7 +11,7 @@ NERO 七关节单臂上的 Xiaomi-Robotics-1（XR-1）下游适配、训练、�
 | 实验线 | 研究问题 | 当前状态 | 核心约束 |
 |---|---|---|---|
 | **M6 RGB-D** | 深度信息是否改善 NERO 的空间理解、接近和接触动作 | 设计与数据接入准备 | 以 M5 为基线，保持 `nero_joint_sb` / 30-step / Step Flag；只扩展 RGB-D |
-| **Piper + NERO EE-SB 混训** | Piper V2 数据能否增强 NERO 策略 | Atlas 环境、样本和步数预检完成；Smoke 因共享 NPU 占用受阻，尚未正式训练 | 独立 `nero_ee_sb` 动作/状态空间，NERO 是最终部署目标 |
+| **Piper + NERO EE-SB 混训** | Piper V2 数据能否增强 NERO 策略 | Atlas 环境、样本和步数预检完成；两次 Smoke 尝试 OOM（至少一次为单卡尝试），共享 NPU 当时被占用；尚未正式训练 | 独立 `nero_ee_sb` 动作/状态空间，NERO 是最终部署目标 |
 
 **不要把两条线合并。** M6 第一阶段不混入 Piper；Piper 混训不等于 M6，也不从 M5 checkpoint 初始化。
 

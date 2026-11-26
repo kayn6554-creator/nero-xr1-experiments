@@ -41,7 +41,7 @@
 - 数据：2 份 NERO 索引 + 1 份 Piper V2 索引；真实 JsonDataset 扫描得到 486,500 个 Dwell Filter 后有效 anchor。
 - 训练计划：8 个 NPU 逻辑设备、每卡 batch 10、accumulation 1、3 Epoch，18,246 optimizer steps。
 - 样本验证：NERO 与 Piper 各一条真实 JSON、State/Action/Mask 和两路图像解码通过。
-- 阻塞：两次 Smoke Test 因 Atlas `.15` + `.33` 的共享 NPU 被其他 vLLM 服务占满而 OOM；尚未开始正式训练。
+- 阻塞：两次 Smoke 尝试 OOM；用户补充其中有单卡尝试。当时 `.15` / `.33` 的共享 NPU 被双机 vLLM 任务占用，但原始 OOM 日志未归档，不能把两次尝试说成完全相同的卡数/参数；正式训练尚未开始。
 - 不要把此线误认为 M6，也不要将 M5 checkpoint 误作本线的初始化权重。本线当前模型配置从 XR1 基础预训练权重初始化。
 
 详见 `docs/research-lines/PIPER-NERO-EE-MIX.md`。
