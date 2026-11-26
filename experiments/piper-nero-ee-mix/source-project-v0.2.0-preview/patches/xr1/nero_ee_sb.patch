@@ -1,0 +1,144 @@
+--- a/mibot/utils/io.py
++++ b/mibot/utils/io.py
+@@ -39,6 +39,7 @@
+ NERO_EE_ACTION_PARTS = (
+     ("ee_pos", slice(0, 3)), ("ee_aa", slice(3, 6)), ("gripper", slice(6, 7)), ("elbow", slice(7, 8)),
+ )
++NERO_EE_SB_ACTION_PARTS = NERO_EE_ACTION_PARTS + (("step_flag", slice(8, 9)),)
+
+ ACTION_LAYOUTS = {
+     "piper_left_joint": PIPER_JOINT_ACTION_PARTS[:2],
+@@ -46,6 +47,7 @@
+     # M5: nero_joint + slot 8 step flag (1 = frame already in the next step).
+     "nero_joint_sb": NERO_JOINT_ACTION_PARTS + (("step_flag", slice(8, 9)),),
+     "nero_ee": NERO_EE_ACTION_PARTS,
++    "nero_ee_sb": NERO_EE_SB_ACTION_PARTS,
+     "ee": ACTION_PARTS,
+     "piper_joint": PIPER_JOINT_ACTION_PARTS,
+ }
+--- a/mibot/data/datasets/json_dataset.py
++++ b/mibot/data/datasets/json_dataset.py
+@@ -119,6 +119,16 @@
+
+ from mibot.utils.nero_steps import step_text_for_frame
+ from mibot.utils.nero_kin import fk as nero_fk, rot_log_batch as nero_rot_log_batch
++from mibot.utils.ef_align import (
++    PIPER_GRIPPER_TO_NERO_M,
++    compose_ee_state,
++    ee_relative_action,
++    is_piper_traj,
++    nero_flange_pose,
++    nero_flange_poses,
++    piper_flange_pose,
++    piper_flange_poses,
++)
+
+ logger = logging.get_logger(__name__)
+ PROMPT_RE = re.compile(r"(<image>|<video>)")
+@@ -227,12 +237,54 @@
+                 if value.shape != (self.action_length, slc.stop - slc.start):
+                     raise ValueError(f"nero_ee part {slc} has shape {value.shape}")
+                 action[:, slc] = value
++        elif self.action_layout == "nero_ee_sb":
++            if is_piper_traj(traj):
++                q0 = self._frame(traj, "proprios.left_arm_joint", frame).astype(np.float64)
++                qa = self._future(traj, "actions.left_arm_joint", frame, steps).astype(np.float64)
++                T0 = piper_flange_pose(q0)
++                Ts = piper_flange_poses(qa)
++                pos, aa = ee_relative_action(T0, Ts)
++                grip = self._future(traj, "actions.left_gripper_pos", frame, steps).astype(np.float64).reshape(steps, 1) * PIPER_GRIPPER_TO_NERO_M
++                if not self.gripper_absolute:
++                    g0 = float(self._frame(traj, "proprios.left_gripper_pos", frame).reshape(-1)[0]) * PIPER_GRIPPER_TO_NERO_M
++                    grip = grip - g0
++                elbow = np.zeros((steps, 1), dtype=np.float32)
++                has_elbow = False
++            else:
++                q0 = self._frame(traj, "proprios.arm_joint", frame).astype(np.float64)
++                qa = self._future(traj, "actions.arm_joint", frame, steps).astype(np.float64)
++                T0 = nero_flange_pose(q0)
++                Ts = nero_flange_poses(qa)
++                pos, aa = ee_relative_action(T0, Ts)
++                grip = self._future(traj, "actions.gripper_pos", frame, steps).astype(np.float64).reshape(steps, 1)
++                if not self.gripper_absolute:
++                    g0 = float(self._frame(traj, "proprios.gripper_pos", frame).reshape(-1)[0])
++                    grip = grip - g0
++                elbow = qa[:, 2:3] - q0[2]
++                has_elbow = True
++            idx = (traj.get("source") or {}).get("step_index")
++            has_step_flag = idx is not None
++            flag = np.zeros((steps, 1), dtype=np.float32)
++            if has_step_flag:
++                flag[:, 0] = [float(idx[frame + k] != idx[frame]) for k in range(steps)]
++            values = tuple(self._pad(v, steps) for v in (pos, aa, grip, elbow, flag))
++            parts = normalize_action_parts(values, self.mean, self.std, self.action_layout)
++            action = np.zeros((self.action_length, 60), dtype=np.float32)
++            for (_, slc), value in zip(get_action_parts(self.action_layout), parts):
++                if value.shape != (self.action_length, slc.stop - slc.start):
++                    raise ValueError(f"nero_ee_sb part {slc} has shape {value.shape}")
++                action[:, slc] = value
+         else:
+             raise ValueError(f"unsupported action_layout={self.action_layout!r}")
+         state = normalize_quantile(self._state(traj, frame), self.q01, self.q99)
+         action_mask = build_action_mask(
+             self.action_length, self._mask(traj, steps), self.action_layout
+         )
++        if self.action_layout == "nero_ee_sb":
++            if not has_elbow:
++                action_mask[:, 7:8] = 0
++            if not has_step_flag:
++                action_mask[:, 8:9] = 0
+         prompt["conversations"] += [
+             {"from": "human", "value": "Robot state: <state>"},
+             {"from": "gpt", "value": "".join(f"<a_{index}>" for index in range(steps)) + "<score>"},
+@@ -316,8 +368,12 @@
+         frames and the last dwell_tail frames; drop the middle.
+         """
+         traj = self._read_json(path)
+-        q = np.asarray(get_value(traj, "proprios.arm_joint"), dtype=np.float64)
+-        g = np.asarray(get_value(traj, "actions.gripper_pos"), dtype=np.float64).reshape(len(q), -1)[:, 0]
++        if is_piper_traj(traj):
++            q = np.asarray(get_value(traj, "proprios.left_arm_joint"), dtype=np.float64)
++            g = np.asarray(get_value(traj, "actions.left_gripper_pos"), dtype=np.float64).reshape(len(q), -1)[:, 0] * PIPER_GRIPPER_TO_NERO_M
++        else:
++            q = np.asarray(get_value(traj, "proprios.arm_joint"), dtype=np.float64)
++            g = np.asarray(get_value(traj, "actions.gripper_pos"), dtype=np.float64).reshape(len(q), -1)[:, 0]
+         source = traj.get("source") or {}
+         steps = list(source.get("step_index") or [0] * count)
+         fps = float(traj.get("fps", 10))
+@@ -347,7 +403,7 @@
+             raise ValueError(f"trajectory {traj.get('time', '<unknown>')} has no instruction.general")
+         prompt = copy.deepcopy(random.choice(prompts))
+         conversations = prompt.get("conversations", [])
+-        if self.action_layout == "piper_left_joint" and "observations.wrist_right" in prompt["images"]:
++        if self.action_layout in ("piper_left_joint", "nero_ee_sb") and "observations.wrist_right" in prompt["images"]:
+             if prompt["images"] != ["observations.ego", "observations.wrist_left", "observations.wrist_right"]:
+                 raise ValueError("unexpected Piper camera order")
+             marker = "\n# Right-Wrist View\n<image>"
+@@ -357,8 +413,10 @@
+             conversations[0]["value"] = conversations[0]["value"].replace(marker, "")
+         if len(conversations) >= 2:
+             if getattr(self, "step_prompt", False):
+-                conversations[0]["value"] += " " + step_text_for_frame(
+-                    traj, frame, getattr(self, "step_merge23", False))
++                src = traj.get("source") or {}
++                if src.get("step_index") is not None and str(src.get("dataset", "")).startswith("nero_"):
++                    conversations[0]["value"] += " " + step_text_for_frame(
++                        traj, frame, getattr(self, "step_merge23", False))
+             conversations[0]["value"] += " /no_cot"
+             conversations[1]["value"] = "<cot></cot>"
+         return prompt
+@@ -503,6 +561,14 @@
+         if self.action_layout == "piper_left_joint":
+             return compose_piper_left_state(self._frame(traj, "proprios.left_arm_joint", frame),
+                                            self._frame(traj, "proprios.left_gripper_pos", frame))
++        if self.action_layout == "nero_ee_sb":
++            if is_piper_traj(traj):
++                T0 = piper_flange_pose(self._frame(traj, "proprios.left_arm_joint", frame))
++                g0 = float(self._frame(traj, "proprios.left_gripper_pos", frame).reshape(-1)[0]) * PIPER_GRIPPER_TO_NERO_M
++                return compose_ee_state(T0, g0, is_piper=True)
++            T0 = nero_flange_pose(self._frame(traj, "proprios.arm_joint", frame))
++            g0 = float(self._frame(traj, "proprios.gripper_pos", frame).reshape(-1)[0])
++            return compose_ee_state(T0, g0, is_piper=False)
+         if self.action_layout in ("nero_joint", "nero_ee", "nero_joint_sb"):
+             joint = self._frame(traj, "proprios.arm_joint", frame)
+             gripper = self._frame(traj, "proprios.gripper_pos", frame)
