@@ -57,3 +57,16 @@
 - [VLA 采集与测试台使用手册](docs/vla-web-usage-manual.md)：现场恢复、网页连接、Check/Dry/Live、参数输入、M5 步骤确认和故障排查。
 
 2026-11-16 新增现场反馈：主臂 CAN 数据在重新插拔 USB-CAN 适配器后恢复；M5 进行了约 1–2 次初步测试，用户观察到每步结束后机械臂稳定暂停，直到人工按下下一步才继续。该现象仅记为初步 Pilot 观察，不代表边界检测精度或正式成功率已验证。
+
+
+## 2026-11-26：三端代码快照与 RGB-D / M6 工程档案
+
+本轮新增 102 采集机、113 推理机、Atlas 33 核心与补充代码快照的盘点文档：
+
+- [实验室主机拓扑与 Atlas 登录手册](docs/infrastructure-access-20261126.md)
+- [M6 三端代码、M5 Checkpoint 与 RGB-D 接入状态](docs/m6-context-20261126.md)
+- [本轮四个源码包的 SHA256 与来源清单](docs/m6-source-manifest-20261126.json)
+- [第三方源码版权与来源说明](docs/third-party-source-notes-20261126.md)
+- [M6 快照目录说明](code/m6-snapshot-20261126/README.md)
+
+本次确认：102 已具备 RGB-D 读取/保存基础，但 Client → 推理请求 → Dataset → 模型输入尚未端到端接通；113 的 M5 服务仍按两路 RGB 工作。M5 Checkpoint 路径已记录，但权重、数据集、日志和环境均不提交。
