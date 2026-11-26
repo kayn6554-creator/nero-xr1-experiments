@@ -61,3 +61,10 @@ NERO 七关节单臂上的 Xiaomi-Robotics-1（XR-1）下游适配、训练、�
 ## 历史记录
 
 M0–M5 的模型差异、训练布局、部署细节和实验协议保留在 `docs/model-evolution-and-mechanisms.md`、`docs/model-matrix.md`、`docs/deployment-20261116.md`、`docs/experiment-protocol-20261116.md` 等历史文件中。旧文件中的日期和状态不要自动更新成“当前”。
+
+## 2026-11-26 可接手性审计增量
+
+- 新增 [仓库可接手性审计](docs/REPO-AUDIT-2026-11-26.md)，明确新 AI 可以独立开展的工作和必须依赖真实机器/数据的事项。
+- Piper 混训新增 [Atlas 只读前检](experiments/piper-nero-ee-mix/preflight_atlas.sh) 与真实 `JsonDataset` 检查工具；尚未在 Atlas 实测。
+- M6 深度录制修复了 episode 开头缺失深度帧造成的 RGB-D frame_index 错位风险，见 `code/collector/nero_depth.py` 和 `tests/test_nero_depth_alignment.py`；尚未部署到 102。
+- Piper 伴随工程本地测试入口：`bash experiments/piper-nero-ee-mix/run_companion_tests.sh`。

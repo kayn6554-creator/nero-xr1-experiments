@@ -82,3 +82,11 @@ Never turn a planned experiment into a completed result. Never infer a current p
 ## When information is missing
 
 First search the repository, the exact source snapshots, and the dated handoff. Ask the user only for facts that cannot be recovered from those sources or that require a live permission/decision. Do not ask the user to repeat the project's history.
+
+## 2026-11-26 additional workstream rules
+
+- M6 `DepthRecorder` leading-missing-frame fix lives only in `code/collector/nero_depth.py`; `code/snapshots/m6-context-20261126/` is immutable. Do not claim the fix is deployed to collector 102 until a backup, patch application and real short-episode RGB-D round-trip test are recorded.
+- Before M6 Dataset work, inspect a real RGB-D episode and confirm the JSON episode-index join. The repository currently has code snapshots but no real RGB-D dataset sample; do not guess episode IDs from JSON filenames.
+- Piper first run must use `experiments/piper-nero-ee-mix/preflight_atlas.sh` after the repository/package is available on Atlas. This script is read-only and not yet remotely validated; it does not authorize training or prove NPU availability.
+- The companion-project launcher calls `sync_config()` before its check-only exit and may create/copy config files. Do not describe it as a strictly read-only preflight. For current Atlas source, use the exact Atlas-export launcher hash recorded in the Piper workstream.
+- The current mixed-training plan expects 8 NPU workers. A one-device visibility setting changes sampler steps; do not use 18,246 steps unless the runtime JsonDataset and distributed topology still produce 6,082 steps/epoch.

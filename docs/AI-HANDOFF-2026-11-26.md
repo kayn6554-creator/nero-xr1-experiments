@@ -94,7 +94,7 @@ M6 的设计约束：
 - 伴随工程中的动态规划版 launcher 是另一份脚本，不能混称为 Atlas 实际导出版本。具体差异见专项文档。
 
 **当前阻塞**
-- 两次 3-step Smoke Test 均 OOM。
+- 两次 Smoke 尝试 OOM；用户补充其中有单卡 Smoke 尝试。原始 OOM 日志未进入仓库，因此不应声称两次尝试的卡数、步数和运行参数完全相同。
 - 用户通过进程链和 `/run/docker-minimax.sock` 排查，报告 `.15` 与 `.33` 的 16 张卡正被同事的双机 `minimax-m3.1-flash` vLLM 容器占用：容器 ID `cb0d5733d75f`，TP=8、PP=2、端口 11223。
 - 这不是已经证明的训练代码错误，也不能仅凭 OOM 归因于模型显存需求。
 - 不能擅自停止该容器或其他共享服务。等待资源释放并经授权后再重跑 Smoke。
@@ -138,3 +138,37 @@ M6 的设计约束：
 - 7 个 shell 文件 `bash -n` 通过。
 - 未发现常见密钥/私钥模式。
 - 这些均为当前容器内的静态/单元测试；不代表 Atlas、113 或 NERO 真机验证。
+
+## 8. 2026-11-26 仓库深度审阅后的增量
+
+### 8.1 M6 采集端发现并修复一个真实风险
+
+原 `DepthRecorder.add()` 在 episode 开头某路相机连续没有深度帧时，不会写入零帧；等第一张有效深度到来才创建视频，导致深度视频相对 RGB episode 缺少前导帧，后续按 frame_index 读取会错位。
+
+已在 `code/collector/nero_depth.py` 工作 overlay 修复：首次有效帧前补零、后续缺帧补零、全 episode 无深度明确失败、检查帧数和图像尺寸。新增 `tests/test_nero_depth_alignment.py`，本地 CPU 测试 4 passed。`code/snapshots/m6-context-20261126/` 保持原样；修复尚未部署到 102。
+
+### 8.2 Piper 新增可直接执行的只读前检
+
+- `experiments/piper-nero-ee-mix/preflight_atlas.sh`：串联 Atlas 源码 SHA256、环境导入、真实数据配置扫描、JsonDataset epoch 和 Smoke index、NERO/Piper 单样本检查、Atlas launcher check-only 与资源快照。
+- `experiments/piper-nero-ee-mix/validation/validate_runtime_dataset.py`：真实实例化 Atlas `JsonDataset`，检查 486,500 anchors、6,082 steps/epoch、18,246 steps/3 epochs；Smoke 模式检查选出的 240 个样本索引和各 `DistributedSampler` rank 是否同时包含 NERO 与 Piper。
+- `experiments/piper-nero-ee-mix/atlas-source-sha256.txt`：关键 Atlas 源码与配置指纹。
+
+以上新工具只完成本地 shell/Python 语法检查，尚未在 Atlas 实测。它们不会启动训练或清理资源；前检输出也不代表 NPU 已空闲。
+
+### 8.3 压缩包与 launcher 的来源关系
+
+用户本轮说明的上传顺序：第一份 `nero_piper_ee_atlas_export_20261126.tar.gz` 是当天 Atlas 实际进展导出；第二份 `nero-piper-ee-mix-v0.2.0-preview(1).zip` 是伴随工程代码和整理报告。实际 Atlas launcher 的 SHA256 为 `265da9...104d81`；两份 launcher 不可互相覆盖。
+
+### 8.4 下一步优先级
+
+**Piper：** 将仓库/伴随工程放到 Atlas 可访问路径，执行 `bash experiments/piper-nero-ee-mix/preflight_atlas.sh`；修复任何 hash/config/data drift。资源释放且经所有者确认后，优先按 8-NPU 正式拓扑跑 3-step Smoke；成功后再正式 3-Epoch。
+
+**M6：** 先在 102 对新的 `nero_depth.py` 做备份、短 episode 录制与回读回归；再取得真实 RGB-D episode，确认 episode index 对应关系和深度质量；之后才接 Client/MessagePack/113，再接 Atlas Dataset/Collate/模型。不要先训练一个没有可靠帧对齐的数据集。
+
+### 8.5 新 AI 不需要再向用户询问的内容
+
+两条实验线的目标、模型初始化区别、关键目录、数据统计、动作契约、Atlas 实际 launcher、当前 OOM 解释、M6 RGB-D 采集链和源码入口均已写入专项文档。新 AI 应先读 `docs/REPO-AUDIT-2026-11-26.md`，只对实时资源、未归档数据、权限或新的研究决策提问。
+
+### 8.6 测试入口
+
+伴随工程在当前容器用 `PYTHONPATH=. pytest -q` 运行结果为 10 passed。裸 `pytest -q` 在部分环境下会因 `scripts` namespace package 导入路径失败；新增 `experiments/piper-nero-ee-mix/run_companion_tests.sh` 作为统一入口，不修改原始归档。

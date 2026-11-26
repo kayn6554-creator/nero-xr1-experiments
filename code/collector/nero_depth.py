@@ -48,31 +48,87 @@ class DepthRecorder:
         self.tmp = self.root / "depth" / ".tmp"
         shutil.rmtree(self.tmp, ignore_errors=True)       # 上次异常退出留下的半截
         self.cur: dict[str, _Writer] = {}; self.dir = None
+        self.frame_count = 0
 
     def start(self):
         self.abort()
         self.dir = self.tmp / uuid.uuid4().hex; self.dir.mkdir(parents=True); self.cur = {}
+        self.frame_count = 0
 
     def add(self, depths: dict):
-        """depths: {相机: uint16 (H, W) 或 None}。每个相机每帧都要写一帧；缺帧用全 0（无效）补，保证帧号对齐。"""
-        if self.dir is None: self.start()
+        """每次调用对应一帧已保存的 RGB 样本。缺失深度统一写全零帧，保持 episode 帧号对齐。
+
+        如果某路相机在 episode 开头暂时没有深度，等首张有效深度到来后，
+        先回填此前缺失的零帧；不能让视频从首个有效深度帧才开始，否则后续
+        Dataset 按 RGB frame_index 读取时会发生静默错位。
+        """
+        if self.dir is None:
+            self.start()
+
+        frame_index = self.frame_count
+        current = {}
+        # 先验证本帧所有可用深度，避免一台相机已写入、另一台因形状错误而失败。
         for cam in self.cams:
             d = depths.get(cam)
-            if cam not in self.cur:
-                if d is None: continue
-                self.cur[cam] = _Writer(self.dir / f"{cam}.mkv", self.fps, d.shape[1], d.shape[0])
-            w = self.cur[cam]
-            w.put(d if d is not None else np.zeros((w.s.height, w.s.width), np.uint16))
+            if d is None:
+                continue
+            arr = np.asarray(d)
+            if arr.ndim != 2:
+                raise ValueError(f"{cam} depth must be a 2-D image, got shape={arr.shape}")
+            if arr.dtype != np.uint16:
+                raise ValueError(f"{cam} depth must be uint16 millimetres, got dtype={arr.dtype}")
+            writer = self.cur.get(cam)
+            if writer is not None and arr.shape != (writer.s.height, writer.s.width):
+                raise ValueError(
+                    f"{cam} depth shape changed from {(writer.s.height, writer.s.width)} to {arr.shape}"
+                )
+            current[cam] = arr
+
+        for cam in self.cams:
+            d = current.get(cam)
+            writer = self.cur.get(cam)
+            if writer is None and d is None:
+                # 尚无尺寸信息，暂时记录缺帧数量；首个有效帧到来时再回填。
+                continue
+            if writer is None:
+                writer = _Writer(self.dir / f"{cam}.mkv", self.fps, d.shape[1], d.shape[0])
+                self.cur[cam] = writer
+                if frame_index:
+                    zeros = np.zeros((d.shape[0], d.shape[1]), dtype=np.uint16)
+                    for _ in range(frame_index):
+                        writer.put(zeros)
+            if d is None:
+                d = np.zeros((writer.s.height, writer.s.width), dtype=np.uint16)
+            writer.put(d)
+
+        self.frame_count += 1
 
     def finish(self, episode: int, n_frames: int) -> dict:
         res = {}
-        for cam, w in self.cur.items():
+        call_count_ok = self.frame_count == int(n_frames)
+        for cam in self.cams:
+            w = self.cur.get(cam)
+            if w is None:
+                res[cam] = dict(
+                    frames=0,
+                    ok=False,
+                    error="no valid depth frame received; no depth video was written",
+                )
+                continue
             w.close()
             dst = self.root / "depth" / cam / f"episode_{episode:06d}.mkv"; dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.move(str(w.path), dst)
-            res[cam] = dict(frames=w.n, ok=w.err is None and w.n == n_frames, error=w.err)
+            errors = []
+            if w.err is not None:
+                errors.append(str(w.err))
+            if w.n != int(n_frames):
+                errors.append(f"depth video has {w.n} frames, expected {n_frames}")
+            if not call_count_ok:
+                errors.append(f"DepthRecorder.add called {self.frame_count} times, expected {n_frames}")
+            res[cam] = dict(frames=w.n, ok=not errors, error="; ".join(errors) or None)
         if self.dir: shutil.rmtree(self.dir, ignore_errors=True)
         self.cur, self.dir = {}, None
+        self.frame_count = 0
         info_p = self.root / "depth" / "depth_info.json"
         info = json.loads(info_p.read_text()) if info_p.exists() else dict(
             description="Depth aligned to color, uint16 millimetres (0 = invalid). One lossless FFV1 gray16le video per episode and camera; "
@@ -88,6 +144,7 @@ class DepthRecorder:
             except Exception: pass
         if self.dir: shutil.rmtree(self.dir, ignore_errors=True)
         self.cur, self.dir = {}, None
+        self.frame_count = 0
 
 
 def load_depth(root, episode: int, cam: str) -> np.ndarray:

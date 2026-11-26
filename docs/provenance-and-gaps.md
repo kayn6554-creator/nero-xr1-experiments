@@ -87,9 +87,9 @@
 
 ## 2026-11-26 新增来源：Piper + NERO EE-SB
 
-本轮新增两份用户提供的原始工程包：
-- nero-piper-ee-mix-v0.2.0-preview(1).zip：77 个文件；
-- nero_piper_ee_atlas_export_20261126.tar.gz：30 个文件。
+本轮新增两份用户提供的原始工程包（按用户本轮上传顺序）：
+- **第一个上传包** `nero_piper_ee_atlas_export_20261126.tar.gz`：30 个文件，是当天 Atlas 实际运行状态导出；
+- **第二个上传包** `nero-piper-ee-mix-v0.2.0-preview(1).zip`：77 个文件，是伴随工程代码与整理报告。
 
 解压后的完整文件分别保存在：
 - experiments/piper-nero-ee-mix/source-project-v0.2.0-preview/
@@ -100,3 +100,13 @@
 本轮另将缺失的 EE-SB helper 和实际 Atlas launcher 导出副本补入 code/xr1-overlay/。这些是工作 overlay，不是完整上游 XR-1；原始包仍是版本追溯依据。
 
 当前状态：环境和样本验证已完成，正式训练尚未开始。两次 Smoke OOM 的用户报告原因是 .15 与 .33 的共享 NPU 被双机 vLLM 容器占用，不得把该容器当作可自行清理的训练进程。详情见 docs/research-lines/PIPER-NERO-EE-MIX.md。
+
+### 2026-11-26 审阅增量：M6 深度录制帧对齐修复
+
+源码审阅发现，原 `DepthRecorder.add()` 对 episode 开头的缺失深度帧没有前导零回填，可能造成深度视频与 RGB frame_index 错位。工作 overlay `code/collector/nero_depth.py` 已修复并新增 `tests/test_nero_depth_alignment.py`（本地 4 passed）。
+
+原始机器快照 `code/snapshots/m6-context-20261126/102/home/nero_depth.py` 和 `docs/m6-source-manifest-20261126.json` 均保持不变；工作 overlay 修复尚未部署到 102，也未做真实 ROS/PyAV 回归。
+
+### 2026-11-26 审阅增量：Piper 开训前工具
+
+新增 `experiments/piper-nero-ee-mix/preflight_atlas.sh`、`validation/validate_runtime_dataset.py`、`run_companion_tests.sh` 和 `atlas-source-sha256.txt`。前检用于在 Atlas 资源释放后复核环境、实际 JsonDataset 计数、Smoke 样本分布和 launcher/source 指纹；本地只完成语法检查，尚未在 Atlas 实测。

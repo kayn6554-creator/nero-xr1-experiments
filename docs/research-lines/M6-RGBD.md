@@ -269,3 +269,107 @@ depth_scale
 3. 设计 Dataset 输出契约和模型 fusion interface，先写 shape/unit tests，不急着选最终融合网络。
 4. 形成 M5→M6 权重加载报告，确认新增模块的 key mapping。
 5. 等用户提供/连接实际 RGB-D episode 后再做真实数据审计；在没有数据时不要假称数据覆盖率已知。
+
+## 11. 按当前源码定位的接入地图
+
+这一节把 M6 设计落到仓库中真实存在的函数。新 AI 不必重新猜测从哪里接入。
+
+### 11.1 采集端：深度已经进入相机对象，但 Client 仍丢弃它
+
+- `code/plugins/lerobot_camera_ros/lerobot_camera_ros/ros_image_camera.py`：`CamFrame` 同时保存 `color`、`depth`、`stamp_ms`、`recv`、`depth_stamp_ms`；`_on_image()` / `_on_depth()` 收到两路消息后由 `_try_pair()` 按时间戳配对；`latest()`、`recent()`、`read_nearest()` 可取得配对帧。
+- `code/collector/nero_vla_client.py`：`NeroIO.__init__()` 在 `--cam-impl plugin` 时创建支持深度话题的 `RosImageCamera`；但 `NeroIO._observe_once()` 目前只取 `h.color`、`w.color`，返回 state + 两路 RGB + 时间差/画面年龄，没有把 `h.depth` / `w.depth` 放进观测。
+- 同文件 `build_request()` 目前只发 `state`、`images`、`prompt`。`_pack_array()` / `_unpack_array()` 已支持 NumPy ndarray 的 dtype、shape、bytes 序列化，理论上可承载 uint16 深度数组，但必须补协议测试，不能只因序列化函数通用就认定端到端已支持。
+- `code/collector/nero_record.py` 的 `_add_with_phase()` 已把 `CamFrame.depth` 交给 `DepthRecorder.add()`；`_save_inner()` 在 episode 保存前调用 `finish(episode_index, episode_size)`。`camera.depth_rgb_ms` 记录深度与彩色帧时间戳差，可用于离线筛查。
+
+### 11.2 数据保存与 Dataset：深度不在现有 JSON 的 RGB 视频字段里
+
+- `code/collector/nero_depth.py`：深度单独存为 `depth/front/episode_XXXXXX.mkv` 和 `depth/wrist/episode_XXXXXX.mkv`，FFV1 / `gray16le`，uint16 毫米，0 表示无效；`depth/depth_info.json` 记录每个 episode 的帧数和状态。
+- `code/xr1-overlay/mibot/data/datasets/json_dataset.py`：`JsonDataset.__getitem__()` 通过 `_images()` 读取 prompt 中列出的 RGB 视频；当前没有读取 `depth/` 的分支。新增深度读取时，必须先核对真实 JSON 中 episode index 与 `depth/episode_XXXXXX.mkv` 的对应字段，不要默认 JSON 文件名就等于 episode index。
+- `JsonDataset.__getitem__()` 返回的 payload 目前包含 `messages`、`action`、`action_mask`、`state`、`vlm_action_target` 等字段。深度应作为独立 tensor / validity mask 返回，不要伪装成普通 RGB 图片。
+
+### 11.3 Collate / 模型：不能只在 Dataset 里加一个 depth 字段
+
+- `code/xr1-overlay/mibot/data/collate/custom_collate.py`：`CustomCollate.__call__()` 对 RGB 消息调用 Qwen Processor；随后把非 `messages` payload 用 `default_collate(payloads)` 合并。因此 Dataset 返回固定形状的深度 tensor 后，Collate 有机会直接堆叠它，但还需要明确 dtype、分辨率、无效像素 mask 和 padding 约定。
+- `code/xr1-overlay/mibot/models/runner/base_runner.py`：`training_step()` 将整个 batch 传给 `self.model(batch)`。
+- `code/xr1-overlay/mibot/models/VLA/xr1.py`：`xr1.forward()` 当前会把剩余 `batch` 直接传入 `self.vlm(**batch, ...)`。如果只新增 `depth` key 而不在 XR1 模型中显式 pop / encode / fuse，它会继续传给 Qwen3-VL；这不是一个已经定义好的深度输入接口。
+- `code/xr1-overlay/mibot/models/VLM/qwen3vl.py`：当前视觉输入是 `pixel_values`、`image_grid_thw` 等 Qwen RGB/视频字段，没有原生 uint16 depth encoder。M6 必须明确在哪一层产生深度 token、如何融合到 VLM/action context，以及如何控制 token 长度。
+
+### 11.4 推理端：采集、协议、服务三处必须同时改
+
+- `code/collector/nero_vla_client.py`：保持 M5 默认请求不变；建议为 M6 新增明确的观测结构或独立 preset，在 `build_request()` 中添加独立 `depths` / `depth_valid` / 时间戳字段，不要把深度覆盖到 `images`。
+- `code/inference-overlay/scripts/serve_openpi_policy.py`：`XR1OpenPIPolicy._prepare()` 当前只按 `front`、`wrist` 调 `image_to_pil()`，然后送入 Qwen Processor；需要单独验证、解包和归一化深度，不能让 uint16 深度走 RGB `image_to_pil()` 路径。
+- Client / Server metadata 应声明 depth 支持、单位、尺寸、相机 key、对齐方式和无效值语义；M5 metadata 不变，M6 使用独立服务端口和模型目录。
+
+## 12. 本轮源码审阅发现并修复的 RGB-D 帧对齐问题
+
+原 `DepthRecorder.add()` 在某路相机 episode 开头连续收到 `None` 时，不创建 writer；直到首张有效深度到来才开始写视频。这样即使 `finish()` 发现视频帧数少于 RGB episode 帧数，已经写出的深度视频仍会从较晚的 RGB frame_index 开始，后续按相同 frame_index 读取会发生静默错位。
+
+仓库工作 overlay `code/collector/nero_depth.py` 已修复：
+- 每次 `add()` 都累计 episode 帧号；某相机首次收到有效深度时，先按其分辨率回填之前缺失的全零帧。
+- 已创建 writer 后遇到缺失深度，继续写全零帧。
+- 某相机整个 episode 都没有有效深度时，`depth_info.json` 明确记录 `ok=false` 和缺失原因，不伪造视频。
+- 深度尺寸变化或 dtype 不符合 uint16 时显式报错；`finish()` 同时检查 recorder 调用次数和视频帧数是否等于 RGB episode 帧数。
+- 新增 `tests/test_nero_depth_alignment.py`，覆盖开头缺帧、episode 中间缺帧、整段无深度、帧数不一致和尺寸变化。
+
+本地 CPU 单元测试结果：4 passed。**此修复目前只提交到 GitHub 工作 overlay，尚未部署到采集机 102，也没有用真实 ROS / PyAV 录制回放验证。** 在 102 部署前，应先备份当前文件，再做一条短 episode 的 RGB/depth 帧数、时间戳和 `load_depth()` 回读检查。原始快照 `code/snapshots/m6-context-20261126/102/home/nero_depth.py` 保持不变。
+
+## 13. M6 后续研究路线：先验证深度有用，再研究几何表示
+
+建议把 M6 拆成连续但可独立验收的阶段。这里是研究规划，不代表这些模块已经实现。
+
+### M6-A：可靠 RGB-D 数据闭环（先做，不训练）
+
+研究前提是每一帧 RGB 都能找到对应深度，而且知道深度是否可信。先完成：
+- front / wrist 两路彩色与深度帧的 episode 对齐；统计每条 episode 的 RGB 帧数、depth 帧数、时间戳差、有效像素比例、全零帧比例。
+- 保存并核对相机内参、彩色-深度对齐关系、相机外参；记录深度单位、无效值、裁剪范围和分辨率。
+- 用 3–5 条短 episode 做录制、退出、重启、回读测试，确认 FFV1 解码帧数与 LeRobot episode 完全一致。
+- 先输出可视化检查：RGB、深度灰度图、有效像素 mask、深度伪彩色仅用于人工检查，不作为训练输入替代物。
+
+### M6-B：最小深度感知基线（第一轮模型实验）
+
+核心问题：在动作空间、数据、训练预算都不变时，增加真实度量深度是否能改善 NERO 的空间定位和接触动作？
+
+建议第一轮保持 M5 的 `nero_joint_sb`、30-step、Step Flag、NERO 数据和相同训练/评测任务，只增加 front/wrist depth 输入。先比较：
+1. M5 RGB-only 原始基线；
+2. RGB + 深度的简单输入基线（仅作为对照，需清楚说明深度如何编码）；
+3. RGB 主干不变 + 独立轻量 depth encoder + validity mask + gated fusion。
+
+推荐优先实现第 3 种：深度分支独立处理米制深度和无效像素，输出有限数量的空间 tokens，再通过小型 cross-attention / gated residual 注入视觉-动作上下文。这样 RGB 预训练路径尽量不动，也能让模型学习何时相信深度。front 与 wrist 保留 camera identity，避免两路视角混淆。
+
+深度预处理必须保留度量意义：uint16 毫米转 float32 米；0 值转 validity mask；根据传感器有效范围裁剪；不要对每张图独立 min-max 归一化，否则相同像素值会失去跨帧距离含义。
+
+### M6-C：从深度图走向显式 3D 几何
+
+如果 M6-B 证明深度有收益，再研究模型是否需要更明确的几何表示：
+- 用相机内参将有效深度像素反投影为 XYZ point cloud；必要时结合外参变换到机器人 base / tool 坐标系。
+- 对比点云 encoder、稀疏 voxel / 3D CNN、局部 TSDF / occupancy 表示与 2D depth encoder。
+- 研究 RGB 语义 token 与 3D 几何 token 的融合：RGB 更擅长识别“是什么”，几何分支补充“在哪里、离末端多远、是否有空间通过”。
+- 控制点云数量、体素分辨率和 token 预算；不能因为引入 3D 表示就忽略 Qwen3-VL 原有图像 token 和 `MAX_LENGTH` / 显存成本。
+
+### M6-D：深度辅助的闭环视觉伺服（后续扩展，不作为 M6 首轮验收条件）
+
+可进一步研究：执行一个动作 chunk 后，利用新 RGB-D 观测估计末端与目标之间的相对位姿误差，再修正下一 chunk；把 VLA 的长程语义决策与局部几何闭环控制结合。需要明确它是“VLA + depth-aware visual servo”系统，而不是简单声称 VLA 自带视觉伺服。首轮应先完成 M6-B 的开放环对照，再独立引入闭环控制变量。
+
+### M6-E：深度不可靠时的鲁棒性与不确定性
+
+深度相机可能遇到反光、透明物体、遮挡、量程边缘、飞点、时间同步异常。可研究 validity-aware gating、深度 dropout 训练、噪声扰动、RGB-only fallback，以及模型是否能识别“当前深度不值得信任”。这比单纯把深度图作为第三张图片更有研究价值。
+
+### 评测设计建议
+
+优先选择对空间信息敏感的任务和场景变化：目标平移/高度变化、工具尖端对准、插入深度、接触位置、容器边缘避碰、局部遮挡。主要报告整体与逐步骤成功率、首次失败阶段、末端位置/姿态误差、接触/插入误差、碰撞与人工干预、推理延迟；同时报告深度有效像素比例和 RGB-depth 时间差。不要只比较训练 loss。
+
+## 14. M5 checkpoint warm-start 的工程陷阱
+
+`code/xr1-overlay/mibot/models/runner/base_runner.py` 的 `BaseRunner.configure_model()` 会加载 checkpoint 后检查 `missing_keys` 和 `unexpected_keys`；当前任何 mismatch 都会抛错。M6 新增 depth encoder / fusion 模块后，M5 checkpoint 中缺少这些新模块参数是预期现象，但其他既有模块必须严格匹配。
+
+因此不能简单地把 `strict=False` 当作解决方案，也不能忽略所有 missing keys。实现时应建立明确 allowlist（仅限新增的 depth encoder / fusion 参数），记录每个 missing / unexpected key；任何 M5 原有 VLM、state/action projector、DiT、Action head 或 Step Flag 相关参数不匹配，都必须停止加载并排查。为此新增专门测试：M5 权重加载后，除 allowlist 中的新深度模块外，旧模型参数全部命中。
+
+## 15. M6 当前可直接继续的任务与外部阻塞
+
+新 AI 无需用户重复背景即可继续：
+1. 审查并测试 `nero_depth.py` 帧对齐修复；准备 102 的备份和最小回归命令，但不要声称已部署。
+2. 设计一份真实 RGB-D episode manifest，至少含 episode index、RGB/depth frame count、相机 key、时间戳差统计、有效像素比例、内外参来源。
+3. 在没有真实 RGB-D 样本的情况下先写 Dataset / protocol 单元测试和接口草案，不要猜 JSON episode index 的映射。
+4. 依据第 11 节文件地图完成 Client → MessagePack → 113 server 的 depth 字段设计，再开始模型融合。
+
+当前仓库仍没有真实 RGB-D episode、相机标定文件、完整 ROS 驱动工作空间或 113 当前运行服务的完整源码。因此，Dataset episode join、实际深度质量和端到端推理必须等真实文件/机器访问后确认。

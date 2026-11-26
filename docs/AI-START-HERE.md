@@ -81,3 +81,36 @@
 ## 6. 不要重复询问用户已经提供过的事实
 
 本仓库已经记录：实验线定义、机器分工、路径、训练配置、数据统计、Step Flag 语义、当前阻塞、已完成验证和未完成部署链。新 AI 应先搜索文档与源文件；只有实时状态、权限或研究选择确实缺失时才向用户提问。
+
+## 7. 新对话首条提示词
+
+可以直接复制下面这段给一个全新 AI 对话：
+
+```text
+你现在接手 NERO × XR-1 实验仓库。请先完整阅读 AGENTS.md、README.md、docs/AI-START-HERE.md、docs/AI-HANDOFF-2026-11-26.md，再阅读本轮任务对应的研究线文档。
+
+不要要求我重复项目背景。请严格区分 M6 RGB-D 与 Piper + NERO EE-SB 两条平行实验线；区分已在仓库验证、用户报告、历史快照、研究建议和未知事项。先检查仓库现有代码和文档，不要凭印象重写。
+
+除非我明确要求，不要启动 Atlas 训练、停止任何共享进程/容器、修改 102/113 在线服务或执行 NERO 真机动作。所有远端资源状态必须实时核对。
+
+开始工作前先告诉我：你理解的当前状态、当前任务最直接的文件入口、可以独立完成的工作，以及真正需要外部数据/权限的阻塞。然后直接开展可独立完成的工作，不要重复询问已有信息。
+```
+
+## 8. 本轮审计新增入口
+
+- 仓库可接手性审计：`docs/REPO-AUDIT-2026-11-26.md`。
+- Piper Atlas 只读前检：`experiments/piper-nero-ee-mix/preflight_atlas.sh`。
+- 真实 JsonDataset epoch / Smoke index 复核：`experiments/piper-nero-ee-mix/validation/validate_runtime_dataset.py`。
+- M6 深度录制帧对齐修复：`code/collector/nero_depth.py`，对应测试 `tests/test_nero_depth_alignment.py`。该修复尚未部署到 102。
+
+两份 Piper 压缩包的上传顺序和权威关系见 `experiments/piper-nero-ee-mix/README.md`；不要混用伴随工程 launcher 与 Atlas 实际 launcher。
+
+## 9. 本地运行 Piper 伴随工程测试
+
+从仓库根目录执行：
+
+```bash
+bash experiments/piper-nero-ee-mix/run_companion_tests.sh
+```
+
+不要为了修复 pytest 导入路径而修改原始 `source-project-v0.2.0-preview/` 归档。

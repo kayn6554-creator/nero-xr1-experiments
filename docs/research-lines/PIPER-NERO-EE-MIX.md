@@ -269,7 +269,7 @@ SHA256：`265da9feb4f9204952a0076ba5d14b33d66933cb89bf01bcdc8195fdcc104d81`
 
 1. 先执行 `npu-smi info`、进程/容器归属检查；确认不是其他同事的服务仍在使用。
 2. 用独立 tmux 会话，不复用/覆盖旧 `train`。
-3. 运行 3-step Smoke。优先按项目已验证的 Atlas 方式选择可用 NPU；如果单卡 DeepSpeed 配置不适用，需明确切换到 8 卡 Smoke，而不是反复尝试。
+3. 运行 3-step Smoke。正式配置预期 8 个 NPU worker；此前单卡 Smoke OOM 发生在共享 NPU 被 vLLM 占用时，不能据此判断代码失败。资源释放并经所有者确认后，优先按正式 8 卡拓扑执行 Smoke。
 4. Smoke 必须证明：预训练权重加载、NERO/Piper batch 都实际进入训练、forward/backward、loss 有限、checkpoint 写入。
 5. Smoke 通过后记录完整命令、环境、配置 SHA256、数据 manifest、GPU/NPU 分配，再启动 3-Epoch 正式训练。
 6. 正式训练输出目录默认 `/mnt/panhe/output/nero-piper-ee-sb-v0.1`；启动前必须确认该目录不存在或明确使用新实验名。
@@ -311,3 +311,93 @@ SHA256：`265da9feb4f9204952a0076ba5d14b33d66933cb89bf01bcdc8195fdcc104d81`
 - 常见 token/private-key 模式扫描：未发现匹配。
 
 本地运行环境为 Python 3.13.5 / CPU，与 Atlas Python 3.11.18 ARM64 / CANN / NPU 不同。上述仅是静态/单元测试，不替代 Atlas、113 或真机验证。
+
+## 15. 2026-11-26 审阅补充：两份压缩包的权威关系
+
+用户本轮说明的上传顺序是：
+1. **第一个压缩包** `nero_piper_ee_atlas_export_20261126.tar.gz`：今天上午 Atlas 实际运行状态的导出。它是当前 Atlas launcher、XR1 源码/配置快照和环境 freeze 的优先追溯依据。
+2. **第二个压缩包** `nero-piper-ee-mix-v0.2.0-preview(1).zip`：伴随工程代码、文档、验证工具和部署适配器。它是详细工程说明和工具来源，不等同于 Atlas 上实际运行的脚本。
+
+仓库按文件名分别保存两份原包，内容不覆盖。当前 Atlas 的真实配置以 `/mnt/panhe/xr1/configs/data/nero3_piper_ee_sb_20261125.yaml` 为准；伴随工程 YAML 与 Atlas 导出 YAML 不是字节级相同文件，不要为了“统一”而覆盖。
+
+## 16. 新增只读训练前检查工具
+
+新增：
+- `experiments/piper-nero-ee-mix/preflight_atlas.sh`：面向 Atlas 的一键只读前检。
+- `experiments/piper-nero-ee-mix/validation/validate_runtime_dataset.py`：直接实例化 XR1 真实 `JsonDataset`，复核完整 Epoch 有效样本数/steps，并检查 3-step Smoke 实际截取的样本索引是否同时包含 NERO 与 Piper。
+- `experiments/piper-nero-ee-mix/atlas-source-sha256.txt`：记录 Atlas 导出中训练入口、Dataset、IO、FK/IK helper、配置等关键文件 SHA256。
+
+在已将仓库或该目录完整传到 Atlas 后，从仓库根目录运行：
+
+```bash
+bash experiments/piper-nero-ee-mix/preflight_atlas.sh
+```
+
+该脚本使用 Atlas 实际配置，而不是伴随工程副本；依次检查 Atlas 源码 SHA256、Python/CANN/NPU 导入、混合数据扫描、真实 `JsonDataset(finite_epoch=True)`、Smoke 样本源覆盖及 `DistributedSampler` 各 rank 的 NERO/Piper 分布、NERO/Piper 单样本解码、实际 Atlas launcher SHA256 与 check-only 计划，最后打印 NPU / 进程 / 容器只读快照和输出目录冲突检查。
+
+**边界：** 该脚本在本地只做过 `bash -n` / Python compile 检查，尚未在 Atlas 上运行；它不会启动训练、安装包、复制配置、创建训练输出目录、停止进程或容器。输出中的 NPU 空闲与否仍需由资源所有者/管理员确认。
+
+伴随工程动态 launcher 的 `sync_config()` 在进入 check-only 判断之前执行：可能创建配置目录并复制缺失配置。因此它不是严格只读检查工具。当前 Atlas 现场前检优先使用新增 `preflight_atlas.sh` 和实际导出脚本的 `XR1_CHECK_ONLY=1`。
+
+## 17. 拿到资源后的推荐执行顺序
+
+当前训练配置预期 8 个 NPU worker、per-device batch 10、accumulation 1。此前单卡 Smoke OOM 发生在共享 NPU 被其他 vLLM 服务占用的时段，不能单独据此推断代码错误或单卡模型显存需求。资源释放后，优先按正式训练拓扑的 8 个可用 NPU 做 3-step Smoke，而不是在资源仍被占用时重复试卡。
+
+### 17.1 先确认资源归属
+
+- 先运行 `preflight_atlas.sh`；检查 `npu-smi info`、进程链、tmux、端口 11223 和 Minimax Docker socket 的只读信息。
+- `.15` 与 `.33` 曾被同一个双机 vLLM 任务共同占用；只看到目标节点没有训练进程不等于 NPU 空闲。
+- 不得停止容器、kill 进程或回收显存。必须等资源所有者释放或获得明确授权。
+- 若可见 NPU 数量不是 8，前检会因预期 steps 不匹配而失败；先重新核对训练拓扑并重新计算计划，不要继续使用硬编码 18,246。
+
+### 17.2 3-step Smoke（仅在资源确认可用并获准后）
+
+先建立独立 tmux 会话：
+
+```bash
+tmux new -s nero-piper-ee-smoke
+```
+
+在会话中运行实际 Atlas 导出脚本：
+
+```bash
+ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+XR1_CHECK_ONLY=0 \
+XR1_ALLOW_TRAINING=1 \
+XR1_MAX_STEPS_OVERRIDE=3 \
+XR1_SAVE_INTERVAL=1 \
+XR1_OUTPUT_ROOT=/mnt/panhe/output/smoke-nero-piper-ee-sb-v0.1-YYYYMMDD-HHMMSS \
+bash /mnt/panhe/train_nero_piper_ee_sb.sh
+```
+
+Smoke 必须确认：基础模型与 Qwen processor 加载成功；实际训练样本同时包含 NERO/Piper；forward/backward 正常；loss 有限；至少一个 Smoke checkpoint 成功写入并可读取。3-step Smoke 的 Dataset index 预期为 3 × 10 × 8 = 240 个样本；新增 runtime validator 会提前检查这些索引和 DistributedSampler rank 分配中是否两种机器人都有样本，但这仍不替代真正的 forward/backward。
+
+### 17.3 正式 3-Epoch 训练
+
+Smoke 通过、配置与输出目录确认无冲突后，再在独立 tmux 会话运行：
+
+```bash
+ASCEND_RT_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
+XR1_CHECK_ONLY=0 \
+XR1_ALLOW_TRAINING=1 \
+XR1_OUTPUT_ROOT=/mnt/panhe/output/nero-piper-ee-sb-v0.1 \
+bash /mnt/panhe/train_nero_piper_ee_sb.sh
+```
+
+正式模式使用当前 Atlas 配置默认 3 Epoch / 18,246 steps / `XR1_SAVE_EPOCHS=3`。启动前必须确认输出目录不存在；若已存在，选用新实验名和新路径，绝不删除或覆盖旧实验。
+
+## 18. 当前进度的精确表述
+
+- 已完成：离线环境、核心依赖导入、NERO/Piper 真实样本 Dataset 检查、Dwell Filter 统计、训练步数计算、Atlas 实际启动器和混合配置准备。
+- 尚未完成：Atlas 新增前检脚本的远端执行、资源释放后的成功 Smoke、正式 3-Epoch 训练、checkpoint 验证、NERO held-out 对照、113 `nero_ee_sb` 服务和 Client 接入。
+- 两个 OOM 日志目录没有随压缩包上传到 GitHub；本仓库记录的是用户提供的排查结论，不是原始日志复核结果。当前最准确口径是“两次 Smoke 尝试 OOM；用户补充其中有单卡 Smoke 尝试；当时共享 NPU 被双机 vLLM 占用”。不要把两次尝试描述成已由仓库日志独立确认的完全相同 3-step / 8-card 实验。
+
+## 19. 本地伴随工程测试入口
+
+从仓库根目录运行：
+
+```bash
+bash experiments/piper-nero-ee-mix/run_companion_tests.sh
+```
+
+该 wrapper 只为原始伴随工程设置 `PYTHONPATH` 并调用 `python -m pytest`，不修改 `source-project-v0.2.0-preview/` 原包。直接在某些 pytest 安装方式下运行裸 `pytest -q` 可能因 `scripts` namespace package 不在导入路径而报 `ModuleNotFoundError`；wrapper 已处理这个路径问题。
